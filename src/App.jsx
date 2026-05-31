@@ -20,7 +20,6 @@ const PROFILE = {
   gpa: "3.4",
   email: "ssekura08@gmail.com",
   linkedin: "linkedin.com/in/shaun-sekura",
-  phone: "440 319 5672",
   bio: "I am a Mechanical Engineering student at The Ohio State University, deeply involved in the Center for Automotive Research (EcoCAR & Formula SAE). I specialize in CAD design, FEA simulation, and physical testing, with a strong interest in sustainable technology and automotive innovation.",
   skills: {
     Software: ["SolidWorks", "CATIA", "Onshape", "Python", "MATLAB", "Excel", "Arduino IDE", "EES", "Abaqus FEA", "Siemens TestLab"],
