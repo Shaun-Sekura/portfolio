@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Menu, X, Sun, Moon, Github, Linkedin, Mail, 
+  Menu, X, Sun, Moon, Mail, 
   ChevronRight, ExternalLink, Download, FileText, 
   MapPin, Calendar, Award, Briefcase, Wrench, ChevronLeft,
-  Terminal, ShieldCheck, Printer, ArrowLeft, Grid
+  Terminal, ShieldCheck, Printer, ArrowLeft, Grid, Info, Users
 } from 'lucide-react';
 
 /* ==============================================================================
-   DATA FILE: /data/profile.js
-   INSTRUCTIONS: Copy this block to a new file at /data/profile.js when using Next.js.
-   Update your personal info, skills, and experience here. 
+   DATA: PROFILE & PROJECTS
 ============================================================================== */
 const PROFILE = {
   name: "Shaun Sekura",
   title: "Mechanical Engineering @ The Ohio State University",
-  tagline: "Driven by a passion for automotive design, finite element analysis, and sustainable engineering solutions.",
+  tagline: "Driven by a passion for mechanical design, finite element analysis, and sustainable engineering solutions.",
   school: "The Ohio State University",
   degree: "B.S. Mechanical Engineering",
   graduation: "Expected Dec 2027",
-  gpa: "3.404",
-  email: "sekura.2@buckeyemail.osu.edu",
+  gpa: "3.4",
+  email: "ssekura08@gmail.com",
   linkedin: "linkedin.com/in/shaun-sekura",
   phone: "440 319 5672",
   bio: "I am a Mechanical Engineering student at The Ohio State University, deeply involved in the Center for Automotive Research (EcoCAR & Formula SAE). I specialize in CAD design, FEA simulation, and physical testing, with a strong interest in sustainable technology and automotive innovation.",
@@ -33,10 +31,10 @@ const PROFILE = {
     {
       role: "Mechanical Engineering Intern",
       company: "Hankook Tire",
-      date: "Upcoming",
+      date: "Summer 2026",
       location: "Akron, OH",
       bullets: [
-        "Simulated tire loading and deformation conditions using Abaqus FEA, analyzing stress distribution and structural behavior to validate designs across 5+ OEM programs including Tesla, GM, and Lucid Motors.",
+        "Simulated tire loading and deformation conditions using Abaqus FEA, analyzing stress distribution and structural behavior to validate designs across OEM programs including Tesla, GM, and Lucid Motors.",
         "Conducted physical modal testing on tire assemblies using Siemens TestLab, extracting frequency response data to characterize dynamic behavior under varying load conditions.",
         "Organized and compared large experimental and simulated datasets using Python and Excel, identifying discrepancies between physical and virtual results to improve model accuracy.",
         "Contributed to an ongoing initiative to replace physical tire testing with validated virtual simulations, reducing reliance on costly lab testing while maintaining OEM-grade accuracy standards."
@@ -44,7 +42,7 @@ const PROFILE = {
     },
     {
       role: "Undergraduate Teaching Assistant",
-      company: "The Ohio State University - Intro To Mechanical Design (MECHENG 2900)",
+      company: "The Ohio State University - Intro To Mechanical Design",
       date: "Spring 2026 - Present",
       location: "Columbus, OH",
       bullets: [
@@ -104,16 +102,12 @@ const PROFILE = {
   ]
 };
 
-/* ==============================================================================
-   DATA FILE: /data/projects.js
-   INSTRUCTIONS: Copy this block to a new file at /data/projects.js when using Next.js.
-   To add a project, copy the format of an existing object below and add it to the array.
-============================================================================== */
 const PROJECTS = [
   {
     slug: "hankook-virtual-testing",
     title: "Hankook Tire Virtual Testing Initiative",
     categories: ["Simulation", "Testing"],
+    filters: ["simulation", "testing"],
     tags: ["Abaqus FEA", "Siemens TestLab", "Python", "Excel"],
     thumbnail: "hankook-thumb.jpg",
     description: "Virtual simulation and modal testing to validate tire designs for major OEMs (Tesla, GM, Lucid).",
@@ -124,17 +118,19 @@ const PROJECTS = [
       "Organized and compared large experimental and simulated datasets using Python and Excel."
     ],
     results: [
-      "Validated designs across 5+ OEM programs including Tesla, GM, and Lucid Motors.",
+      "Validated designs across OEM programs including Tesla, GM, and Lucid Motors.",
       "Characterized dynamic behavior under varying load conditions.",
       "Identified discrepancies between physical and virtual results to improve model accuracy."
     ],
     links: {},
-    featured: true
+    featured: true,
+    recent: true
   },
   {
     slug: "reverse-engineering-motor-mount",
     title: "Reverse Engineering of Motor Mount",
     categories: ["Mechanical Design", "Simulation"],
+    filters: ["design", "simulation"],
     tags: ["CATIA V5", "FEA Analysis", "Reverse Engineering"],
     thumbnail: "motor-mount-thumb.jpg",
     description: "Reverse engineered and validated a Cadillac Lyriq motor mount to resolve engine ticking noise for EcoCAR.",
@@ -151,12 +147,14 @@ const PROJECTS = [
       "Established professional relations with the manufacturer."
     ],
     links: { portfolio: true },
-    featured: true
+    featured: true,
+    recent: false
   },
   {
     slug: "sustainable-rocket-redesign",
     title: "Sustainable Rocket Redesign",
     categories: ["Simulation", "Mechanical Design"],
+    filters: ["design", "simulation"],
     tags: ["Python", "AeroSandbox", "SOLIDWORKS"],
     thumbnail: "rocket-thumb.jpg",
     description: "Reduced order simulation and CAD redesign of a rocket system focusing on descent parameters.",
@@ -171,12 +169,14 @@ const PROJECTS = [
       "Generated detailed performance graphs to validate the theoretical redesign."
     ],
     links: { report: true },
-    featured: false
+    featured: false,
+    recent: true
   },
   {
     slug: "slide-grip-development",
     title: "Slide Grip Development System",
     categories: ["Prototyping", "Mechanical Design"],
+    filters: ["design", "prototyping"],
     tags: ["SOLIDWORKS", "Gantt Chart", "Pugh Matrix"],
     thumbnail: "slide-grip-thumb.jpg",
     description: "Low-cost, lightweight system designed to alleviate wrist pain for performing trombone players.",
@@ -190,12 +190,14 @@ const PROJECTS = [
       "Increased playability by 35%, successfully helping alleviate wrist pain during performances."
     ],
     links: { report: true },
-    featured: false
+    featured: false,
+    recent: false
   },
   {
     slug: "hmi-mount",
     title: "Human Machine Interface Mount",
     categories: ["Mechanical Design"],
+    filters: ["design", "simulation"],
     tags: ["SolidWorks", "Thermal Analysis"],
     thumbnail: "hmi-mount-thumb.jpg",
     description: "Redesigned HMI mount for EcoCAR to resolve collision and thermal buildup issues.",
@@ -209,12 +211,14 @@ const PROJECTS = [
       "Adjusted geometry to improve thermal airflow, reducing predicted heat buildup by 15%."
     ],
     links: {},
-    featured: true
+    featured: true,
+    recent: false
   },
   {
     slug: "osu-led-panel",
     title: "OSU Branded LED Panel",
     categories: ["Prototyping"],
+    filters: ["prototyping"],
     tags: ["3D Printing (Resin)", "Electronics"],
     thumbnail: "led-panel-thumb.jpg",
     description: "Resin 3D-printed translucent casing for an 8x8 LED charging indicator.",
@@ -227,20 +231,64 @@ const PROJECTS = [
       "Successfully integrated a branded, highly visible charging indicator into the vehicle's electrical system."
     ],
     links: {},
-    featured: false
+    featured: false,
+    recent: true
+  },
+  {
+    slug: "arduino-sensor-system",
+    title: "Arduino Sensor & Control System",
+    categories: ["Electronics", "Prototyping"],
+    filters: ["prototyping", "testing"],
+    tags: ["Arduino IDE", "Soldering/Wiring", "C++"],
+    thumbnail: "arduino-thumb.jpg",
+    description: "Designed, wired, and programmed a custom embedded system for data acquisition and motor control.",
+    what: "Developed a standalone microcontroller system to read sensor data and actuate mechanical components effectively.",
+    how: [
+      "Programmed control logic using the Arduino IDE.",
+      "Soldered and routed wiring for sensors, breadboards, and power supplies.",
+      "Integrated the electrical system with mechanical housings."
+    ],
+    results: [
+      "Successfully captured high-fidelity sensor data.",
+      "Maintained robust electrical connections under vibration."
+    ],
+    links: {},
+    featured: false,
+    recent: true
+  },
+  {
+    slug: "precision-machined-assembly",
+    title: "Precision Machined Assembly",
+    categories: ["Manufacturing", "Mechanical Design"],
+    filters: ["design", "prototyping"],
+    tags: ["CNC Machining", "Lathe", "Vertical Mill", "GD&T"],
+    thumbnail: "machining-thumb.jpg",
+    description: "Manufactured custom components using manual and CNC machining processes.",
+    what: "Required high-tolerance custom parts for a mechanical drivetrain assembly that could not be purchased off-the-shelf.",
+    how: [
+      "Interpreted technical drawings and strict GD&T specifications.",
+      "Operated vertical mills and lathes to face, turn, and bore raw stock.",
+      "Programmed CNC toolpaths for complex custom geometries."
+    ],
+    results: [
+      "Achieved critical tolerances efficiently during fabrication.",
+      "Delivered structural components that performed flawlessly under applied load."
+    ],
+    links: {},
+    featured: true,
+    recent: false
   }
 ];
 
 /* ==============================================================================
-   COMPONENTS
+   UI CONTROLS & COMPONENTS
 ============================================================================== */
 
-// Helper to handle copying email in constrained environments
 const EmailButton = ({ email, className, children }) => {
   const [copied, setCopied] = useState(false);
 
   const handleEmailClick = (e) => {
-    // Attempt to copy to clipboard (great UX fallback for iframes where mailto might be blocked)
+    e.preventDefault();
     const textArea = document.createElement("textarea");
     textArea.value = email;
     document.body.appendChild(textArea);
@@ -250,17 +298,13 @@ const EmailButton = ({ email, className, children }) => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Fallback: Oops, unable to copy', err);
+      console.error('Fallback: Unable to copy', err);
     }
     document.body.removeChild(textArea);
   };
 
   return (
-    <a 
-      href={`mailto:${email}`}
-      onClick={handleEmailClick}
-      className={`relative overflow-hidden ${className}`}
-    >
+    <a href={`mailto:${email}`} onClick={handleEmailClick} className={`relative overflow-hidden cursor-pointer ${className}`}>
       <AnimatePresence>
         {copied && (
           <motion.span 
@@ -270,7 +314,7 @@ const EmailButton = ({ email, className, children }) => {
             transition={{ type: "spring", bounce: 0, duration: 0.3 }}
             className="flex items-center justify-center w-full h-full absolute inset-0 bg-emerald-500 text-white z-10 font-bold"
           >
-            Copied to Clipboard!
+            Copied!
           </motion.span>
         )}
       </AnimatePresence>
@@ -281,17 +325,114 @@ const EmailButton = ({ email, className, children }) => {
   );
 };
 
-const PlaceholderImage = ({ filename, title, className = "", small = false, darkMode }) => {
-  // Logic to dynamically show the correct -light or -dark filename instruction
-  const parts = filename.split('.');
-  const ext = parts.pop();
-  const base = parts.join('.');
-  const themedFilename = `${base}-${darkMode ? 'dark' : 'light'}.${ext}`;
+// Smart image switcher for Logo (Top Left) - Adjusted to relative paths
+const SmartLogoImage = ({ darkMode }) => {
+  const [extIndex, setExtIndex] = useState(0);
+  const extensions = ['.gif', '.png', '.jpg', '.svg', '.jpeg'];
+  const baseName = darkMode ? 'logo-dark' : 'logo-light';
 
+  useEffect(() => {
+    setExtIndex(0); // Reset check when theme toggles
+  }, [darkMode]);
+
+  if (extIndex >= extensions.length) {
+    // Elegant text fallback if no logo images are uploaded in public folder yet
+    return (
+      <div className="flex items-center">
+        <div className="w-10 h-10 rounded-xl bg-sky-600 dark:bg-[#BB0000] text-white flex items-center justify-center font-bold text-xl mr-3 shadow-lg shadow-sky-600/20 dark:shadow-[#BB0000]/20 transition-colors duration-300">
+          SS
+        </div>
+        <span className="font-bold text-xl tracking-tight hidden sm:block">Shaun Sekura</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-3">
+      <img 
+        src={`${baseName}${extensions[extIndex]}`} 
+        alt="Shaun Sekura Logo" 
+        className="h-10 w-auto object-contain" 
+        onError={() => setExtIndex(prev => prev + 1)} 
+      />
+      <span className="font-bold text-xl tracking-tight hidden sm:block">Shaun Sekura</span>
+    </div>
+  );
+};
+
+// Smart image switcher for About section profile pictures - Adjusted to relative paths
+const SmartAboutHeadshot = ({ darkMode }) => {
+  const [extIndex, setExtIndex] = useState(0);
+  const extensions = ['.gif', '.jpg', '.png', '.jpeg', '.webp'];
+  const baseName = darkMode ? 'headshot-dark' : 'headshot-light';
+
+  useEffect(() => {
+    setExtIndex(0); // Reset check when theme toggles
+  }, [darkMode]);
+
+  if (extIndex >= extensions.length) {
+    // Beautiful interactive blueprint vector is served as fallback if physical files are missing
+    return <CustomThemedProfilePicture fallbackName={`${baseName}.[gif/jpg/png]`} darkMode={darkMode} />;
+  }
+
+  return (
+    <img 
+      src={`${baseName}${extensions[extIndex]}`} 
+      alt="Shaun Sekura" 
+      className="w-full aspect-square rounded-3xl object-cover border border-slate-200 dark:border-neutral-800 shadow-md relative z-10" 
+      onError={() => setExtIndex(prev => prev + 1)} 
+    />
+  );
+};
+
+const CustomThemedProfilePicture = ({ fallbackName, darkMode }) => {
+  return (
+    <div className="relative w-full aspect-square bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 rounded-3xl overflow-hidden shadow-inner flex items-center justify-center">
+      <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#0284c7_1px,transparent_1px),linear-gradient(to_bottom,#0284c7_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#bb0000_1px,transparent_1px),linear-gradient(to_bottom,#bb0000_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none"></div>
+      
+      <svg className="w-4/5 h-4/5" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor={darkMode ? "#bb0000" : "#0284c7"} />
+            <stop offset="100%" stopColor={darkMode ? "#7f0000" : "#0369a1"} />
+          </linearGradient>
+        </defs>
+        
+        {/* Dynamic Blueprint circle design */}
+        <circle cx="100" cy="100" r="85" stroke="url(#avatarGrad)" strokeWidth="1" strokeDasharray="4 4" />
+        <circle cx="100" cy="100" r="70" stroke="url(#avatarGrad)" strokeWidth="0.5" />
+        
+        {/* Mechanical engineer gear graphic overlay */}
+        <g stroke={darkMode ? "#bb0000" : "#0284c7"} strokeWidth="1.5" strokeLinecap="round" opacity="0.8">
+          <circle cx="100" cy="90" r="30" />
+          <path d="M 100,50 L 100,60 M 100,120 L 100,130 M 60,90 L 70,90 M 130,90 L 140,90 M 72,62 L 79,69 M 121,111 L 128,118 M 72,118 L 79,111 M 121,69 L 128,62" />
+        </g>
+        
+        {/* Human Head Profile Silhouette */}
+        <path d="M 60,170 C 60,130 80,130 100,130 C 120,130 140,130 140,170" stroke={darkMode ? "#bb0000" : "#0284c7"} strokeWidth="3" fill="none" />
+        <circle cx="100" cy="90" r="20" fill={darkMode ? "#171717" : "#f8fafc"} stroke={darkMode ? "#bb0000" : "#0284c7"} strokeWidth="3" />
+        
+        {/* OSU Branded safety glasses icon representation */}
+        <path d="M 88,90 Q 100,98 112,90 Q 100,82 88,90 Z" fill="none" stroke={darkMode ? "#ef4444" : "#0284c7"} strokeWidth="1.5" />
+        
+        {/* Buckeye Leaf Icon or OSU emblem badge */}
+        <circle cx="100" cy="150" r="6" fill={darkMode ? "#bb0000" : "#ef4444"} />
+        <path d="M 98,146 L 102,154 M 102,146 L 98,154" stroke="#ffffff" strokeWidth="1.5" />
+      </svg>
+
+      <div className="absolute bottom-4 left-0 right-0 text-center px-4">
+        <code className="text-[10px] font-mono text-slate-500 dark:text-neutral-500 bg-slate-200/50 dark:bg-neutral-800/50 py-1 px-2 rounded">
+          Name headshot: {fallbackName}
+        </code>
+      </div>
+    </div>
+  );
+};
+
+const PlaceholderImage = ({ title, filename, className = "", small = false, darkMode }) => {
   return (
     <div className={`relative flex flex-col items-center justify-center overflow-hidden bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 rounded-lg ${small ? 'p-3' : 'p-6'} text-center group ${className}`}>
       <div className="absolute inset-0 opacity-15 bg-[linear-gradient(to_right,#0284c7_1px,transparent_1px),linear-gradient(to_bottom,#0284c7_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#bb0000_1px,transparent_1px),linear-gradient(to_bottom,#bb0000_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none transition-colors duration-300"></div>
-      
       {!small && (
         <>
           <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-sky-500/50 dark:border-[#BB0000]/50 transition-colors duration-300"></div>
@@ -300,13 +441,12 @@ const PlaceholderImage = ({ filename, title, className = "", small = false, dark
           <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-sky-500/50 dark:border-[#BB0000]/50 transition-colors duration-300"></div>
         </>
       )}
-      
       <div className="z-10 flex flex-col items-center">
         <Wrench className={`text-sky-600 dark:text-[#BB0000] ${small ? 'mb-1' : 'mb-2'} opacity-80 transition-colors duration-300`} size={small ? 16 : 24} />
-        <span className={`text-slate-700 dark:text-slate-300 ${small ? 'text-xs' : 'text-sm'} font-semibold tracking-wider uppercase ${small ? '' : 'mb-1'} line-clamp-1`}>{title}</span>
+        <span className={`text-slate-700 dark:text-slate-300 ${small ? 'text-xs' : 'text-sm'} font-semibold tracking-wider uppercase ${small ? '' : 'mb-1'} line-clamp-1 text-center px-2`}>{title}</span>
         {!small && (
           <code className="text-xs text-sky-700 dark:text-red-400 bg-sky-100 dark:bg-[#BB0000]/10 border border-sky-200 dark:border-[#BB0000]/20 px-3 py-1.5 rounded mt-2 transition-colors duration-300">
-            Replace with: {themedFilename}
+            Name image: {filename || 'image.jpg'}
           </code>
         )}
       </div>
@@ -314,150 +454,596 @@ const PlaceholderImage = ({ filename, title, className = "", small = false, dark
   );
 };
 
+// Smart image loader component that detects when a physical image is available (relative path)
+const SmartProjectImage = ({ filename, title, className, darkMode }) => {
+  const [imageError, setImageError] = useState(false);
+  const srcPath = `${filename}`; // Adjusted to true relative paths to prevent router path blocks
+
+  if (imageError) {
+    return <PlaceholderImage title={title} filename={filename} className={className} darkMode={darkMode} />;
+  }
+
+  return (
+    <img 
+      src={srcPath} 
+      alt={title} 
+      className={className} 
+      onError={() => setImageError(true)} 
+    />
+  );
+};
+
+/* ==============================================================================
+   VIEWS
+============================================================================== */
+
+const HomeView = ({ setTab, openResume }) => (
+  <div className="relative flex flex-col justify-center min-h-[75vh]">
+    <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none rounded-3xl -z-10"></div>
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-3xl relative p-6 sm:p-12 border border-slate-200/50 dark:border-neutral-900/50 bg-white/50 dark:bg-neutral-950/20 rounded-3xl backdrop-blur-sm transition-colors duration-300">
+      <div className="inline-flex items-center gap-2 px-3 py-1 bg-sky-600/10 text-sky-700 border border-sky-600/20 dark:bg-[#BB0000]/10 dark:text-red-400 dark:border-[#BB0000]/20 rounded-full mb-6 text-xs tracking-wider uppercase font-semibold transition-colors duration-300">
+        <Wrench size={14} className="mr-1" /> Mechanical Engineer
+      </div>
+      <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold mb-6 tracking-tight leading-none text-slate-900 dark:text-white">
+        Shaun Sekura<span className="text-sky-600 dark:text-[#BB0000] transition-colors duration-300">.</span>
+      </h1>
+      <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 mb-6 tracking-tight font-medium">Mechanical Engineering @ The Ohio State University</p>
+      <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 mb-10 max-w-2xl leading-relaxed">
+        {PROFILE.tagline} Specialize in CAD modeling, physical load testing, and finite element validation.
+      </p>
+      <div className="flex flex-col sm:flex-row gap-4">
+        <button onClick={() => setTab('projects')} className="group flex items-center justify-center px-8 py-3.5 bg-sky-600 hover:bg-sky-700 dark:bg-[#BB0000] dark:hover:bg-[#990000] text-white rounded-lg font-semibold transition-all shadow-lg shadow-sky-600/20 dark:shadow-[#BB0000]/20">
+          View Projects <ChevronRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+        </button>
+        <button onClick={openResume} className="flex items-center justify-center px-8 py-3.5 bg-white dark:bg-neutral-900 text-sky-700 dark:text-red-400 border border-slate-300 hover:border-sky-600 dark:border-neutral-800 dark:hover:border-[#BB0000] rounded-lg font-semibold transition-all">
+          <FileText size={18} className="mr-2" /> View Resume
+        </button>
+      </div>
+    </motion.div>
+  </div>
+);
+
+const AboutView = ({ darkMode }) => (
+  <div className="space-y-16 mt-8 max-w-5xl mx-auto">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+      <div className="md:col-span-1">
+        <div className="relative group">
+          <div className="absolute inset-0 bg-gradient-to-tr from-sky-400 to-indigo-400 dark:from-[#BB0000] dark:to-red-900 rounded-2xl blur-lg opacity-20 group-hover:opacity-30 transition-opacity"></div>
+          {/* SmartAboutHeadshot changes depending on theme and shows user exact filename to upload */}
+          <SmartAboutHeadshot darkMode={darkMode} />
+        </div>
+      </div>
+      <div className="md:col-span-2 space-y-6">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-white">About Me</h2>
+        <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+          {PROFILE.bio}
+        </p>
+        <div className="flex flex-wrap gap-4 pt-4">
+          <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+            <Award className="text-sky-600 dark:text-[#BB0000]" size={20} />
+            <span className="font-medium">GPA: {PROFILE.gpa}</span>
+          </div>
+          <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+            <Calendar className="text-sky-600 dark:text-[#BB0000]" size={20} />
+            <span className="font-medium">Graduation: {PROFILE.graduation}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h3 className="text-2xl font-bold mb-8 text-slate-900 dark:text-white flex items-center gap-3">
+        <Terminal className="text-sky-600 dark:text-[#BB0000]" /> Technical Skills
+      </h3>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {Object.entries(PROFILE.skills).map(([category, skillsList]) => (
+          <div key={category} className="bg-slate-50 dark:bg-neutral-900 rounded-2xl p-6 border border-slate-200 dark:border-neutral-800 transition-colors duration-300">
+            <h4 className="text-lg font-bold mb-4 text-slate-900 dark:text-white border-b border-slate-200 dark:border-neutral-800 pb-2">{category}</h4>
+            <ul className="space-y-3">
+              {skillsList.map((skill, index) => (
+                <li key={index} className="flex items-center text-slate-600 dark:text-slate-400">
+                  <div className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-[#BB0000] mr-3"></div>
+                  {skill}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+const ExperienceView = () => (
+  <div className="mt-8 max-w-4xl mx-auto">
+    <h2 className="text-3xl font-bold mb-10 text-slate-900 dark:text-white flex items-center gap-3">
+      <Briefcase className="text-sky-600 dark:text-[#BB0000]" /> Work & Research Experience
+    </h2>
+    <div className="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-200 dark:before:via-neutral-800 before:to-transparent">
+      {PROFILE.experience.map((exp, index) => (
+        <div key={index} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+          <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white dark:border-neutral-950 bg-sky-100 dark:bg-red-900/30 text-sky-600 dark:text-[#BB0000] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-sm relative z-10 transition-colors duration-300">
+            <ShieldCheck size={18} />
+          </div>
+          <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl bg-slate-50 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 hover:border-sky-300 dark:hover:border-red-900/50 transition-colors duration-300">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 gap-2">
+              <h3 className="font-bold text-lg text-slate-900 dark:text-white">{exp.role}</h3>
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-100 text-sky-800 dark:bg-red-900/30 dark:text-red-300 whitespace-nowrap">
+                {exp.date}
+              </span>
+            </div>
+            <div className="text-sky-700 dark:text-red-400 font-medium mb-1">{exp.company}</div>
+            <div className="text-slate-500 dark:text-slate-400 text-sm mb-4 flex items-center gap-1">
+              <MapPin size={14} /> {exp.location}
+            </div>
+            <ul className="space-y-2 text-slate-600 dark:text-slate-300 text-sm">
+              {exp.bullets.map((bullet, idx) => (
+                <li key={idx} className="flex items-start">
+                  <span className="text-sky-500 dark:text-[#BB0000] mr-2 mt-1">▹</span>
+                  <span className="leading-relaxed">{bullet}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+// Unified Project Card Component used across both dashboard and grid views
+const ProjectCard = ({ project, selectProject, darkMode }) => (
+  <motion.div 
+    layout
+    initial={{ opacity: 0, scale: 0.95 }}
+    animate={{ opacity: 1, scale: 1 }}
+    exit={{ opacity: 0, scale: 0.95 }}
+    whileHover={{ y: -5 }}
+    className="group flex flex-col bg-slate-50 dark:bg-neutral-900 rounded-2xl border border-slate-200 dark:border-neutral-800 overflow-hidden cursor-pointer transition-colors duration-300 h-full shadow-sm hover:shadow-md"
+    onClick={() => selectProject(project)}
+  >
+    <div className="h-48 relative overflow-hidden bg-slate-200 dark:bg-neutral-800 shrink-0">
+      {/* Smart Loader detects image file availability, or renders fallback component seamlessly */}
+      <SmartProjectImage 
+        title={project.title} 
+        filename={project.thumbnail} 
+        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+        darkMode={darkMode} 
+      />
+      
+      <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
+        {project.categories.slice(0,1).map(cat => (
+          <span key={cat} className="px-2 py-1 text-xs font-semibold bg-white/90 dark:bg-black/95 text-slate-800 dark:text-slate-200 backdrop-blur-sm rounded">
+            {cat}
+          </span>
+        ))}
+      </div>
+    </div>
+    <div className="p-6 flex-1 flex flex-col">
+      <h3 className="text-xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-[#BB0000] transition-colors">{project.title}</h3>
+      <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 flex-1 line-clamp-3">
+        {project.description}
+      </p>
+      <div className="flex flex-wrap gap-2 mt-auto shrink-0">
+        {project.tags.slice(0, 3).map(tag => (
+          <span key={tag} className="text-xs text-sky-700 dark:text-red-400 bg-sky-50 dark:bg-[#BB0000]/10 px-2 py-1 rounded-md border border-sky-100 dark:border-[#BB0000]/20">
+            {tag}
+          </span>
+        ))}
+        {project.tags.length > 3 && (
+          <span className="text-xs text-slate-500 bg-slate-100 dark:bg-neutral-800 px-2 py-1 rounded-md">
+            +{project.tags.length - 3}
+          </span>
+        )}
+      </div>
+    </div>
+  </motion.div>
+);
+
+const ProjectsView = ({ selectProject, darkMode }) => {
+  // viewMode can be 'dashboard' or 'all'
+  const [viewMode, setViewMode] = useState('dashboard');
+  const [filter, setFilter] = useState('all');
+
+  if (viewMode === 'dashboard') {
+    const featuredSlugs = ['hankook-virtual-testing', 'sustainable-rocket-redesign'];
+    const featuredProjects = PROJECTS.filter(p => featuredSlugs.includes(p.slug));
+    
+    // Grab the first 3 non-featured projects for the "Recent" section
+    const recentProjects = PROJECTS.filter(p => !featuredSlugs.includes(p.slug)).slice(0, 3);
+
+    return (
+      <div className="mt-8 max-w-6xl mx-auto animate-fade-in">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-white flex items-center gap-3 mb-8">
+          <Award className="text-sky-600 dark:text-[#BB0000]" /> Featured Projects
+        </h2>
+        
+        {/* Top Featured - 2 Side by Side */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+          {featuredProjects.map((project) => (
+            <ProjectCard key={project.slug} project={project} selectProject={selectProject} darkMode={darkMode} />
+          ))}
+        </div>
+
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3 mb-6">
+          <Calendar className="text-sky-600 dark:text-[#BB0000]" /> Recent Work
+        </h2>
+        
+        {/* Recent Work - 3 smaller side by side */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          {recentProjects.map((project) => (
+            <ProjectCard key={project.slug} project={project} selectProject={selectProject} darkMode={darkMode} />
+          ))}
+        </div>
+
+        {/* View All Button */}
+        <div className="flex justify-center mb-10 border-t border-slate-200 dark:border-neutral-800 pt-10">
+          <button 
+            onClick={() => setViewMode('all')}
+            className="flex items-center justify-center px-8 py-4 bg-slate-900 hover:bg-sky-600 dark:bg-white dark:hover:bg-[#BB0000] text-white dark:text-slate-900 hover:text-white rounded-xl font-bold shadow-lg transition-all"
+          >
+            <Grid size={18} className="mr-3" /> View All Projects
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // --- ALL PROJECTS GRID VIEW ---
+  // Filtering based on multiple criteria inside the 'filters' array of each project
+  const filteredProjects = PROJECTS.filter(p => {
+    if (filter === 'all') return true;
+    return p.filters && p.filters.includes(filter);
+  });
+
+  return (
+    <div className="mt-8 max-w-6xl mx-auto animate-fade-in">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+        <div>
+          <button 
+            onClick={() => setViewMode('dashboard')}
+            className="flex items-center text-sm font-semibold text-slate-500 hover:text-sky-600 dark:text-slate-400 dark:hover:text-[#BB0000] mb-4 transition-colors group"
+          >
+            <ArrowLeft size={16} className="mr-1 group-hover:-translate-x-1 transition-transform" /> Back to Overview
+          </button>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
+            <Grid className="text-sky-600 dark:text-[#BB0000]" /> All Projects
+          </h2>
+        </div>
+        
+        {/* Custom Engineering Filters (Design, Simulation, Prototyping, Testing) */}
+        <div className="flex bg-slate-100 dark:bg-neutral-900 p-1 rounded-xl shadow-sm border border-slate-200 dark:border-neutral-800 overflow-x-auto max-w-full">
+          {['all', 'design', 'simulation', 'prototyping', 'testing'].map(f => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`px-4 py-2 rounded-lg text-sm font-semibold capitalize whitespace-nowrap transition-all ${
+                filter === f 
+                  ? 'bg-white dark:bg-neutral-800 text-sky-600 dark:text-[#BB0000] shadow-sm' 
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              {f === 'all' ? 'All Areas' : f}
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <AnimatePresence mode="popLayout">
+          {filteredProjects.map((project) => (
+            <motion.div
+              key={project.slug}
+              layout
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ProjectCard project={project} selectProject={selectProject} darkMode={darkMode} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+      
+      {filteredProjects.length === 0 && (
+        <div className="text-center py-12 text-slate-500 dark:text-slate-400">
+          No projects found under this technical category.
+        </div>
+      )}
+    </div>
+  );
+};
+
+const ProjectDetailView = ({ project, onBack, darkMode }) => (
+  <motion.div 
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -20 }}
+    className="max-w-4xl mx-auto mt-8"
+  >
+    <button 
+      onClick={onBack}
+      className="flex items-center text-slate-500 hover:text-sky-600 dark:text-slate-400 dark:hover:text-[#BB0000] mb-8 transition-colors group font-medium"
+    >
+      <ArrowLeft size={18} className="mr-2 group-hover:-translate-x-1 transition-transform" /> Back to Projects
+    </button>
+
+    <div className="bg-slate-50 dark:bg-neutral-900 rounded-3xl border border-slate-200 dark:border-neutral-800 overflow-hidden transition-colors duration-300">
+      <div className="h-64 sm:h-80 md:h-96 w-full relative bg-slate-200 dark:bg-neutral-800">
+        <SmartProjectImage 
+          title={`${project.title} - Main View`} 
+          filename={project.thumbnail} 
+          className="w-full h-full object-cover" 
+          darkMode={darkMode} 
+        />
+        
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 p-8 w-full">
+          <div className="flex gap-2 mb-3">
+            {project.categories.map(cat => (
+              <span key={cat} className="px-3 py-1 text-xs font-bold bg-sky-600 dark:bg-[#BB0000] text-white rounded-full">
+                {cat}
+              </span>
+            ))}
+          </div>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-2">{project.title}</h1>
+        </div>
+      </div>
+
+      <div className="p-8 sm:p-12 space-y-12">
+        <div>
+          <h3 className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-4">Technologies & Tools</h3>
+          <div className="flex flex-wrap gap-2">
+            {project.tags.map(tag => (
+              <span key={tag} className="px-3 py-1.5 text-sm bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-300 rounded-lg shadow-sm">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div className="space-y-8">
+            <div>
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">The Challenge</h3>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">
+                {project.what}
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Approach</h3>
+              <ul className="space-y-4">
+                {project.how.map((item, i) => (
+                  <li key={i} className="flex items-start">
+                    <span className="flex items-center justify-center min-w-6 h-6 rounded-full bg-sky-100 dark:bg-red-900/30 text-sky-600 dark:text-[#BB0000] text-xs font-bold mr-3 mt-0.5">{i + 1}</span>
+                    <span className="text-slate-600 dark:text-slate-300">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="space-y-8">
+            <div className="bg-sky-50 dark:bg-red-900/10 rounded-2xl p-6 border border-sky-100 dark:border-red-900/30">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                <Award className="text-sky-600 dark:text-[#BB0000]" /> Outcomes & Results
+              </h3>
+              <ul className="space-y-3">
+                {project.results.map((result, i) => (
+                  <li key={i} className="flex items-start">
+                    <ShieldCheck className="text-sky-500 dark:text-[#BB0000] mr-2 shrink-0 mt-1" size={16} />
+                    <span className="text-slate-700 dark:text-slate-200 font-medium">{result}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {Object.keys(project.links).length > 0 && (
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Project Links</h3>
+                <div className="flex flex-col gap-3">
+                  {project.links.report && (
+                    <button className="flex items-center justify-center w-full px-4 py-3 bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-300 rounded-xl hover:border-sky-500 dark:hover:border-[#BB0000] hover:text-sky-600 dark:hover:text-[#BB0000] transition-all">
+                      <FileText size={18} className="mr-2" /> View Technical Report <ExternalLink size={14} className="ml-2 opacity-50" />
+                    </button>
+                  )}
+                  {project.links.portfolio && (
+                    <button className="flex items-center justify-center w-full px-4 py-3 bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-300 rounded-xl hover:border-sky-500 dark:hover:border-[#BB0000] hover:text-sky-600 dark:hover:text-[#BB0000] transition-all">
+                      <ExternalLink size={18} className="mr-2" /> View in Portfolio <ExternalLink size={14} className="ml-2 opacity-50" />
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  </motion.div>
+);
+
+const ContactView = () => (
+  <div className="max-w-2xl mx-auto mt-16 text-center">
+    <div className="w-20 h-20 bg-sky-100 dark:bg-red-900/20 text-sky-600 dark:text-[#BB0000] rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
+      <Mail size={32} />
+    </div>
+    <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-6">Let's Connect</h2>
+    <p className="text-lg text-slate-600 dark:text-slate-300 mb-10 leading-relaxed">
+      I'm currently seeking internship opportunities for Summer 2026. If you're looking for a driven mechanical engineering student with hands-on CAD and FEA experience, I'd love to chat.
+    </p>
+    
+    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <EmailButton email={PROFILE.email} className="px-8 py-4 bg-sky-600 hover:bg-sky-700 dark:bg-[#BB0000] dark:hover:bg-[#990000] text-white rounded-xl font-bold shadow-lg shadow-sky-600/20 dark:shadow-[#BB0000]/20 transition-all">
+        <Mail size={18} className="mr-2" /> Email Me
+      </EmailButton>
+      <a 
+        href={`https://${PROFILE.linkedin}`} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="flex items-center justify-center px-8 py-4 bg-white dark:bg-neutral-900 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-neutral-700 hover:border-slate-400 dark:hover:border-neutral-500 rounded-xl font-bold transition-all"
+      >
+        LinkedIn Profile <ExternalLink size={18} className="ml-2" />
+      </a>
+    </div>
+  </div>
+);
+
+const ResumeView = () => (
+  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }} className="max-w-5xl mx-auto mt-8">
+    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+      <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Resume</h2>
+      
+      <div className="flex gap-4">
+        <button
+          onClick={() => window.open('resume.pdf', '_blank')}
+          className="px-4 py-2 bg-slate-100 dark:bg-neutral-900 text-slate-700 dark:text-slate-300 rounded hover:bg-slate-200 dark:hover:bg-neutral-800 transition-colors font-medium cursor-pointer"
+        >
+          Print
+        </button>
+        
+        <a
+          href="resume.pdf"
+          download="Shaun_Sekura_Resume.pdf"
+          className="px-4 py-2 bg-sky-600 dark:bg-[#BB0000] text-white rounded hover:bg-sky-700 dark:hover:bg-red-700 transition-colors font-medium cursor-pointer"
+        >
+          Download PDF
+        </a>
+      </div>
+    </div>
+
+    <div className="w-full h-[800px] border border-slate-200 dark:border-neutral-800 rounded-xl overflow-hidden bg-slate-100 dark:bg-neutral-900 relative">
+      <iframe 
+        src="resume.pdf" 
+        className="w-full h-full" 
+        title="Shaun Sekura Resume"
+        onError={(e) => {
+          e.target.style.display = 'none';
+          document.getElementById('pdf-fallback').style.display = 'flex';
+        }}
+      />
+      <div id="pdf-fallback" className="hidden absolute inset-0 flex-col items-center justify-center p-8 text-center bg-slate-50 dark:bg-neutral-900">
+        <FileText size={48} className="text-slate-400 dark:text-slate-600 mb-4" />
+        <h3 className="text-xl font-bold text-slate-700 dark:text-slate-300 mb-2">Resume PDF Preview Unavailable</h3>
+        <p className="text-slate-500 dark:text-slate-400 mb-6">
+          The file `resume.pdf` could not be loaded in this preview. Please ensure the file is placed in your public directory.
+        </p>
+        <a
+          href="resume.pdf"
+          download="Shaun_Sekura_Resume.pdf"
+          className="px-6 py-2 bg-sky-600 dark:bg-[#BB0000] text-white rounded-lg hover:bg-sky-700 dark:hover:bg-red-700 transition-colors font-medium"
+        >
+          Download File Directly
+        </a>
+      </div>
+    </div>
+  </motion.div>
+);
+
+/* ==============================================================================
+   MAIN APP SHELL
+============================================================================== */
+
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false); // Default to Light Mode
   const [activeTab, setActiveTab] = useState('home');
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showResumeModal, setShowResumeModal] = useState(false);
-  const [logoError, setLogoError] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [darkMode]);
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setDarkMode(isDark);
+  }, []);
 
-  // Reset logo error state when theme changes so it tries loading the appropriate dark/light image again
-  useEffect(() => {
-    setLogoError(false);
-  }, [darkMode]);
-
-  const navItems = [
+  const TABS = [
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
     { id: 'experience', label: 'Experience' },
     { id: 'projects', label: 'Projects' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'resume', label: 'Resume' },
+    { id: 'contact', label: 'Contact' }
   ];
 
-  const handleNavClick = (id) => {
-    setActiveTab(id);
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
     setSelectedProject(null);
     setMobileMenuOpen(false);
-    setShowResumeModal(false);
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
-  const openProject = (project) => {
-    setSelectedProject(project);
-    window.scrollTo(0, 0);
-  };
-
-  const logoSrc = darkMode ? '/images/logo-dark.gif' : '/images/logo-light.gif';
 
   return (
-    <div className={`min-h-screen font-sans transition-colors duration-300 ${darkMode ? 'dark bg-neutral-950 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
-      
-      {/* Background Subtle Gradient */}
-      <div className="fixed top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-sky-500/5 dark:from-[#BB0000]/5 via-transparent to-transparent pointer-events-none z-0 transition-colors duration-300"></div>
-
-      {/* Navigation */}
-      <nav className="sticky top-0 z-40 backdrop-blur-md bg-white/70 dark:bg-neutral-950/70 border-b border-slate-200 dark:border-neutral-900 transition-colors duration-300">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex-shrink-0 cursor-pointer flex items-center gap-2 group" onClick={() => handleNavClick('home')}>
-              {!logoError ? (
-                <img 
-                  src={logoSrc} 
-                  alt="Logo" 
-                  className="w-8 h-8 rounded object-cover" 
-                  onError={() => setLogoError(true)} 
-                />
-              ) : (
-                <div className="w-8 h-8 rounded bg-sky-600 dark:bg-[#BB0000] flex items-center justify-center font-bold text-white tracking-tighter transition-colors duration-300">
-                  S
-                </div>
-              )}
-              <span className="font-bold text-lg tracking-tight">S. SEKURA</span>
-              <span className="text-sky-600 dark:text-[#BB0000] font-bold transition-colors duration-300">.</span>
-            </div>
-            
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-center space-x-8">
-                {navItems.map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => handleNavClick(item.id)}
-                    className={`text-sm font-medium transition-colors hover:text-sky-600 dark:hover:text-[#BB0000] ${
-                      activeTab === item.id && !selectedProject && !showResumeModal ? 'text-sky-600 dark:text-[#BB0000]' : 'text-slate-600 dark:text-slate-400'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-                <button
-                  onClick={() => setShowResumeModal(true)}
-                  className="px-3 py-1.5 border border-sky-600/30 dark:border-[#BB0000]/30 text-sky-600 dark:text-[#BB0000] rounded hover:bg-sky-50 dark:hover:bg-[#BB0000]/10 text-xs font-semibold transition-colors duration-300"
-                >
-                  Resume
-                </button>
-                <button
-                  onClick={() => setDarkMode(!darkMode)}
-                  className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-neutral-800 transition-colors"
-                  aria-label="Toggle theme"
-                >
-                  {darkMode ? <Sun size={18} className="text-slate-300 hover:text-white" /> : <Moon size={18} className="text-slate-600 hover:text-slate-900" />}
-                </button>
-              </div>
+    <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'dark bg-neutral-950 text-white' : 'bg-slate-50 text-slate-900'}`}>
+      <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 border-b border-slate-200 dark:border-neutral-900 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-20">
+            <div className="flex items-center cursor-pointer" onClick={() => handleTabChange('home')}>
+              <SmartLogoImage darkMode={darkMode} />
             </div>
 
-            <div className="md:hidden flex items-center gap-2">
-              <button
-                onClick={() => setShowResumeModal(true)}
-                className="px-2.5 py-1 border border-sky-600/30 dark:border-[#BB0000]/30 text-sky-600 dark:text-[#BB0000] rounded hover:bg-sky-50 dark:hover:bg-[#BB0000]/10 text-xs font-semibold transition-colors duration-300"
-              >
-                Resume
-              </button>
+            <div className="hidden md:flex items-center space-x-1">
+              {TABS.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => handleTabChange(tab.id)}
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                    (activeTab === tab.id && !selectedProject)
+                      ? 'bg-sky-100 text-sky-700 dark:bg-red-900/30 dark:text-[#BB0000]'
+                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-neutral-900 dark:hover:text-white'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+              
+              <div className="w-px h-6 bg-slate-300 dark:bg-neutral-800 mx-2"></div>
+              
               <button
                 onClick={() => setDarkMode(!darkMode)}
-                className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-neutral-800 transition-colors"
+                className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-neutral-900 transition-colors"
+                aria-label="Toggle Dark Mode"
               >
-                {darkMode ? <Sun size={18} className="text-slate-300" /> : <Moon size={18} className="text-slate-600" />}
+                {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
+            </div>
+
+            <div className="flex items-center md:hidden gap-2">
+              <button
+                onClick={() => setDarkMode(!darkMode)}
+                className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-neutral-900 transition-colors"
+              >
+                {darkMode ? <Sun size={20} /> : <Moon size={20} />}
               </button>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 text-slate-600 dark:text-slate-300"
+                className="p-2 rounded-lg text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-neutral-900 transition-colors"
               >
-                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             </div>
           </div>
         </div>
 
-        {/* Mobile menu */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="md:hidden overflow-hidden bg-white dark:bg-neutral-950 border-b border-slate-200 dark:border-neutral-900"
+              className="md:hidden border-t border-slate-200 dark:border-neutral-900 overflow-hidden bg-white dark:bg-neutral-950"
             >
-              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                {navItems.map((item) => (
+              <div className="px-4 pt-2 pb-6 space-y-1">
+                {TABS.map((tab) => (
                   <button
-                    key={item.id}
-                    onClick={() => handleNavClick(item.id)}
-                    className={`block w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      activeTab === item.id && !selectedProject
-                        ? 'text-sky-600 dark:text-[#BB0000] bg-sky-50 dark:bg-[#BB0000]/10'
-                        : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-neutral-900'
+                    key={tab.id}
+                    onClick={() => handleTabChange(tab.id)}
+                    className={`block w-full text-left px-4 py-3 rounded-xl text-base font-medium transition-colors ${
+                      (activeTab === tab.id && !selectedProject)
+                        ? 'bg-sky-50 text-sky-700 dark:bg-neutral-900 dark:text-[#BB0000]'
+                        : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-neutral-900'
                     }`}
                   >
-                    {item.label}
+                    {tab.label}
                   </button>
                 ))}
               </div>
@@ -466,12 +1052,9 @@ export default function App() {
         </AnimatePresence>
       </nav>
 
-      {/* Main Content Area */}
-      <main className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 z-10">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 min-h-[calc(100vh-160px)]">
         <AnimatePresence mode="wait">
-          {showResumeModal ? (
-            <ResumeView key="resume-view" onClose={() => setShowResumeModal(false)} />
-          ) : selectedProject ? (
+          {selectedProject ? (
             <ProjectDetailView 
               key="project-detail" 
               project={selectedProject} 
@@ -481,683 +1064,25 @@ export default function App() {
           ) : (
             <motion.div
               key={activeTab}
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.25 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
             >
-              {activeTab === 'home' && <HomeView setTab={handleNavClick} openResume={() => setShowResumeModal(true)} />}
-              {activeTab === 'about' && <AboutView openResume={() => setShowResumeModal(true)} darkMode={darkMode} />}
+              {activeTab === 'home' && <HomeView setTab={handleTabChange} openResume={() => handleTabChange('resume')} />}
+              {activeTab === 'about' && <AboutView darkMode={darkMode} />}
               {activeTab === 'experience' && <ExperienceView />}
-              {activeTab === 'projects' && <ProjectsView openProject={openProject} darkMode={darkMode} />}
+              {activeTab === 'projects' && <ProjectsView selectProject={setSelectedProject} darkMode={darkMode} />}
+              {activeTab === 'resume' && <ResumeView />}
               {activeTab === 'contact' && <ContactView />}
             </motion.div>
           )}
         </AnimatePresence>
       </main>
 
-      {/* Footer */}
-      <footer className="relative border-t border-slate-200 dark:border-neutral-900 py-12 mt-12 bg-white dark:bg-neutral-950/40 backdrop-blur z-10 transition-colors duration-300">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-slate-500 dark:text-slate-400 text-sm">
-            © {new Date().getFullYear()} {PROFILE.name}. All rights reserved.
-          </p>
-          <div className="flex space-x-6">
-            <a href={`https://${PROFILE.linkedin}`} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-sky-600 dark:hover:text-[#BB0000] transition-colors flex items-center gap-1.5 text-sm">
-              <Linkedin size={18} /> LinkedIn
-            </a>
-            <EmailButton email={PROFILE.email} className="text-slate-400 hover:text-sky-600 dark:hover:text-[#BB0000] transition-colors flex items-center gap-1.5 text-sm cursor-pointer rounded">
-              <Mail size={18} /> Email
-            </EmailButton>
-          </div>
-        </div>
+      <footer className="border-t border-slate-200 dark:border-neutral-900 py-8 text-center text-slate-500 dark:text-slate-500 text-sm mt-auto bg-white dark:bg-neutral-950 transition-colors duration-300">
+        <p>© {new Date().getFullYear()} Shaun Sekura. All rights reserved.</p>
       </footer>
     </div>
-  );
-}
-
-/* ==============================================================================
-   PAGE VIEWS
-============================================================================== */
-
-function HomeView({ setTab, openResume }) {
-  return (
-    <div className="relative flex flex-col justify-center min-h-[75vh]">
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none rounded-3xl -z-10"></div>
-      
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="max-w-3xl relative p-6 sm:p-12 border border-slate-200/50 dark:border-neutral-900/50 bg-white/50 dark:bg-neutral-950/20 rounded-3xl backdrop-blur-sm transition-colors duration-300"
-      >
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-sky-600/10 text-sky-700 border border-sky-600/20 dark:bg-[#BB0000]/10 dark:text-red-400 dark:border-[#BB0000]/20 rounded-full mb-6 text-xs tracking-wider uppercase font-semibold transition-colors duration-300">
-          <Wrench size={14} className="mr-1" />
-          Mechanical Engineer
-        </div>
-
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold mb-6 tracking-tight leading-none text-slate-900 dark:text-white">
-          Shaun Sekura<span className="text-sky-600 dark:text-[#BB0000] transition-colors duration-300">.</span>
-        </h1>
-        
-        <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 mb-6 tracking-tight font-medium">
-          Mechanical Engineering @ The Ohio State University
-        </p>
-
-        <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 mb-10 max-w-2xl leading-relaxed">
-          {PROFILE.tagline} Specialize in CAD modeling, physical load testing, and finite element validation.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row gap-4">
-          <button 
-            onClick={() => setTab('projects')}
-            className="group flex items-center justify-center px-8 py-3.5 bg-sky-600 hover:bg-sky-700 dark:bg-[#BB0000] dark:hover:bg-[#990000] text-white rounded-lg font-semibold transition-all shadow-lg shadow-sky-600/20 dark:shadow-[#BB0000]/20"
-          >
-            View Projects
-            <ChevronRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
-          </button>
-          
-          <button 
-            onClick={openResume}
-            className="flex items-center justify-center px-8 py-3.5 bg-white dark:bg-neutral-900 text-sky-700 dark:text-red-400 border border-slate-300 hover:border-sky-600 dark:border-neutral-800 dark:hover:border-[#BB0000] rounded-lg font-semibold transition-all"
-          >
-            <FileText size={18} className="mr-2" />
-            View Resume
-          </button>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-function AboutView({ openResume, darkMode }) {
-  return (
-    <div className="space-y-16">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
-        <div className="md:col-span-1">
-          <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-tr from-sky-400 to-indigo-400 dark:from-[#BB0000] dark:to-red-900 rounded-2xl blur-lg opacity-20 group-hover:opacity-30 transition-opacity"></div>
-            <PlaceholderImage 
-              title="Headshot" 
-              filename="/public/images/headshot.jpg" 
-              className="relative w-full aspect-square rounded-2xl shadow-xl object-cover bg-white dark:bg-neutral-900"
-              darkMode={darkMode}
-            />
-          </div>
-        </div>
-        <div className="md:col-span-2 space-y-6">
-          <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tight">About Me</h2>
-          </div>
-          <p className="text-base text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
-            {PROFILE.bio}
-          </p>
-          <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-            <div className="p-5 rounded-xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 transition-colors duration-300">
-              <p className="text-sky-700 dark:text-red-400 uppercase tracking-wider font-bold mb-2 text-xs">Education</p>
-              <p className="font-semibold text-slate-900 dark:text-white">{PROFILE.school}</p>
-              <p className="text-slate-600 dark:text-slate-400 mt-1">{PROFILE.degree}</p>
-              <p className="text-slate-500 dark:text-slate-500 mt-1">{PROFILE.graduation} • GPA: {PROFILE.gpa}</p>
-            </div>
-            <div className="p-5 rounded-xl border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 transition-colors duration-300">
-              <p className="text-sky-700 dark:text-red-400 uppercase tracking-wider font-bold mb-2 text-xs">Contact Info</p>
-              <p className="font-semibold text-slate-900 dark:text-white">{PROFILE.email}</p>
-              <p className="text-slate-600 dark:text-slate-400 mt-1">{PROFILE.phone}</p>
-              <p className="text-slate-500 dark:text-slate-500 mt-1">Akron / Columbus, OH</p>
-            </div>
-          </div>
-          <div className="pt-4">
-             <button 
-              onClick={openResume}
-              className="inline-flex items-center text-sky-600 hover:text-sky-700 dark:text-[#BB0000] dark:hover:text-[#990000] font-semibold transition-colors duration-300"
-            >
-              <FileText size={18} className="mr-2" /> View or Download Resume
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div className="mb-8 space-y-2">
-          <h3 className="text-2xl font-bold tracking-tight">Technical Skills</h3>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {Object.entries(PROFILE.skills).map(([category, skills]) => (
-            <div key={category} className="bg-white dark:bg-neutral-900 rounded-xl p-6 border border-slate-200 dark:border-neutral-800 shadow-sm hover:border-sky-500/30 dark:hover:border-[#BB0000]/30 hover:shadow-lg transition-all duration-300">
-              <div className="flex items-center mb-4">
-                {category === 'Software' && <Terminal className="text-sky-600 dark:text-[#BB0000] mr-2" size={20} />}
-                {category === 'Fabrication' && <Wrench className="text-sky-600 dark:text-[#BB0000] mr-2" size={20} />}
-                {category === 'Research' && <ShieldCheck className="text-sky-600 dark:text-[#BB0000] mr-2" size={20} />}
-                <h4 className="text-lg font-bold tracking-tight">{category}</h4>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {skills.map(skill => (
-                  <span key={skill} className="px-3 py-1 bg-slate-100 dark:bg-neutral-800 text-slate-700 dark:text-slate-300 rounded border border-slate-200 dark:border-neutral-700 text-sm font-medium">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ExperienceView() {
-  return (
-    <div className="max-w-4xl mx-auto">
-      <div className="mb-12 space-y-2 text-center md:text-left">
-        <h2 className="text-3xl font-bold tracking-tight">Professional Experience</h2>
-      </div>
-      <div className="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-sky-200 dark:before:via-red-900/50 before:to-transparent">
-        {PROFILE.experience.map((exp, i) => (
-          <div key={i} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white dark:border-neutral-950 bg-sky-600 dark:bg-[#BB0000] text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 transition-colors duration-300">
-              <Briefcase size={16} />
-            </div>
-            <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white dark:bg-neutral-900 p-6 rounded-xl border border-slate-200 dark:border-neutral-800 shadow-sm hover:border-sky-300 dark:hover:border-[#BB0000]/40 hover:shadow-lg transition-all duration-300">
-              <div className="flex flex-col space-y-1 mb-4">
-                <h3 className="font-bold text-lg tracking-tight text-slate-900 dark:text-white">{exp.role}</h3>
-                <span className="text-sky-700 dark:text-red-400 font-semibold">{exp.company}</span>
-                <div className="flex flex-wrap gap-3 text-sm text-slate-500 dark:text-slate-400 mt-2">
-                  <span className="flex items-center"><Calendar size={14} className="mr-1" /> {exp.date}</span>
-                  <span className="flex items-center"><MapPin size={14} className="mr-1" /> {exp.location}</span>
-                </div>
-              </div>
-              <ul className="list-disc list-outside ml-4 space-y-2 text-slate-600 dark:text-slate-300 text-sm">
-                {exp.bullets.map((bullet, j) => {
-                  return (
-                    <li key={j} className="pl-1 leading-relaxed">{bullet}</li>
-                  );
-                })}
-              </ul>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ProjectsView({ openProject, darkMode }) {
-  const [showAllProjects, setShowAllProjects] = useState(false);
-  const [filter, setFilter] = useState('All');
-
-  const categories = ['All', ...new Set(PROJECTS.flatMap(p => p.categories))];
-
-  const filteredProjects = filter === 'All' 
-    ? PROJECTS 
-    : PROJECTS.filter(p => p.categories.includes(filter));
-
-  const featuredProjects = PROJECTS.filter(p => p.featured);
-  const pastProjects = PROJECTS.filter(p => !p.featured);
-
-  if (showAllProjects) {
-    return (
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <button 
-          onClick={() => setShowAllProjects(false)}
-          className="flex items-center text-slate-500 hover:text-sky-600 dark:hover:text-[#BB0000] transition-colors mb-8 font-semibold text-sm"
-        >
-          <ArrowLeft size={18} className="mr-1" />
-          Back to Highlights
-        </button>
-
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
-          <div className="space-y-1">
-            <h2 className="text-3xl font-bold tracking-tight">All Projects Archive</h2>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {categories.map(cat => {
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setFilter(cat)}
-                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                    filter === cat 
-                      ? 'bg-sky-600 dark:bg-[#BB0000] text-white' 
-                      : 'bg-slate-100 dark:bg-neutral-900 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-neutral-800'
-                  }`}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <AnimatePresence>
-            {filteredProjects.map(project => {
-              return (
-                <ProjectCard key={project.slug} project={project} openProject={openProject} darkMode={darkMode} />
-              );
-            })}
-          </AnimatePresence>
-        </div>
-      </motion.div>
-    );
-  }
-
-  return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <div className="mb-16">
-        <h2 className="text-3xl font-bold tracking-tight mb-8">Featured Projects</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {featuredProjects.map(project => {
-            return (
-              <ProjectCard key={project.slug} project={project} openProject={openProject} large={true} darkMode={darkMode} />
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="mb-12 border-t border-slate-200 dark:border-neutral-900 pt-12">
-        <h2 className="text-2xl font-bold tracking-tight mb-6">Recent Past Projects</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {pastProjects.slice(0, 3).map(project => {
-            return (
-              <ProjectCard key={project.slug} project={project} openProject={openProject} small={true} darkMode={darkMode} />
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="flex justify-center mt-12 mb-4">
-        <button 
-          onClick={() => setShowAllProjects(true)}
-          className="flex items-center justify-center px-8 py-3.5 bg-slate-100 dark:bg-neutral-900 text-sky-700 dark:text-red-400 hover:bg-slate-200 dark:hover:bg-neutral-800 rounded-lg font-semibold transition-all border border-slate-200 dark:border-neutral-800"
-        >
-          <Grid size={18} className="mr-2" />
-          View All Past Projects
-        </button>
-      </div>
-    </motion.div>
-  );
-}
-
-function ProjectCard({ project, openProject, large = false, small = false, darkMode }) {
-  return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.2 }}
-      onClick={() => openProject(project)}
-      className={`group cursor-pointer bg-white dark:bg-neutral-900 rounded-xl overflow-hidden border border-slate-200 dark:border-neutral-800 shadow-sm hover:border-sky-300 dark:hover:border-[#BB0000]/40 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col`}
-    >
-      <div className={`${large ? 'aspect-[16/10]' : 'aspect-video'} relative overflow-hidden bg-slate-100 dark:bg-neutral-950`}>
-        <PlaceholderImage 
-          title={project.title} 
-          filename={`/public/images/projects/${project.slug}/${project.thumbnail}`}
-          className="w-full h-full border-0 rounded-none rounded-t-xl absolute inset-0 bg-transparent"
-          small={small}
-          darkMode={darkMode}
-        />
-      </div>
-      <div className={`${small ? 'p-4' : 'p-6'} flex-1 flex flex-col`}>
-        <div className={`${small ? 'mb-2' : 'mb-3'} flex items-center justify-between flex-wrap gap-2`}>
-          <div className="flex flex-wrap gap-1">
-            {project.categories.slice(0, 2).map((cat, i) => {
-              return (
-                <span key={i} className="text-[10px] font-bold uppercase tracking-wider text-sky-700 dark:text-red-400 px-2 py-0.5 rounded bg-sky-100 dark:bg-[#BB0000]/10 border border-sky-200 dark:border-[#BB0000]/20 transition-colors duration-300">
-                  {cat}
-                </span>
-              );
-            })}
-          </div>
-          {project.featured && !small && (
-            <span className="flex items-center text-[10px] font-bold bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-500 border border-amber-200 dark:border-amber-500/20 px-2 py-0.5 rounded shrink-0">
-              Featured
-            </span>
-          )}
-        </div>
-        <h3 className={`${large ? 'text-2xl' : small ? 'text-lg' : 'text-xl'} font-bold mb-2 group-hover:text-sky-600 dark:group-hover:text-[#BB0000] transition-colors line-clamp-2`}>
-          {project.title}
-        </h3>
-        <p className={`text-slate-600 dark:text-slate-400 ${small ? 'text-xs' : 'text-sm'} leading-relaxed ${small ? 'mb-3' : 'mb-4'} line-clamp-2 flex-1`}>
-          {project.description}
-        </p>
-        
-        {!small && (
-          <div className="flex flex-wrap gap-2 mt-auto">
-            {project.tags.slice(0, 3).map(tag => {
-              return (
-                <span key={tag} className="text-[11px] font-medium px-2 py-1 bg-slate-50 dark:bg-neutral-800 text-slate-600 dark:text-slate-300 rounded border border-slate-200 dark:border-neutral-700">
-                  {tag}
-                </span>
-              );
-            })}
-            {project.tags.length > 3 && (
-              <span className="text-[11px] font-medium px-2 py-1 bg-slate-50 dark:bg-neutral-800 text-slate-600 dark:text-slate-300 rounded border border-slate-200 dark:border-neutral-700">
-                +{project.tags.length - 3}
-              </span>
-            )}
-          </div>
-        )}
-      </div>
-    </motion.div>
-  );
-}
-
-function ProjectDetailView({ project, onBack, darkMode }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 15 }}
-      className="max-w-4xl mx-auto"
-    >
-      <button 
-        onClick={onBack}
-        className="flex items-center text-slate-500 hover:text-sky-600 dark:hover:text-[#BB0000] transition-colors mb-8 font-semibold text-sm"
-      >
-        <ChevronLeft size={18} className="mr-1" />
-        Back to Projects
-      </button>
-
-      <div className="mb-8">
-        <div className="flex items-center gap-2 mb-4 flex-wrap">
-          {project.categories.map((cat, i) => {
-            return (
-              <span key={i} className="text-xs font-bold uppercase tracking-wider text-sky-700 dark:text-red-400 px-3 py-1 bg-sky-100 dark:bg-[#BB0000]/10 border border-sky-200 dark:border-[#BB0000]/20 rounded transition-colors duration-300">
-                {cat}
-              </span>
-            );
-          })}
-          {project.featured && (
-            <span className="text-xs font-bold bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-500 border border-amber-200 dark:border-amber-500/20 px-3 py-1 rounded ml-1">
-              Featured Project
-            </span>
-          )}
-        </div>
-        <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">{project.title}</h1>
-        
-        <div className="flex flex-wrap gap-2 mb-8">
-          {project.tags.map(tag => {
-            return (
-              <span key={tag} className="px-3 py-1 bg-slate-100 dark:bg-neutral-900 text-slate-700 dark:text-slate-300 rounded-md text-sm font-medium border border-slate-200 dark:border-neutral-800">
-                {tag}
-              </span>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="aspect-video relative rounded-2xl overflow-hidden border border-slate-200 dark:border-neutral-800 shadow-xl mb-12">
-        <PlaceholderImage 
-          title={`${project.title} Image`} 
-          filename={`/public/images/projects/${project.slug}/${project.thumbnail}`}
-          className="w-full h-full border-0 rounded-none absolute inset-0"
-          darkMode={darkMode}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-        <div className="md:col-span-2 space-y-10">
-          <section>
-            <h2 className="text-2xl font-bold tracking-tight mb-4 flex items-center text-slate-900 dark:text-white">
-              <span className="bg-sky-600 dark:bg-[#BB0000] w-1.5 h-6 mr-3 rounded transition-colors duration-300"></span>
-              The Problem (What)
-            </h2>
-            <p className="text-slate-600 dark:text-slate-300 text-lg leading-relaxed">
-              {project.what}
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold tracking-tight mb-4 flex items-center text-slate-900 dark:text-white">
-              <span className="bg-sky-600 dark:bg-[#BB0000] w-1.5 h-6 mr-3 rounded transition-colors duration-300"></span>
-              The Solution (How)
-            </h2>
-            <ul className="space-y-4">
-              {project.how.map((point, i) => {
-                return (
-                  <li key={i} className="flex">
-                    <div className="mt-1.5 mr-3 text-sky-600 dark:text-[#BB0000] shrink-0 transition-colors duration-300">
-                      <ChevronRight size={18} />
-                    </div>
-                    <span className="text-slate-600 dark:text-slate-300 text-lg leading-relaxed">{point}</span>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold tracking-tight mb-4 flex items-center text-slate-900 dark:text-white">
-              <span className="bg-sky-600 dark:bg-[#BB0000] w-1.5 h-6 mr-3 rounded transition-colors duration-300"></span>
-              The Impact (Results)
-            </h2>
-            <div className="bg-slate-50 dark:bg-neutral-900 rounded-xl p-6 border border-slate-200 dark:border-neutral-800 transition-colors duration-300">
-              <ul className="space-y-3">
-                {project.results.map((point, i) => {
-                  return (
-                    <li key={i} className="flex items-start">
-                      <div className="mt-1 mr-3 text-emerald-600 dark:text-emerald-500 shrink-0">
-                        <Award size={20} />
-                      </div>
-                      <span className="text-slate-800 dark:text-slate-200 text-base font-medium">{point}</span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </section>
-        </div>
-
-        <div className="md:col-span-1">
-          <div className="sticky top-24 space-y-6">
-            {Object.keys(project.links).length > 0 && (
-              <div className="bg-white dark:bg-neutral-900 rounded-xl p-6 border border-slate-200 dark:border-neutral-800 shadow-sm transition-colors duration-300">
-                <h3 className="text-lg font-bold mb-4">Project Links</h3>
-                <div className="space-y-3 font-medium text-sm">
-                  {project.links.report && (
-                    <a href="#" className="flex items-center text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-[#BB0000] transition-colors">
-                      <FileText size={18} className="mr-2" />
-                      View Full Report
-                      <ExternalLink size={14} className="ml-1 opacity-50" />
-                    </a>
-                  )}
-                  {project.links.video && (
-                    <a href="#" className="flex items-center text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-[#BB0000] transition-colors">
-                      <ExternalLink size={18} className="mr-2" />
-                      Watch Demo Video
-                    </a>
-                  )}
-                  {project.links.portfolio && (
-                    <a href="#" className="flex items-center text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-[#BB0000] transition-colors">
-                      <ExternalLink size={18} className="mr-2" />
-                      Portfolio Slide
-                    </a>
-                  )}
-                </div>
-              </div>
-            )}
-            
-            <div className="bg-slate-50 dark:bg-neutral-900 rounded-xl p-6 border border-slate-200 dark:border-neutral-800 transition-colors duration-300">
-              <p className="text-sm text-slate-600 dark:text-slate-400 font-medium mb-3">Want to know more?</p>
-              <EmailButton email={PROFILE.email} className="w-full py-2.5 bg-sky-600 hover:bg-sky-700 dark:bg-[#BB0000] dark:hover:bg-[#990000] text-white rounded-lg font-semibold transition-colors flex items-center justify-center">
-                <Mail size={16} className="mr-2" />
-                Contact Me
-              </EmailButton>
-            </div>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function ContactView() {
-  return (
-    <div className="max-w-2xl mx-auto text-center space-y-8 py-12">
-      <div className="space-y-2">
-        <h2 className="text-4xl font-bold tracking-tight">Let's Connect</h2>
-      </div>
-      <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
-        I'm always open to discussing mechanical engineering opportunities, collaborations, or just chatting about automotive design, virtual modal analysis, and structural validation.
-      </p>
-      
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-8 text-sm">
-        <EmailButton 
-          email={PROFILE.email}
-          className="flex items-center justify-center w-full sm:w-auto px-8 py-4 bg-sky-600 hover:bg-sky-700 dark:bg-[#BB0000] dark:hover:bg-[#990000] text-white rounded-xl font-bold transition-colors shadow-lg shadow-sky-600/20 dark:shadow-[#BB0000]/20"
-        >
-          <Mail size={20} className="mr-3" />
-          Email Me
-        </EmailButton>
-        <a 
-          href={`https://${PROFILE.linkedin}`}
-          target="_blank"
-          rel="noreferrer"
-          className="flex items-center justify-center w-full sm:w-auto px-8 py-4 bg-white dark:bg-neutral-900 text-sky-700 dark:text-red-400 border border-slate-300 dark:border-neutral-800 hover:bg-slate-50 dark:hover:bg-neutral-800 hover:border-sky-600 dark:hover:border-[#BB0000] rounded-xl font-bold transition-colors"
-        >
-          <Linkedin size={20} className="mr-3" />
-          LinkedIn Profile
-        </a>
-      </div>
-      
-      <div className="pt-12 text-slate-500 dark:text-slate-400 font-medium">
-        <p className="mb-1">{PROFILE.email}</p>
-        <p>{PROFILE.phone}</p>
-      </div>
-    </div>
-  );
-}
-
-/* ==============================================================================
-   INTERACTIVE RESUME VIEWER MODAL
-   This guarantees that clicking any resume button instantly displays the full,
-   official resume details directly in the web browser, styled like an expert document.
-============================================================================== */
-function ResumeView({ onClose }) {
-  
-  const handlePrint = () => {
-    // Attempt standard print dialog. (Might be suppressed by the Canvas iframe sandbox, works in production).
-    try {
-      window.print();
-    } catch (e) {
-      console.log("Printing blocked by sandbox.", e);
-    }
-  };
-
-  const handleDownload = () => {
-     // Notifies user in the preview sandbox why the download might instantly fail. 
-     // Will work exactly as expected in production.
-     console.log("Download requested. If this 404s, it is due to the Canvas preview environment restriction.");
-  };
-
-  return (
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.98 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.98 }}
-      className="max-w-4xl mx-auto space-y-8"
-    >
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 dark:border-neutral-800 pb-6 transition-colors duration-300">
-        <div>
-          <button 
-            onClick={onClose}
-            className="flex items-center text-slate-500 hover:text-sky-600 dark:hover:text-[#BB0000] transition-colors font-semibold text-sm mb-2"
-          >
-            <ChevronLeft size={18} className="mr-1" /> Back
-          </button>
-          <h2 className="text-2xl font-bold tracking-tight">Interactive Resume</h2>
-        </div>
-        
-        <div className="flex gap-3 text-sm w-full sm:w-auto font-medium">
-          <button 
-            onClick={handlePrint}
-            title="Note: Local printing is often blocked in the Canvas preview sandbox, but will work in production."
-            className="flex items-center justify-center px-4 py-2 border border-slate-300 dark:border-neutral-700 hover:border-sky-600 dark:hover:border-[#BB0000] bg-white dark:bg-neutral-900 text-slate-700 dark:text-slate-300 rounded-lg transition-all flex-1 sm:flex-none"
-          >
-            <Printer size={16} className="mr-2" /> Print Resume
-          </button>
-          <a 
-            href="/resume.pdf" 
-            download
-            onClick={handleDownload}
-            title="Note: Downloading local files is restricted in the Canvas sandbox, but will work in production."
-            className="flex items-center justify-center px-4 py-2 bg-sky-600 hover:bg-sky-700 dark:bg-[#BB0000] dark:hover:bg-[#990000] text-white rounded-lg transition-all flex-1 sm:flex-none"
-          >
-            <Download size={16} className="mr-2" /> Download PDF
-          </a>
-        </div>
-      </div>
-
-      {/* Structured Document Canvas */}
-      <div className="bg-white text-slate-950 p-6 sm:p-12 rounded-2xl shadow-xl shadow-slate-900/10 border border-slate-200 font-sans tracking-tight dark:bg-slate-50 dark:border-transparent">
-        
-        {/* Header Block */}
-        <div className="border-b-2 border-slate-800 pb-6 mb-6">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 uppercase">{PROFILE.name}</h1>
-            <div className="text-sm text-slate-700 mt-2 sm:mt-0 text-left sm:text-right font-medium">
-              <p>{PROFILE.email} | {PROFILE.phone}</p>
-              <p>{PROFILE.linkedin}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Education Block */}
-        <section className="mb-8">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-sky-700 dark:text-[#BB0000] border-b border-slate-200 pb-1 mb-3 transition-colors duration-300">EDUCATION</h3>
-          <div className="flex justify-between items-baseline mb-1">
-            <h4 className="font-extrabold text-slate-900 text-base">{PROFILE.school}</h4>
-            <span className="text-sm font-medium text-slate-600">{PROFILE.graduation}</span>
-          </div>
-          <div className="flex justify-between items-baseline text-sm text-slate-700">
-            <p>{PROFILE.degree}</p>
-            <span className="font-semibold">GPA: {PROFILE.gpa}</span>
-          </div>
-        </section>
-
-        {/* Skills Block */}
-        <section className="mb-8">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-sky-700 dark:text-[#BB0000] border-b border-slate-200 pb-1 mb-3 transition-colors duration-300">TECHNICAL SKILLS</h3>
-          <div className="space-y-1.5 text-sm">
-            {Object.entries(PROFILE.skills).map(([cat, items]) => (
-              <p key={cat} className="text-slate-800">
-                <span className="font-extrabold text-slate-900">{cat}:</span> {items.join(', ')}
-              </p>
-            ))}
-          </div>
-        </section>
-
-        {/* Experience Block */}
-        <section className="mb-8">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-sky-700 dark:text-[#BB0000] border-b border-slate-200 pb-1 mb-4 transition-colors duration-300">EXPERIENCE</h3>
-          <div className="space-y-6">
-            {PROFILE.experience.map((exp, idx) => (
-              <div key={idx} className="space-y-1">
-                <div className="flex justify-between items-baseline">
-                  <h4 className="font-extrabold text-slate-900 text-base">{exp.role}</h4>
-                  <span className="text-sm font-medium text-slate-600">{exp.date}</span>
-                </div>
-                <div className="flex justify-between items-baseline text-sm font-semibold text-sky-700 dark:text-[#BB0000] transition-colors duration-300">
-                  <span>{exp.company}</span>
-                  <span className="text-slate-600 font-medium">{exp.location}</span>
-                </div>
-                <ul className="list-disc list-outside ml-4 mt-2 space-y-1 text-slate-800 text-sm leading-relaxed">
-                  {exp.bullets.map((bullet, bIdx) => (
-                    <li key={bIdx}>{bullet}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Interests */}
-        <section>
-          <h3 className="text-sm font-bold uppercase tracking-wider text-sky-700 dark:text-[#BB0000] border-b border-slate-200 pb-1 mb-3 transition-colors duration-300">INTERESTS</h3>
-          <p className="text-sm text-slate-800 font-medium">Hiking, Music, Tennis, Basketball, Strategy Games, Competitive Trivia, Sushi</p>
-        </section>
-      </div>
-    </motion.div>
   );
 }
