@@ -33,10 +33,9 @@ const PROFILE = {
       date: "Summer 2026",
       location: "Akron, OH",
       bullets: [
-        "Simulated tire loading and deformation conditions using Abaqus FEA, analyzing stress distribution and structural behavior to validate designs across OEM programs including Tesla, GM, and Lucid Motors.",
-        "Conducted physical modal testing on tire assemblies using Siemens TestLab, extracting frequency response data to characterize dynamic behavior under varying load conditions.",
-        "Organized and compared large experimental and simulated datasets using Python and Excel, identifying discrepancies between physical and virtual results to improve model accuracy.",
-        "Contributed to an ongoing initiative to replace physical tire testing with validated virtual simulations, reducing reliance on costly lab testing while maintaining OEM-grade accuracy standards."
+        "Developed Python and Excel pipeline to curve-fit stress-strain data across 80 material datasets, computing tangent moduli via numerical differentiation and achieving 95% curve-fit accuracy through least-squares error analysis.",
+        "Validated a Mercedes-Benz wheel through nonlinear FEA simulation in Abaqus and experimental modal analysis in Siemens Test.Lab, correlating virtual and physical results to assess structural performance.",
+        "Supported the Physical-to-Virtual initiative through testing and validation tasks aimed at improving virtual-to-physical test correlation for automotive clients including Tesla, GM, Lucid, Rivian, Mercedes Benz, etc."
       ]
     },
     {
@@ -103,32 +102,78 @@ const PROFILE = {
 
 const PROJECTS = [
   {
-    slug: "hankook-virtual-testing",
-    title: "Hankook Tire Virtual Testing Initiative",
-    categories: ["Simulation", "Testing"],
-    filters: ["simulation", "testing"],
-    tags: ["Abaqus FEA", "Siemens TestLab", "Python", "Excel"],
-    thumbnail: "hankook-thumb.jpg",
-    description: "Virtual simulation and modal testing to validate tire designs for major OEMs (Tesla, GM, Lucid).",
-    what: "Contributed to an ongoing initiative to replace physical tire testing with validated virtual simulations, reducing reliance on costly lab testing while maintaining OEM-grade accuracy standards.",
+    slug: "hankook-curve-fitting",
+    title: "Tire Material Curve-Fitting Pipeline",
+    categories: ["Simulation"],
+    filters: ["simulation"],
+    tags: ["Python", "Excel", "Data Analysis", "Numerical Methods"],
+    thumbnail: "curve-fit-thumb.jpg",
+    description: "Automated analysis pipeline developed in Python and Excel to process and curve-fit stress-strain data across 80 complex material datasets.",
+    what: "Faced with the challenge of manually analyzing high-volume material testing results, this pipeline was designed to automate material characterization and compute key tangent moduli.",
     how: [
-      "Simulated tire loading and deformation conditions using Abaqus FEA, analyzing stress distribution and structural behavior.",
-      "Conducted physical modal testing on tire assemblies using Siemens TestLab, extracting frequency response data.",
-      "Organized and compared large experimental and simulated datasets using Python and Excel."
+      "Developed an automated data importing pipeline in Python to ingest raw experimental stress-strain curves.",
+      "Computed tangent moduli via numerical differentiation algorithms directly within the datasets.",
+      "Implemented a least-squares error optimization model to mathematically ensure maximum curve-fit accuracy."
     ],
     results: [
-      "Validated designs across OEM programs including Tesla, GM, and Lucid Motors.",
-      "Characterized dynamic behavior under varying load conditions.",
-      "Identified discrepancies between physical and virtual results to improve model accuracy."
+      "Achieved a 95% curve-fit accuracy threshold across 80 unique material datasets.",
+      "Replaced manual data formatting, minimizing analytical processing time from hours to seconds.",
+      "Ensured precise material input parameters for downstream finite element modeling pipelines."
+    ],
+    links: {},
+    featured: false,
+    recent: false
+  },
+  {
+    slug: "mercedes-benz-wheel",
+    title: "Mercedes-Benz Wheel Structural Validation",
+    categories: ["Simulation", "Testing"],
+    filters: ["simulation", "testing"],
+    tags: ["Abaqus FEA", "Siemens TestLab", "Vibration Analysis", "Modal Correlation"],
+    thumbnail: "benz-wheel-thumb.jpg",
+    description: "Structural validation of a Mercedes-Benz wheel assembly utilizing nonlinear FEA simulation and physical modal analysis correlation.",
+    what: "The project objective was to evaluate the structural performance and dynamic vibration characteristics of a Mercedes-Benz OEM wheel design under heavy load constraints.",
+    how: [
+      "Modeled and executed nonlinear FEA structural simulations using Abaqus to analyze localized stress distributions.",
+      "Conducted physical experimental modal analysis (EMA) using Siemens TestLab equipment on live wheel mockups.",
+      "Correlated virtual simulation frequencies and dynamic mode shapes with experimental accelerometers."
+    ],
+    results: [
+      "Validated the load-carrying capacity and frequency tolerances against strict OEM structural benchmarks.",
+      "Established highly correlated virtual and physical parameters, proving simulation model fidelity.",
+      "Identified critical stress concentration nodes to assess fatigue life under extreme cyclic parameters."
     ],
     links: {},
     featured: true,
+    recent: false
+  },
+  {
+    slug: "hankook-virtual-testing",
+    title: "Hankook Tire Virtual Testing Initiative",
+    categories: ["Testing", "Simulation"],
+    filters: ["testing", "simulation"],
+    tags: ["Abaqus FEA", "Siemens TestLab", "Python", "Excel"],
+    thumbnail: "hankook-thumb.jpg",
+    description: "Virtual simulation and test-bench validation supporting Hankook's transition to simulation-driven tire development.",
+    what: "Contributed to an ongoing initiative to replace physical tire validation with high-fidelity virtual simulations, reducing reliance on costly lab testing loops while maintaining structural certification standards.",
+    how: [
+      "Simulated complex tire loading and deformation profiles using specialized nonlinear Abaqus models.",
+      "Collected physical response metrics to validate and adjust mathematical simulation guidelines.",
+      "Compiled and aligned experimental results against predicted virtual models across automotive OEM standards."
+    ],
+    results: [
+      "Improved virtual-to-physical test correlation parameters for leading automotive partners including Tesla, GM, Lucid, Rivian, and Mercedes-Benz.",
+      "Reduced development dependencies on physical validation cycles for next-generation EV passenger tires.",
+      "Helped validate dynamic tire loading limits with high accuracy."
+    ],
+    links: {},
+    featured: false,
     recent: true
   },
   {
     slug: "reverse-engineering-motor-mount",
     title: "Reverse Engineering of Motor Mount",
-    categories: ["Mechanical Design", "Simulation"],
+    categories: ["Design", "Simulation"],
     filters: ["design", "simulation"],
     tags: ["CATIA V5", "FEA Analysis", "Reverse Engineering"],
     thumbnail: "motor-mount-thumb.jpg",
@@ -145,14 +190,14 @@ const PROJECTS = [
       "Successfully replaced the part, resolving the ticking issue.",
       "Established professional relations with the manufacturer."
     ],
-    links: { portfolio: true },
-    featured: true,
-    recent: false
+    links: {},
+    featured: false,
+    recent: true
   },
   {
     slug: "sustainable-rocket-redesign",
     title: "Sustainable Rocket Redesign",
-    categories: ["Simulation", "Mechanical Design"],
+    categories: ["Simulation", "Design"],
     filters: ["design", "simulation"],
     tags: ["Python", "AeroSandbox", "SOLIDWORKS"],
     thumbnail: "rocket-thumb.jpg",
@@ -167,14 +212,14 @@ const PROJECTS = [
       "Successfully modeled flight characteristics and descent parameters.",
       "Generated detailed performance graphs to validate the theoretical redesign."
     ],
-    links: { report: true },
-    featured: false,
+    links: { report: "rocket-redesign-report.pdf" },
+    featured: true,
     recent: true
   },
   {
     slug: "slide-grip-development",
     title: "Slide Grip Development System",
-    categories: ["Prototyping", "Mechanical Design"],
+    categories: ["Prototyping", "Design"],
     filters: ["design", "prototyping"],
     tags: ["SOLIDWORKS", "Gantt Chart", "Pugh Matrix"],
     thumbnail: "slide-grip-thumb.jpg",
@@ -188,15 +233,15 @@ const PROJECTS = [
       "Reduced overall design weight by 20% through iterative testing.",
       "Increased playability by 35%, successfully helping alleviate wrist pain during performances."
     ],
-    links: { report: true },
+    links: { report: "slide-grip-report.pdf" },
     featured: false,
     recent: false
   },
   {
     slug: "hmi-mount",
     title: "Human Machine Interface Mount",
-    categories: ["Mechanical Design"],
-    filters: ["design", "simulation"],
+    categories: ["Design"],
+    filters: ["design"],
     tags: ["SolidWorks", "Thermal Analysis"],
     thumbnail: "hmi-mount-thumb.jpg",
     description: "Redesigned HMI mount for EcoCAR to resolve collision and thermal buildup issues.",
@@ -210,7 +255,7 @@ const PROJECTS = [
       "Adjusted geometry to improve thermal airflow, reducing predicted heat buildup by 15%."
     ],
     links: {},
-    featured: true,
+    featured: false,
     recent: false
   },
   {
@@ -231,12 +276,12 @@ const PROJECTS = [
     ],
     links: {},
     featured: false,
-    recent: true
+    recent: false
   },
   {
     slug: "arduino-sensor-system",
     title: "Arduino Sensor & Control System",
-    categories: ["Electronics", "Prototyping"],
+    categories: ["Prototyping", "Testing"],
     filters: ["prototyping", "testing"],
     tags: ["Arduino IDE", "Soldering/Wiring", "C++"],
     thumbnail: "arduino-thumb.jpg",
@@ -251,14 +296,14 @@ const PROJECTS = [
       "Successfully captured high-fidelity sensor data.",
       "Maintained robust electrical connections under vibration."
     ],
-    links: {},
+    links: { report: "arduino-sensor-report.pdf" },
     featured: false,
-    recent: true
+    recent: false
   },
   {
     slug: "precision-machined-assembly",
     title: "Precision Machined Assembly",
-    categories: ["Manufacturing", "Mechanical Design"],
+    categories: ["Design", "Prototyping"],
     filters: ["design", "prototyping"],
     tags: ["CNC Machining", "Lathe", "Vertical Mill", "GD&T"],
     thumbnail: "machining-thumb.jpg",
@@ -274,7 +319,7 @@ const PROJECTS = [
       "Delivered structural components that performed flawlessly under applied load."
     ],
     links: {},
-    featured: true,
+    featured: false,
     recent: false
   }
 ];
@@ -609,14 +654,6 @@ const ProjectCard = ({ project, selectProject, darkMode }) => (
         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
         darkMode={darkMode} 
       />
-      
-      <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
-        {project.categories.slice(0,1).map(cat => (
-          <span key={cat} className="px-2 py-1 text-xs font-semibold bg-white/90 dark:bg-black/95 text-slate-800 dark:text-slate-200 backdrop-blur-sm rounded">
-            {cat}
-          </span>
-        ))}
-      </div>
     </div>
     <div className="p-6 flex-1 flex flex-col">
       <h3 className="text-xl font-bold mb-2 text-slate-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-[#BB0000] transition-colors">{project.title}</h3>
@@ -639,17 +676,17 @@ const ProjectCard = ({ project, selectProject, darkMode }) => (
   </motion.div>
 );
 
-const ProjectsView = ({ selectProject, darkMode }) => {
+const ProjectsView = ({ selectProject, darkMode, viewMode, setViewMode, filter, setFilter }) => {
   // viewMode can be 'dashboard' or 'all'
-  const [viewMode, setViewMode] = useState('dashboard');
-  const [filter, setFilter] = useState('all');
 
   if (viewMode === 'dashboard') {
-    const featuredSlugs = ['hankook-virtual-testing', 'sustainable-rocket-redesign'];
-    const featuredProjects = PROJECTS.filter(p => featuredSlugs.includes(p.slug));
+    // Featured Projects: Mercedes-Benz Wheel & Sustainable Rocket/Starship Redesign
+    const featuredSlugs = ['mercedes-benz-wheel', 'sustainable-rocket-redesign'];
+    const featuredProjects = featuredSlugs.map(slug => PROJECTS.find(p => p.slug === slug)).filter(Boolean);
     
-    // Grab the first 3 non-featured projects for the "Recent" section
-    const recentProjects = PROJECTS.filter(p => !featuredSlugs.includes(p.slug)).slice(0, 3);
+    // Recent Work: Hankook Virtual Testing, Motor Mount, Starship Redesign (Last)
+    const recentSlugs = ['hankook-virtual-testing', 'reverse-engineering-motor-mount', 'sustainable-rocket-redesign'];
+    const recentProjects = recentSlugs.map(slug => PROJECTS.find(p => p.slug === slug)).filter(Boolean);
 
     return (
       <div className="mt-8 max-w-6xl mx-auto animate-fade-in">
@@ -678,7 +715,10 @@ const ProjectsView = ({ selectProject, darkMode }) => {
         {/* View All Button */}
         <div className="flex justify-center mb-10 border-t border-slate-200 dark:border-neutral-800 pt-10">
           <button 
-            onClick={() => setViewMode('all')}
+            onClick={() => {
+              setViewMode('all');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
             className="flex items-center justify-center px-8 py-4 bg-slate-900 hover:bg-sky-600 dark:bg-white dark:hover:bg-[#BB0000] text-white dark:text-slate-900 hover:text-white rounded-xl font-bold shadow-lg transition-all"
           >
             <Grid size={18} className="mr-3" /> View All Projects
@@ -689,7 +729,6 @@ const ProjectsView = ({ selectProject, darkMode }) => {
   }
 
   // --- ALL PROJECTS GRID VIEW ---
-  // Filtering based on multiple criteria inside the 'filters' array of each project
   const filteredProjects = PROJECTS.filter(p => {
     if (filter === 'all') return true;
     return p.filters && p.filters.includes(filter);
@@ -844,14 +883,24 @@ const ProjectDetailView = ({ project, onBack, darkMode }) => (
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Project Links</h3>
                 <div className="flex flex-col gap-3">
                   {project.links.report && (
-                    <button className="flex items-center justify-center w-full px-4 py-3 bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-300 rounded-xl hover:border-sky-500 dark:hover:border-[#BB0000] hover:text-sky-600 dark:hover:text-[#BB0000] transition-all">
+                    <a 
+                      href={typeof project.links.report === 'string' ? project.links.report : '#'}
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center w-full px-4 py-3 bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-300 rounded-xl hover:border-sky-500 dark:hover:border-[#BB0000] hover:text-sky-600 dark:hover:text-[#BB0000] transition-all"
+                    >
                       <FileText size={18} className="mr-2" /> View Technical Report <ExternalLink size={14} className="ml-2 opacity-50" />
-                    </button>
+                    </a>
                   )}
                   {project.links.portfolio && (
-                    <button className="flex items-center justify-center w-full px-4 py-3 bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-300 rounded-xl hover:border-sky-500 dark:hover:border-[#BB0000] hover:text-sky-600 dark:hover:text-[#BB0000] transition-all">
+                    <a 
+                      href={typeof project.links.portfolio === 'string' ? project.links.portfolio : '#'}
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center w-full px-4 py-3 bg-white dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800 text-slate-700 dark:text-slate-300 rounded-xl hover:border-sky-500 dark:hover:border-[#BB0000] hover:text-sky-600 dark:hover:text-[#BB0000] transition-all"
+                    >
                       <ExternalLink size={18} className="mr-2" /> View in Portfolio <ExternalLink size={14} className="ml-2 opacity-50" />
-                    </button>
+                    </a>
                   )}
                 </div>
               </div>
@@ -949,6 +998,10 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  
+  // Persist project view states across navigation
+  const [projectsViewMode, setProjectsViewMode] = useState('dashboard');
+  const [projectsFilter, setProjectsFilter] = useState('all');
 
   useEffect(() => {
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -968,6 +1021,13 @@ export default function App() {
     setActiveTab(tabId);
     setSelectedProject(null);
     setMobileMenuOpen(false);
+    
+    // Optional: Reset projects view when navigating back to it via the main menu
+    if (tabId === 'projects' && activeTab !== 'projects') {
+      setProjectsViewMode('dashboard');
+      setProjectsFilter('all');
+    }
+    
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -1071,7 +1131,16 @@ export default function App() {
               {activeTab === 'home' && <HomeView setTab={handleTabChange} openResume={() => handleTabChange('resume')} />}
               {activeTab === 'about' && <AboutView darkMode={darkMode} />}
               {activeTab === 'experience' && <ExperienceView />}
-              {activeTab === 'projects' && <ProjectsView selectProject={setSelectedProject} darkMode={darkMode} />}
+              {activeTab === 'projects' && (
+                <ProjectsView 
+                  selectProject={setSelectedProject} 
+                  darkMode={darkMode} 
+                  viewMode={projectsViewMode}
+                  setViewMode={setProjectsViewMode}
+                  filter={projectsFilter}
+                  setFilter={setProjectsFilter}
+                />
+              )}
               {activeTab === 'resume' && <ResumeView />}
               {activeTab === 'contact' && <ContactView />}
             </motion.div>
