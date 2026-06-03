@@ -919,7 +919,7 @@ const ContactView = () => (
     </div>
     <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-6">Let's Connect</h2>
     <p className="text-lg text-slate-600 dark:text-slate-300 mb-10 leading-relaxed">
-      I'm currently seeking internship opportunities for Summer 2026. If you're looking for a driven mechanical engineering student with hands-on CAD and FEA experience, I'd love to chat.
+      I'm currently seeking internship opportunities for Fall 2026/Spring 2027 and Summer 2027. If you're looking for a driven mechanical engineering student with hands-on CAD and FEA experience, I'd love to chat.
     </p>
     
     <div className="flex flex-col sm:flex-row gap-4 justify-center">
