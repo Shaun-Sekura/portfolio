@@ -15,16 +15,17 @@ const PROFILE = {
   title: "Mechanical Engineering @ The Ohio State University",
   tagline: "Driven by a passion for mechanical design, finite element analysis, and sustainable engineering solutions.",
   school: "The Ohio State University",
-  degree: "B.S. Mechanical Engineering",
+  degree: "B.S Mechanical Engineering, Robotics and Autonomous Systems Minor",
   graduation: "Expected Dec 2027",
   gpa: "3.4",
   email: "ssekura08@gmail.com",
   linkedin: "linkedin.com/in/shaun-sekura",
   bio: "I am a Mechanical Engineering student at The Ohio State University, involved in the Center for Automotive Research and Mechanical Design department as a teaching assistant. I specialize in CAD design, FEA simulation, and physical testing, with a strong interest in sustainable engineering and technological innovation.",
   skills: {
-    Software: ["SolidWorks", "CATIA", "Onshape", "Python", "MATLAB", "Excel", "Arduino IDE", "EES", "Abaqus FEA", "Siemens TestLab"],
-    Fabrication: ["CNC Machining", "Vertical Mill", "Lathe", "3D Printing (FDM & Resin)", "Soldering/Wiring", "Drafting/GD&T"],
-    Research: ["CAD Software", "FEA Analysis", "Machining", "Equipment Operation", "Modal Testing"]
+    Software: ["SolidWorks", "CATIA", "Ansys", "Abaqus FEA", "Siemens Test Lab", "Python", "MATLAB", "Excel", "Arduino IDE"],
+    "Lab Research/Processes": ["CAD Software", "FEA Analysis", "Machining", "Equipment Operation", "Modal Testing"],
+    Fabrication: ["CNC Machining", "Vertical Mill", "Lathe", "3D Printing", "Soldering/Wiring (Arduino)", "Drafting/GD&T"],
+    Coursework: ["Fluids", "Control Systems", "Sensors", "Machine Elements", "Kinematics", "System/Vibrational Dynamics", "Circuits", "Thermodynamics", "Machine Design", "Numerical Methods", "Mechanics of Materials", "Linear Algebra/Diff Eq"]
   },
   experience: [
     {
@@ -33,23 +34,23 @@ const PROFILE = {
       date: "Summer 2026",
       location: "Akron, OH",
       bullets: [
-        "Developed Python and Excel pipeline to curve-fit stress-strain data across 80 material datasets, computing tangent moduli via numerical differentiation and achieving 95% curve-fit accuracy through least-squares error analysis.",
-        "Validated a Mercedes-Benz wheel through nonlinear FEA simulation in Abaqus and experimental modal analysis in Siemens Test.Lab, correlating virtual and physical results to assess structural performance.",
-        "Supported the Physical-to-Virtual initiative through testing and validation tasks aimed at improving virtual-to-physical test correlation for automotive clients including Tesla, GM, Lucid, Rivian, Mercedes Benz, etc."
+        "Developed Python and Excel pipeline to curve-fit stress-strain data across 244 material datasets, computing tangent moduli via numerical differentiation and achieving 93% curve-fit accuracy through least-squares error analysis.",
+        "Validated a General Motors wheel through nonlinear FEA simulation in Abaqus and experimental modal analysis in Siemens Test Lab, correlating virtual and physical results to assess structural performance.",
+        "Supported the Physical-to-Virtual initiative through testing and validation tasks aimed at improving virtual-to-physical test correlation for automotive clients including Rivian, Tesla, GM, Lucid, Mercedes Benz, etc."
       ]
     },
     {
       role: "Undergraduate Teaching Assistant",
-      company: "The Ohio State University - Intro To Mechanical Design",
+      company: "Intro To Mechanical Design (MECHENG 2900) - The Ohio State University",
       date: "Spring 2026 - Present",
       location: "Columbus, OH",
       bullets: [
-        "Mentored students in circuit construction and embedded systems programming.",
+        "Mentored 244 students/semester in circuit construction and embedded systems programming.",
         "Communicated complex engineering concepts clearly to students with varying technical backgrounds."
       ]
     },
     {
-      role: "Volunteer Undergraduate Researcher",
+      role: "System Design & Integration Engineer",
       company: "EcoCAR Competition Team - Center For Automotive Research",
       date: "Fall 2025 - Present",
       location: "Columbus, OH",
@@ -59,19 +60,19 @@ const PROFILE = {
       ]
     },
     {
-      role: "Volunteer Undergraduate Researcher",
+      role: "Student Engineer",
       company: "Formula SAE - Center For Automotive Research",
       date: "Fall 2024 - Spring 2025",
       location: "Columbus, OH",
       bullets: [
-        "Assisted with mechanical design for the Formula SAE race car.",
+        "Assisted with mechanical design, fabrication, and assembly of a Formula SAE race car.",
         "Participated in vehicle testing and iterative improvements to support performance and reliability."
       ]
     },
     {
       role: "Executive Board",
       company: "American Society of Mechanical Engineers (ASME)",
-      date: "Fall 2024 - Present",
+      date: "Fall 2024 - Spring 2026",
       location: "Columbus, OH",
       bullets: [
         "Organized social events and design challenges, increasing club participation by 320% compared to previous years.",
@@ -81,7 +82,7 @@ const PROFILE = {
     {
       role: "Leadership Council",
       company: "Humanitarian Engineering Scholars (HES)",
-      date: "Fall 2024 - Present",
+      date: "Fall 2024 - Spring 2026",
       location: "Columbus, OH",
       bullets: [
         "Spearheaded program engagement efforts by doubling the number of events hosted and tripling student attendance compared to the previous year."
@@ -90,7 +91,7 @@ const PROFILE = {
     {
       role: "Maintenance",
       company: "Valleaire Golf Club",
-      date: "2024 - Present",
+      date: "2024 - 2026",
       location: "Hinckley, OH",
       bullets: [
         "Operated heavy-duty machinery to maintain a golf course spanning over 150 acres.",
@@ -108,7 +109,7 @@ const PROJECTS = [
     filters: ["simulation"],
     tags: ["Python", "Excel", "Data Analysis", "Numerical Methods"],
     thumbnail: "curve-fit-thumb.jpg",
-    description: "Automated analysis pipeline developed in Python and Excel to process and curve-fit stress-strain data across 80 complex material datasets.",
+    description: "Automated analysis pipeline developed in Python and Excel to process and curve-fit stress-strain data across 244 complex material datasets.",
     what: "Faced with the challenge of manually analyzing high-volume material testing results, this pipeline was designed to automate material characterization and compute key tangent moduli.",
     how: [
       "Developed an automated data importing pipeline in Python to ingest raw experimental stress-strain curves.",
@@ -116,7 +117,7 @@ const PROJECTS = [
       "Implemented a least-squares error optimization model to mathematically ensure maximum curve-fit accuracy."
     ],
     results: [
-      "Achieved a 95% curve-fit accuracy threshold across 80 unique material datasets.",
+      "Achieved a 93% curve-fit accuracy threshold across 244 unique material datasets.",
       "Replaced manual data formatting, minimizing analytical processing time from hours to seconds.",
       "Ensured precise material input parameters for downstream finite element modeling pipelines."
     ],
@@ -125,17 +126,17 @@ const PROJECTS = [
     recent: false
   },
   {
-    slug: "mercedes-benz-wheel",
-    title: "Mercedes-Benz Wheel Structural Validation",
+    slug: "general-motors-wheel",
+    title: "General Motors Wheel Structural Validation",
     categories: ["Simulation", "Testing"],
     filters: ["simulation", "testing"],
-    tags: ["Abaqus FEA", "Siemens TestLab", "Vibration Analysis", "Modal Correlation"],
-    thumbnail: "benz-wheel-thumb.jpg",
-    description: "Structural validation of a Mercedes-Benz wheel assembly utilizing nonlinear FEA simulation and physical modal analysis correlation.",
-    what: "The project objective was to evaluate the structural performance and dynamic vibration characteristics of a Mercedes-Benz OEM wheel design under heavy load constraints.",
+    tags: ["Abaqus FEA", "Siemens Test Lab", "Vibration Analysis", "Modal Correlation"],
+    thumbnail: "gm-wheel-thumb.jpg",
+    description: "Structural validation of a General Motors wheel assembly utilizing nonlinear FEA simulation and physical modal analysis correlation.",
+    what: "The project objective was to evaluate the structural performance and dynamic vibration characteristics of a General Motors OEM wheel design under heavy load constraints.",
     how: [
       "Modeled and executed nonlinear FEA structural simulations using Abaqus to analyze localized stress distributions.",
-      "Conducted physical experimental modal analysis (EMA) using Siemens TestLab equipment on live wheel mockups.",
+      "Conducted physical experimental modal analysis (EMA) using Siemens Test Lab equipment on live wheel mockups.",
       "Correlated virtual simulation frequencies and dynamic mode shapes with experimental accelerometers."
     ],
     results: [
@@ -152,7 +153,7 @@ const PROJECTS = [
     title: "Hankook Tire Virtual Testing Initiative",
     categories: ["Testing", "Simulation"],
     filters: ["testing", "simulation"],
-    tags: ["Abaqus FEA", "Siemens TestLab", "Python", "Excel"],
+    tags: ["Abaqus FEA", "Siemens Test Lab", "Python", "Excel"],
     thumbnail: "hankook-thumb.jpg",
     description: "Virtual simulation and test-bench validation supporting Hankook's transition to simulation-driven tire development.",
     what: "Contributed to an ongoing initiative to replace physical tire validation with high-fidelity virtual simulations, reducing reliance on costly lab testing loops while maintaining structural certification standards.",
@@ -162,7 +163,7 @@ const PROJECTS = [
       "Compiled and aligned experimental results against predicted virtual models across automotive OEM standards."
     ],
     results: [
-      "Improved virtual-to-physical test correlation parameters for leading automotive partners including Tesla, GM, Lucid, Rivian, and Mercedes-Benz.",
+      "Improved virtual-to-physical test correlation parameters for leading automotive partners including Rivian, Tesla, GM, Lucid, and Mercedes Benz.",
       "Reduced development dependencies on physical validation cycles for next-generation EV passenger tires.",
       "Helped validate dynamic tire loading limits with high accuracy."
     ],
@@ -263,7 +264,7 @@ const PROJECTS = [
     title: "OSU Branded LED Panel",
     categories: ["Prototyping"],
     filters: ["prototyping"],
-    tags: ["3D Printing (Resin)", "Electronics"],
+    tags: ["3D Printing", "Electronics"],
     thumbnail: "led-panel-thumb.jpg",
     description: "Resin 3D-printed translucent casing for an 8x8 LED charging indicator.",
     what: "Designed and fabricated a casing for the LED panel that indicates when the EcoCAR is charging.",
@@ -323,10 +324,6 @@ const PROJECTS = [
     recent: false
   }
 ];
-
-/* ==============================================================================
-   UI CONTROLS & COMPONENTS
-============================================================================== */
 
 const EmailButton = ({ email, className, children }) => {
   const [copied, setCopied] = useState(false);
@@ -404,7 +401,7 @@ const SmartLogoImage = ({ darkMode }) => {
   );
 };
 
-// Smart image switcher for About section profile pictures - Adjusted to relative paths
+// Smart image switcher for About section profile pictures
 const SmartAboutHeadshot = ({ darkMode }) => {
   const [extIndex, setExtIndex] = useState(0);
   const extensions = ['.gif', '.jpg', '.png', '.jpeg', '.webp'];
@@ -498,10 +495,9 @@ const PlaceholderImage = ({ title, filename, className = "", small = false, dark
   );
 };
 
-// Smart image loader component that detects when a physical image is available (relative path)
 const SmartProjectImage = ({ filename, title, className, darkMode }) => {
   const [imageError, setImageError] = useState(false);
-  const srcPath = `${filename}`; // Adjusted to true relative paths to prevent router path blocks
+  const srcPath = `${filename}`; 
 
   if (imageError) {
     return <PlaceholderImage title={title} filename={filename} className={className} darkMode={darkMode} />;
@@ -517,21 +513,14 @@ const SmartProjectImage = ({ filename, title, className, darkMode }) => {
   );
 };
 
-/* ==============================================================================
-   VIEWS
-============================================================================== */
-
 const HomeView = ({ setTab, openResume }) => (
   <div className="relative flex flex-col justify-center min-h-[75vh]">
     <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none rounded-3xl -z-10"></div>
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-3xl relative p-6 sm:p-12 border border-slate-200/50 dark:border-neutral-900/50 bg-white/50 dark:bg-neutral-950/20 rounded-3xl backdrop-blur-sm transition-colors duration-300">
-      <div className="inline-flex items-center gap-2 px-3 py-1 bg-sky-600/10 text-sky-700 border border-sky-600/20 dark:bg-[#BB0000]/10 dark:text-red-400 dark:border-[#BB0000]/20 rounded-full mb-6 text-xs tracking-wider uppercase font-semibold transition-colors duration-300">
-        <Wrench size={14} className="mr-1" /> Mechanical Engineer
-      </div>
       <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold mb-6 tracking-tight leading-none text-slate-900 dark:text-white">
-        Shaun Sekura<span className="text-sky-600 dark:text-[#BB0000] transition-colors duration-300">.</span>
+        Shaun Sekura
       </h1>
-      <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 mb-6 tracking-tight font-medium">Mechanical Engineering @ The Ohio State University</p>
+      <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 mb-6 tracking-tight font-medium">{PROFILE.title}</p>
       <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 mb-10 max-w-2xl leading-relaxed">
         {PROFILE.tagline} Specialize in CAD modeling, physical load testing, and finite element validation.
       </p>
@@ -553,7 +542,6 @@ const AboutView = ({ darkMode }) => (
       <div className="md:col-span-1">
         <div className="relative group">
           <div className="absolute inset-0 bg-gradient-to-tr from-sky-400 to-indigo-400 dark:from-[#BB0000] dark:to-red-900 rounded-2xl blur-lg opacity-20 group-hover:opacity-30 transition-opacity"></div>
-          {/* SmartAboutHeadshot changes depending on theme and shows user exact filename to upload */}
           <SmartAboutHeadshot darkMode={darkMode} />
         </div>
       </div>
@@ -564,12 +552,12 @@ const AboutView = ({ darkMode }) => (
         </p>
         <div className="flex flex-wrap gap-4 pt-4">
           <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
-            <Award className="text-sky-600 dark:text-[#BB0000]" size={20} />
-            <span className="font-medium">GPA: {PROFILE.gpa}</span>
-          </div>
-          <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
             <Calendar className="text-sky-600 dark:text-[#BB0000]" size={20} />
             <span className="font-medium">Graduation: {PROFILE.graduation}</span>
+          </div>
+          <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+            <Award className="text-sky-600 dark:text-[#BB0000]" size={20} />
+            <span className="font-medium">{PROFILE.degree}</span>
           </div>
         </div>
       </div>
@@ -577,17 +565,17 @@ const AboutView = ({ darkMode }) => (
 
     <div>
       <h3 className="text-2xl font-bold mb-8 text-slate-900 dark:text-white flex items-center gap-3">
-        <Terminal className="text-sky-600 dark:text-[#BB0000]" /> Technical Skills
+        <Terminal className="text-sky-600 dark:text-[#BB0000]" /> Technical Skills & Coursework
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {Object.entries(PROFILE.skills).map(([category, skillsList]) => (
           <div key={category} className="bg-slate-50 dark:bg-neutral-900 rounded-2xl p-6 border border-slate-200 dark:border-neutral-800 transition-colors duration-300">
             <h4 className="text-lg font-bold mb-4 text-slate-900 dark:text-white border-b border-slate-200 dark:border-neutral-800 pb-2">{category}</h4>
             <ul className="space-y-3">
               {skillsList.map((skill, index) => (
                 <li key={index} className="flex items-center text-slate-600 dark:text-slate-400">
-                  <div className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-[#BB0000] mr-3"></div>
-                  {skill}
+                  <div className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-[#BB0000] mr-3 shrink-0"></div>
+                  <span>{skill}</span>
                 </li>
               ))}
             </ul>
@@ -635,7 +623,6 @@ const ExperienceView = () => (
   </div>
 );
 
-// Unified Project Card Component used across both dashboard and grid views
 const ProjectCard = ({ project, selectProject, darkMode }) => (
   <motion.div 
     layout
@@ -647,7 +634,6 @@ const ProjectCard = ({ project, selectProject, darkMode }) => (
     onClick={() => selectProject(project)}
   >
     <div className="h-48 relative overflow-hidden bg-slate-200 dark:bg-neutral-800 shrink-0">
-      {/* Smart Loader detects image file availability, or renders fallback component seamlessly */}
       <SmartProjectImage 
         title={project.title} 
         filename={project.thumbnail} 
@@ -677,14 +663,10 @@ const ProjectCard = ({ project, selectProject, darkMode }) => (
 );
 
 const ProjectsView = ({ selectProject, darkMode, viewMode, setViewMode, filter, setFilter }) => {
-  // viewMode can be 'dashboard' or 'all'
-
   if (viewMode === 'dashboard') {
-    // Featured Projects: Mercedes-Benz Wheel & Sustainable Rocket/Starship Redesign
-    const featuredSlugs = ['mercedes-benz-wheel', 'sustainable-rocket-redesign'];
+    const featuredSlugs = ['general-motors-wheel', 'sustainable-rocket-redesign'];
     const featuredProjects = featuredSlugs.map(slug => PROJECTS.find(p => p.slug === slug)).filter(Boolean);
     
-    // Recent Work: Hankook Virtual Testing, Motor Mount, Starship Redesign (Last)
     const recentSlugs = ['hankook-virtual-testing', 'reverse-engineering-motor-mount', 'sustainable-rocket-redesign'];
     const recentProjects = recentSlugs.map(slug => PROJECTS.find(p => p.slug === slug)).filter(Boolean);
 
@@ -694,7 +676,6 @@ const ProjectsView = ({ selectProject, darkMode, viewMode, setViewMode, filter, 
           <Award className="text-sky-600 dark:text-[#BB0000]" /> Featured Projects
         </h2>
         
-        {/* Top Featured - 2 Side by Side */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {featuredProjects.map((project) => (
             <ProjectCard key={project.slug} project={project} selectProject={selectProject} darkMode={darkMode} />
@@ -705,14 +686,12 @@ const ProjectsView = ({ selectProject, darkMode, viewMode, setViewMode, filter, 
           <Calendar className="text-sky-600 dark:text-[#BB0000]" /> Recent Work
         </h2>
         
-        {/* Recent Work - 3 smaller side by side */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {recentProjects.map((project) => (
             <ProjectCard key={project.slug} project={project} selectProject={selectProject} darkMode={darkMode} />
           ))}
         </div>
 
-        {/* View All Button */}
         <div className="flex justify-center mb-10 border-t border-slate-200 dark:border-neutral-800 pt-10">
           <button 
             onClick={() => {
@@ -728,7 +707,6 @@ const ProjectsView = ({ selectProject, darkMode, viewMode, setViewMode, filter, 
     );
   }
 
-  // --- ALL PROJECTS GRID VIEW ---
   const filteredProjects = PROJECTS.filter(p => {
     if (filter === 'all') return true;
     return p.filters && p.filters.includes(filter);
@@ -749,7 +727,6 @@ const ProjectsView = ({ selectProject, darkMode, viewMode, setViewMode, filter, 
           </h2>
         </div>
         
-        {/* Custom Engineering Filters (Design, Simulation, Prototyping, Testing) */}
         <div className="flex bg-slate-100 dark:bg-neutral-900 p-1 rounded-xl shadow-sm border border-slate-200 dark:border-neutral-800 overflow-x-auto max-w-full">
           {['all', 'design', 'simulation', 'prototyping', 'testing'].map(f => (
             <button
@@ -919,7 +896,7 @@ const ContactView = () => (
     </div>
     <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-6">Let's Connect</h2>
     <p className="text-lg text-slate-600 dark:text-slate-300 mb-10 leading-relaxed">
-      I'm currently seeking internship opportunities for Fall 2026/Spring 2027 and Summer 2027. If you're looking for a driven mechanical engineering student with hands-on CAD and FEA experience, I'd love to chat.
+      I'm currently seeking internship opportunities for Spring 2027 and Summer 2027. If you're looking for a driven mechanical engineering student with hands-on CAD and FEA experience, I'd love to chat.
     </p>
     
     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -989,17 +966,12 @@ const ResumeView = () => (
   </motion.div>
 );
 
-/* ==============================================================================
-   MAIN APP SHELL
-============================================================================== */
-
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [darkMode, setDarkMode] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   
-  // Persist project view states across navigation
   const [projectsViewMode, setProjectsViewMode] = useState('dashboard');
   const [projectsFilter, setProjectsFilter] = useState('all');
 
@@ -1022,7 +994,6 @@ export default function App() {
     setSelectedProject(null);
     setMobileMenuOpen(false);
     
-    // Optional: Reset projects view when navigating back to it via the main menu
     if (tabId === 'projects' && activeTab !== 'projects') {
       setProjectsViewMode('dashboard');
       setProjectsFilter('all');
