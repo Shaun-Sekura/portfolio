@@ -107,17 +107,13 @@ const PROJECTS = [
     filters: ["simulation"],
     tags: ["Python", "Excel", "Data Analysis", "Numerical Methods"],
     thumbnail: "curve-fit-thumb.jpg",
-    description: "Automated analysis pipeline developed in Python and Excel to process and curve-fit stress-strain data across 244 complex material datasets.",
-    what: "Faced with the challenge of manually analyzing high-volume material testing results, this pipeline was designed to automate material characterization and compute key tangent moduli.",
+    description: "",
+    what: "",
     how: [
-      "Developed an automated data importing pipeline in Python to ingest raw experimental stress-strain curves.",
-      "Computed tangent moduli via numerical differentiation algorithms directly within the datasets.",
-      "Implemented a least-squares error optimization model to mathematically ensure maximum curve-fit accuracy."
+  
     ],
     results: [
-      "Achieved a 93% curve-fit accuracy threshold across 244 unique material datasets.",
-      "Replaced manual data formatting, minimizing analytical processing time from hours to seconds.",
-      "Ensured precise material input parameters for downstream finite element modeling pipelines."
+
     ],
     links: {},
     featured: false,
@@ -130,17 +126,13 @@ const PROJECTS = [
     filters: ["simulation", "testing"],
     tags: ["Abaqus FEA", "Siemens Test Lab", "Vibration Analysis", "Modal Correlation"],
     thumbnail: "gm-wheel-thumb.jpg",
-    description: "Structural validation of a General Motors wheel assembly utilizing nonlinear FEA simulation and physical modal analysis correlation.",
-    what: "The project objective was to evaluate the structural performance and dynamic vibration characteristics of a General Motors OEM wheel design under heavy load constraints.",
+    description: "",
+    what: "",
     how: [
-      "Modeled and executed nonlinear FEA structural simulations using Abaqus to analyze localized stress distributions.",
-      "Conducted physical experimental modal analysis (EMA) using Siemens Test Lab equipment on live wheel mockups.",
-      "Correlated virtual simulation frequencies and dynamic mode shapes with experimental accelerometers."
+      
     ],
     results: [
-      "Validated the load-carrying capacity and frequency tolerances against strict OEM structural benchmarks.",
-      "Established highly correlated virtual and physical parameters, proving simulation model fidelity.",
-      "Identified critical stress concentration nodes to assess fatigue life under extreme cyclic parameters."
+      
     ],
     links: {},
     featured: true,
@@ -153,17 +145,13 @@ const PROJECTS = [
     filters: ["testing", "simulation"],
     tags: ["Abaqus FEA", "Siemens Test Lab", "Python", "Excel"],
     thumbnail: "hankook-thumb.jpg",
-    description: "Virtual simulation and test-bench validation supporting Hankook's transition to simulation-driven tire development.",
-    what: "Contributed to an ongoing initiative to replace physical tire validation with high-fidelity virtual simulations, reducing reliance on costly lab testing loops while maintaining structural certification standards.",
+    description: "",
+    what: "",
     how: [
-      "Simulated complex tire loading and deformation profiles using specialized nonlinear Abaqus models.",
-      "Collected physical response metrics to validate and adjust mathematical simulation guidelines.",
-      "Compiled and aligned experimental results against predicted virtual models across automotive OEM standards."
+     
     ],
     results: [
-      "Improved virtual-to-physical test correlation parameters for leading automotive partners including Rivian, Tesla, GM, Lucid, and Mercedes Benz.",
-      "Reduced development dependencies on physical validation cycles for next-generation EV passenger tires.",
-      "Helped validate dynamic tire loading limits with high accuracy."
+     
     ],
     links: {},
     featured: false,
