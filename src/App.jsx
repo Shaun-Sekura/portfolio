@@ -352,31 +352,55 @@ const EmailButton = ({ email, className, children }) => {
   );
 };
 
-// Smart image switcher for Logo (Top Left) - Adjusted to relative paths
-const SmartLogoImage = ({ darkMode }) => {
-  const [extIndex, setExtIndex] = useState(0);
-  const extensions = ['.gif', '.png', '.jpg', '.svg', '.jpeg'];
-  const baseName = darkMode ? 'logo-dark' : 'logo-light';
+// Trainer logo (Top Left) - bobs idly, plays the alert animation once when clicked.
+// Same logo in light and dark mode.
+const ALERT_DURATION_MS = 1480; // one full cycle of trainer-alert.gif
+
+const SmartLogoImage = () => {
+  const [alertKey, setAlertKey] = useState(null); // non-null while alert is playing
+  const [imageError, setImageError] = useState(false);
+
+  // Preload the alert gif so the first click swaps instantly
+  useEffect(() => {
+    const img = new Image();
+    img.src = 'trainer-alert.gif';
+  }, []);
 
   useEffect(() => {
-    setExtIndex(0); // Reset check when theme toggles
-  }, [darkMode]);
+    if (alertKey === null) return;
+    const timer = setTimeout(() => setAlertKey(null), ALERT_DURATION_MS);
+    return () => clearTimeout(timer);
+  }, [alertKey]);
 
-  if (extIndex >= extensions.length) {
-    // Elegant text fallback if no logo images are uploaded in public folder yet
+  const playAlert = () => {
+    // Timestamp doubles as a cache-buster so the gif restarts from frame 0 each click
+    setAlertKey(Date.now());
+  };
+
+  if (imageError) {
+    // Text fallback if the trainer gifs are missing from the public folder
     return (
       <span className="font-semibold text-lg tracking-tight text-slate-900 dark:text-white">Shaun Sekura</span>
     );
   }
 
   return (
-    <div className="flex items-center gap-3">
-      <img 
-        src={`${baseName}${extensions[extIndex]}`} 
-        alt="Shaun Sekura Logo" 
-        className="h-10 w-auto object-contain" 
-        onError={() => setExtIndex(prev => prev + 1)} 
-      />
+    <div className="flex items-center gap-3" onClick={playAlert}>
+      {/* Both gifs share the same width (275px); the alert gif is taller because of the
+          "!" above the trainer. Sizing by width and anchoring to the bottom keeps the
+          sprite the same size — the "!" just appears above his head. */}
+      <div className="relative -top-[3px] w-10 h-14 shrink-0">
+        <motion.img
+          src={alertKey ? `trainer-alert.gif?r=${alertKey}` : 'trainer-bob.gif'}
+          alt="Shaun Sekura Logo"
+          className="absolute bottom-0 left-0 w-full h-auto"
+          style={{ imageRendering: 'pixelated' }}
+          // Surprised hop: jump up sharply, then settle back down while the alert plays
+          animate={alertKey ? { y: [0, -9, -4, 0] } : { y: 0 }}
+          transition={alertKey ? { duration: 0.5, times: [0, 0.25, 0.6, 1], ease: 'easeOut' } : { duration: 0.2 }}
+          onError={() => setImageError(true)}
+        />
+      </div>
       <span className="font-bold text-xl tracking-tight hidden sm:block">Shaun Sekura</span>
     </div>
   );
@@ -868,7 +892,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center cursor-pointer" onClick={() => handleTabChange('home')}>
-              <SmartLogoImage darkMode={darkMode} />
+              <SmartLogoImage />
             </div>
 
             <div className="hidden md:flex items-center space-x-1">
