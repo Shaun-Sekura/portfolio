@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu, X, Sun, Moon,
-  ExternalLink, FileText, Wrench, ArrowLeft
+  ExternalLink, FileText, Wrench, ArrowLeft, Search
 } from 'lucide-react';
 
 /* ==============================================================================
@@ -390,14 +390,12 @@ const SmartLogoImage = () => {
           "!" above the trainer. Sizing by width and anchoring to the bottom keeps the
           sprite the same size — the "!" just appears above his head. */}
       <div className="relative -top-[3px] w-10 h-14 shrink-0">
-        <motion.img
+        <img
+          key={alertKey ?? 'bob'}
           src={alertKey ? `trainer-alert.gif?r=${alertKey}` : 'trainer-bob.gif'}
           alt="Shaun Sekura Logo"
-          className="absolute bottom-0 left-0 w-full h-auto"
+          className={`absolute bottom-0 left-0 w-full h-auto ${alertKey ? 'trainer-hop' : ''}`}
           style={{ imageRendering: 'pixelated' }}
-          // Surprised hop: jump up sharply, then settle back down while the alert plays
-          animate={alertKey ? { y: [0, -9, -4, 0] } : { y: 0 }}
-          transition={alertKey ? { duration: 0.5, times: [0, 0.25, 0.6, 1], ease: 'easeOut' } : { duration: 0.2 }}
           onError={() => setImageError(true)}
         />
       </div>
@@ -609,7 +607,54 @@ const ExperienceView = () => (
   </div>
 );
 
-const ProjectCard = ({ project, selectProject, darkMode }) => (
+const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// Wraps every occurrence of `query` in the text with a highlight mark
+const highlightText = (text, query) => {
+  if (!query) return text;
+  const parts = text.split(new RegExp(`(${escapeRegExp(query)})`, 'gi'));
+  return parts.map((part, i) =>
+    part.toLowerCase() === query.toLowerCase() ? (
+      <mark key={i} className="bg-sky-100 text-sky-900 dark:bg-[#BB0000]/40 dark:text-red-100 rounded-[2px]">
+        {part}
+      </mark>
+    ) : (
+      part
+    )
+  );
+};
+
+// Fields shown on the card get highlighted in place; these hidden detail fields
+// produce a labeled snippet preview when they're the only place the term appears.
+const CARD_FIELDS = (p) => [p.title, p.description, p.categories.join(' '), p.tags.join(' ')];
+const DETAIL_FIELDS = (p) => [
+  ['Overview', p.what],
+  ['Approach', p.how.join(' ')],
+  ['Results', p.results.join(' ')],
+];
+
+const projectMatch = (p, query) => {
+  const q = query.toLowerCase();
+  const onCard = CARD_FIELDS(p).some(t => t.toLowerCase().includes(q));
+  let snippet = null;
+  for (const [label, text] of DETAIL_FIELDS(p)) {
+    const idx = text.toLowerCase().indexOf(q);
+    if (idx !== -1) {
+      const start = Math.max(0, idx - 45);
+      const end = Math.min(text.length, idx + q.length + 90);
+      snippet = {
+        label,
+        text: (start > 0 ? '…' : '') + text.slice(start, end) + (end < text.length ? '…' : ''),
+      };
+      break;
+    }
+  }
+  if (!onCard && !snippet) return null;
+  // Only show the snippet when the card itself wouldn't reveal the match
+  return { snippet: onCard ? null : snippet };
+};
+
+const ProjectCard = ({ project, selectProject, darkMode, query = '', snippet = null }) => (
   <div
     className="group grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-4 sm:gap-6 py-7 border-b border-slate-200 dark:border-neutral-800 cursor-pointer"
     onClick={() => selectProject(project)}
@@ -626,27 +671,40 @@ const ProjectCard = ({ project, selectProject, darkMode }) => (
     <div className="min-w-0">
       <div className="flex items-baseline justify-between gap-4">
         <h3 className="text-lg font-semibold text-slate-900 dark:text-white group-hover:underline underline-offset-4">
-          {project.title}
+          {highlightText(project.title, query)}
         </h3>
         <span className="hidden sm:block text-xs text-slate-400 dark:text-neutral-500 whitespace-nowrap">
-          {project.categories.join(' / ')}
+          {highlightText(project.categories.join(' / '), query)}
         </span>
       </div>
       <p className="text-sm text-slate-600 dark:text-slate-400 mt-1.5 leading-relaxed">
-        {project.description}
+        {highlightText(project.description, query)}
       </p>
       <p className="text-xs text-slate-400 dark:text-neutral-500 mt-2">
-        {project.tags.join(' · ')}
+        {highlightText(project.tags.join(' · '), query)}
       </p>
+      {snippet && (
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 pl-3 border-l-2 border-sky-200 dark:border-[#BB0000]/40 leading-relaxed">
+          <span className="font-semibold text-slate-400 dark:text-neutral-500">{snippet.label}: </span>
+          {highlightText(snippet.text, query)}
+        </p>
+      )}
     </div>
   </div>
 );
 
 const ProjectsView = ({ selectProject, darkMode, filter, setFilter }) => {
-  const filteredProjects = PROJECTS.filter(p => {
-    if (filter === 'all') return true;
-    return p.filters && p.filters.includes(filter);
-  });
+  const [query, setQuery] = useState('');
+  const q = query.trim();
+
+  const visibleProjects = PROJECTS
+    .filter(p => filter === 'all' || (p.filters && p.filters.includes(filter)))
+    .map(p => {
+      if (!q) return { project: p, snippet: null };
+      const match = projectMatch(p, q);
+      return match ? { project: p, snippet: match.snippet } : null;
+    })
+    .filter(Boolean);
 
   return (
     <div className="mt-8 max-w-3xl mx-auto">
@@ -655,31 +713,51 @@ const ProjectsView = ({ selectProject, darkMode, filter, setFilter }) => {
         Work from internships, competition teams, and coursework.
       </p>
 
-      <div className="flex flex-wrap gap-x-6 gap-y-2 mt-8 pb-4 border-b border-slate-200 dark:border-neutral-800 text-sm">
-        {['all', 'design', 'simulation', 'prototyping', 'testing'].map(f => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
-            className={`capitalize transition-colors ${
-              filter === f
-                ? 'text-sky-600 dark:text-[#BB0000] font-semibold'
-                : 'text-slate-400 dark:text-neutral-500 hover:text-slate-700 dark:hover:text-slate-300'
-            }`}
-          >
-            {f === 'all' ? 'All' : f}
-          </button>
-        ))}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-8 pb-4 border-b border-slate-200 dark:border-neutral-800">
+        <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+          {['all', 'design', 'simulation', 'prototyping', 'testing'].map(f => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`capitalize transition-colors ${
+                filter === f
+                  ? 'text-sky-600 dark:text-[#BB0000] font-semibold'
+                  : 'text-slate-400 dark:text-neutral-500 hover:text-slate-700 dark:hover:text-slate-300'
+              }`}
+            >
+              {f === 'all' ? 'All' : f}
+            </button>
+          ))}
+        </div>
+
+        <div className="relative sm:w-56">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-neutral-500 pointer-events-none" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search projects…"
+            className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-sky-500 dark:focus:border-[#BB0000] transition-colors"
+          />
+        </div>
       </div>
 
       <div>
-        {filteredProjects.map((project) => (
-          <ProjectCard key={project.slug} project={project} selectProject={selectProject} darkMode={darkMode} />
+        {visibleProjects.map(({ project, snippet }) => (
+          <ProjectCard
+            key={project.slug}
+            project={project}
+            selectProject={selectProject}
+            darkMode={darkMode}
+            query={q}
+            snippet={snippet}
+          />
         ))}
       </div>
 
-      {filteredProjects.length === 0 && (
+      {visibleProjects.length === 0 && (
         <div className="py-12 text-slate-500 dark:text-slate-400">
-          No projects in this category yet.
+          {q ? <>No projects match &ldquo;{q}&rdquo;.</> : 'No projects in this category yet.'}
         </div>
       )}
     </div>
