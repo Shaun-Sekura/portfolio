@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu, X, Sun, Moon,
@@ -101,8 +101,8 @@ const PROFILE = {
 
 const PROJECTS = [
   {
-    slug: "hankook-curve-fitting",
-    title: "Tire Material Curve-Fitting Pipeline",
+    slug: "tire-profile-processor",
+    title: "Tire Profile Processor",
     categories: ["Simulation"],
     filters: ["simulation"],
     tags: ["Python", "Excel", "Data Analysis", "Numerical Methods"],
@@ -120,11 +120,11 @@ const PROJECTS = [
     recent: false
   },
   {
-    slug: "general-motors-wheel",
-    title: "General Motors Wheel Structural Validation",
+    slug: "nx5-wheel-mesh-modal-testing",
+    title: "NX5 Wheel Mesh and Virtual Mode Testing",
     categories: ["Simulation", "Testing"],
     filters: ["simulation", "testing"],
-    tags: ["Abaqus FEA", "Siemens Test Lab", "Vibration Analysis", "Modal Correlation"],
+    tags: ["Abaqus FEA", "Meshing", "Siemens Test Lab", "Modal Correlation"],
     thumbnail: "gm-wheel-thumb.jpg",
     description: "",
     what: "",
@@ -139,11 +139,11 @@ const PROJECTS = [
     recent: false
   },
   {
-    slug: "hankook-virtual-testing",
-    title: "Hankook Tire Virtual Testing Initiative",
+    slug: "quasi-static-cord-compound",
+    title: "Quasi-static Cord and Compound Project",
     categories: ["Testing", "Simulation"],
     filters: ["testing", "simulation"],
-    tags: ["Abaqus FEA", "Siemens Test Lab", "Python", "Excel"],
+    tags: ["Abaqus FEA", "Material Testing", "Python", "Excel"],
     thumbnail: "hankook-thumb.jpg",
     description: "",
     what: "",
@@ -355,26 +355,41 @@ const EmailButton = ({ email, className, children }) => {
 // Trainer logo (Top Left) - bobs idly, plays the alert animation once when clicked.
 // Same logo in light and dark mode.
 const ALERT_DURATION_MS = 1480; // one full cycle of trainer-alert.gif
+// Two URLs for the same gif: alternating between them guarantees the src value
+// changes on every click (so the gif restarts at frame 0, even mid-playback)
+// while keeping both copies in the browser cache instead of refetching each time.
+const ALERT_SRCS = ['trainer-alert.gif', 'trainer-alert.gif?a=1'];
 
 const SmartLogoImage = () => {
-  const [alertKey, setAlertKey] = useState(null); // non-null while alert is playing
+  const [alertIndex, setAlertIndex] = useState(null); // null while idle-bobbing
   const [imageError, setImageError] = useState(false);
+  const imgRef = useRef(null);
+  const playCount = useRef(0);
+  const timerRef = useRef(null);
 
-  // Preload the alert gif so the first click swaps instantly
+  // Preload both alert urls so the first click swaps with no network wait
   useEffect(() => {
-    const img = new Image();
-    img.src = 'trainer-alert.gif';
+    ALERT_SRCS.forEach(src => { new Image().src = src; });
+    return () => clearTimeout(timerRef.current);
   }, []);
 
-  useEffect(() => {
-    if (alertKey === null) return;
-    const timer = setTimeout(() => setAlertKey(null), ALERT_DURATION_MS);
-    return () => clearTimeout(timer);
-  }, [alertKey]);
-
   const playAlert = () => {
-    // Timestamp doubles as a cache-buster so the gif restarts from frame 0 each click
-    setAlertKey(Date.now());
+    setAlertIndex(playCount.current++ % ALERT_SRCS.length);
+
+    // Surprised hop. Driven imperatively so it can restart on every click without
+    // remounting the <img> — remounting is what made the logo blink out.
+    imgRef.current?.animate(
+      [
+        { transform: 'translateY(0)' },
+        { transform: 'translateY(-8px)', offset: 0.25 },
+        { transform: 'translateY(-3px)', offset: 0.6 },
+        { transform: 'translateY(0)' }
+      ],
+      { duration: 500, easing: 'ease-out' }
+    );
+
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setAlertIndex(null), ALERT_DURATION_MS);
   };
 
   if (imageError) {
@@ -391,10 +406,10 @@ const SmartLogoImage = () => {
           sprite the same size — the "!" just appears above his head. */}
       <div className="relative -top-[3px] w-10 h-14 shrink-0">
         <img
-          key={alertKey ?? 'bob'}
-          src={alertKey ? `trainer-alert.gif?r=${alertKey}` : 'trainer-bob.gif'}
+          ref={imgRef}
+          src={alertIndex === null ? 'trainer-bob.gif' : ALERT_SRCS[alertIndex]}
           alt="Shaun Sekura Logo"
-          className={`absolute bottom-0 left-0 w-full h-auto ${alertKey ? 'trainer-hop' : ''}`}
+          className="absolute bottom-0 left-0 w-full h-auto"
           style={{ imageRendering: 'pixelated' }}
           onError={() => setImageError(true)}
         />

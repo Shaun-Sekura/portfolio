@@ -1,12 +1,2 @@
 @import "tailwindcss";
 @variant dark (&:is(.dark *));
-/* Logo trainer: quick surprised hop while the alert gif plays */
-@keyframes trainer-hop {
-  0%   { transform: translateY(0); }
-  25%  { transform: translateY(-8px); }
-  60%  { transform: translateY(-3px); }
-  100% { transform: translateY(0); }
-}
-.trainer-hop {
-  animation: trainer-hop 0.5s ease-out;
-}
