@@ -13,17 +13,17 @@ const PROFILE = {
   title: "Mechanical Engineering @ The Ohio State University",
   tagline: "Driven by a passion for mechanical design, finite element analysis, and sustainable engineering solutions.",
   school: "The Ohio State University",
-  degree: "B.S Mechanical Engineering, Robotics and Autonomous Systems Minor",
-  graduation: "Expected Dec 2027",
+  degree: "B.S. Mechanical Engineering, Robotics and Autonomous Systems Minor",
+  graduation: "Expected December 2027",
   gpa: "3.4",
   email: "ssekura08@gmail.com",
   linkedin: "linkedin.com/in/shaun-sekura",
-  bio: "I am a Mechanical Engineering student at The Ohio State University, involved in the Center for Automotive Research and Mechanical Design department as a teaching assistant. I specialize in CAD design, FEA simulation, and physical testing, with a strong interest in sustainable engineering and technological innovation.",
+  bio: "I am a Mechanical Engineering student at The Ohio State University. I spent Summer 2026 as an engineering intern at Hankook Tire, working on virtual validation — building material models, meshing and simulating parts in Abaqus, and correlating those results against physical test data. At Ohio State I am a teaching assistant for Intro to Mechanical Design and design components for the EcoCAR team at the Center for Automotive Research. My focus is CAD, FEA simulation, and physical testing.",
   skills: {
-    Software: ["SolidWorks", "CATIA", "Ansys", "Abaqus FEA", "Siemens Test Lab", "Python", "MATLAB", "Excel", "Arduino IDE"],
-    "Lab Research/Processes": ["CAD Software", "FEA Analysis", "Machining", "Equipment Operation", "Modal Testing"],
-    Fabrication: ["CNC Machining", "Vertical Mill", "Lathe", "3D Printing", "Soldering/Wiring (Arduino)", "Drafting/GD&T"],
-    Coursework: ["Fluids", "Control Systems", "Sensors", "Machine Elements", "Kinematics", "System/Vibrational Dynamics", "Circuits", "Thermodynamics", "Machine Design", "Numerical Methods", "Mechanics of Materials", "Linear Algebra/Diff Eq"]
+    Software: ["SolidWorks", "Onshape", "CATIA", "Abaqus", "Ansys", "Hypermesh", "Siemens Test Lab", "Python", "MATLAB", "Excel"],
+    "Analysis & Testing": ["FEA", "Modal Testing", "Design of Experiments", "Physical-to-Virtual Correlation", "GD&T"],
+    Fabrication: ["CNC Machining", "Vertical Mill", "Lathe", "3D Printing", "Soldering/Wiring (Arduino)", "Drafting"],
+    Coursework: ["Machine Design", "Machine Elements", "Kinematics", "System/Vibrational Dynamics", "Circuits", "Fluid Mechanics", "Control Systems", "Sensors & Measurements", "Thermodynamics", "Mechanics of Materials"]
   },
   experience: [
     {
@@ -32,9 +32,10 @@ const PROFILE = {
       date: "Summer 2026",
       location: "Akron, OH",
       bullets: [
-        "Developed Python and Excel pipeline to curve-fit stress-strain data across 244 material datasets, computing tangent moduli via numerical differentiation and achieving 93% curve-fit accuracy through least-squares error analysis.",
-        "Validated a General Motors wheel through nonlinear FEA simulation in Abaqus and experimental modal analysis in Siemens Test Lab, correlating virtual and physical results to assess structural performance.",
-        "Supported the Physical-to-Virtual initiative through testing and validation tasks aimed at improving virtual-to-physical test correlation for automotive clients including Rivian, Tesla, GM, Lucid, Mercedes Benz, etc."
+        "Validated a revised cord material model in Abaqus finite element analysis against physically scanned tire profiles, cutting virtual-to-physical deviation 50.4% at tread grooves and to 0.86 mm at the crown.",
+        "Developed a Python GUI to process 4,096-row tire scanner profiles with outlier filtering, windowing, and interpolated lookup, replacing a manual Excel workflow with a 71-second automated run.",
+        "Screened 600+ cord test records to 10 qualifying datasets and differentiated least-squares curve fits (R² ≈ 0.99) into strain-dependent moduli, exposing ~15% error in the legacy linear assumption.",
+        "Took multiple OE wheels from CAD through Hypermesh meshing to Abaqus frequency extraction, characterizing mode shapes under bolt-hole constraints."
       ]
     },
     {
@@ -99,61 +100,110 @@ const PROFILE = {
   ]
 };
 
+/* Project tags are restricted to the Software, Analysis & Testing, and Fabrication
+   skill lists above, so the vocabulary on a project card always matches the resume.
+   Coursework is deliberately excluded. Anything outside this set is dropped at render
+   time and flagged in the dev console. */
+const PROJECT_SKILLS = new Set([
+  ...PROFILE.skills.Software,
+  ...PROFILE.skills["Analysis & Testing"],
+  ...PROFILE.skills.Fabrication
+]);
+
+const projectTags = (project) => project.tags.filter(tag => PROJECT_SKILLS.has(tag));
+
 const PROJECTS = [
+  {
+    slug: "cord-material-model-validation",
+    title: "Tire Cord Material Model Validation",
+    categories: ["Simulation", "Testing"],
+    filters: ["simulation", "testing"],
+    tags: ["Abaqus", "Python", "Excel", "FEA", "Physical-to-Virtual Correlation"],
+    thumbnail: "cord-material-thumb.jpg",
+    description: "Rebuilt the cord material model from quasi-static test data and validated it in Abaqus against physically scanned tire profiles.",
+    what: "The legacy cord material model assumed linear behavior, which carried error into every tire simulation that used it. The work was to characterize cord stiffness properly from quasi-static test data, then prove the revised model against physical tire scans.",
+    how: [
+      "Screened 600+ cord test records down to 10 qualifying datasets.",
+      "Fit least-squares curves (R² ≈ 0.99) and differentiated them into strain-dependent moduli.",
+      "Rebuilt the cord material model in Abaqus using the strain-dependent properties.",
+      "Compared simulated tire geometry against physically scanned profiles to measure deviation."
+    ],
+    results: [
+      "Exposed roughly 15% error in the legacy linear stiffness assumption.",
+      "Cut virtual-to-physical deviation by 50.4% at the tread grooves.",
+      "Brought crown deviation down to 0.86 mm."
+    ],
+    links: { report: "hankook-intern-report.pdf" },
+    featured: true,
+    recent: true
+  },
   {
     slug: "tire-profile-processor",
     title: "Tire Profile Processor",
     categories: ["Simulation"],
     filters: ["simulation"],
-    tags: ["Python", "Excel", "Data Analysis", "Numerical Methods"],
-    thumbnail: "curve-fit-thumb.jpg",
-    description: "",
-    what: "",
+    tags: ["Python", "Excel", "Physical-to-Virtual Correlation"],
+    thumbnail: "tire-profile-thumb.jpg",
+    description: "Python GUI that turns 4,096-row tire scanner profiles into usable data in 71 seconds, replacing a manual Excel workflow.",
+    what: "Tire scanner output arrived as 4,096-row profile datasets that were cleaned and queried by hand in Excel. The tool automates that workflow so scan data can be turned around quickly and consistently.",
     how: [
-  
+      "Built a Python GUI to load raw tire scanner profile data.",
+      "Implemented outlier filtering and windowing to clean noisy scan points.",
+      "Added interpolated lookup so profile values could be queried at any position."
     ],
     results: [
-
+      "Cut a manual Excel workflow down to a 71-second automated run.",
+      "Handled full 4,096-row profiles without hand formatting or transcription errors.",
+      "Produced the cleaned scan profiles used for virtual-to-physical comparison."
     ],
-    links: {},
+    links: { report: "hankook-intern-report.pdf" },
     featured: false,
-    recent: false
+    recent: true
   },
   {
-    slug: "nx5-wheel-mesh-modal-testing",
-    title: "NX5 Wheel Mesh and Virtual Mode Testing",
+    slug: "oe-wheel-modal-analysis",
+    title: "OE Wheel Modal Analysis",
+    categories: ["Simulation"],
+    filters: ["simulation"],
+    tags: ["Hypermesh", "Abaqus", "FEA", "Modal Testing"],
+    thumbnail: "wheel-modal-thumb.jpg",
+    description: "Took multiple OE wheels from CAD through Hypermesh meshing to Abaqus frequency extraction, characterizing mode shapes under bolt-hole constraints.",
+    what: "OE wheel designs needed their dynamic behavior characterized before physical validation. Each wheel had to be carried from supplied CAD geometry to a clean finite element mesh, then run through frequency extraction to identify its mode shapes.",
+    how: [
+      "Prepared and cleaned supplied OE wheel CAD geometry for meshing.",
+      "Built finite element meshes for each wheel in Hypermesh.",
+      "Applied bolt-hole constraints to represent the mounted condition.",
+      "Ran frequency extraction in Abaqus to pull natural frequencies and mode shapes."
+    ],
+    results: [
+      "Characterized mode shapes for multiple OE wheels under mounted bolt-hole constraints.",
+      "Produced meshed wheel models ready for downstream structural and dynamic analysis.",
+      "Established a repeatable CAD-to-mesh-to-modal workflow across wheel programs."
+    ],
+    links: { report: "hankook-intern-report.pdf" },
+    featured: true,
+    recent: true
+  },
+  {
+    slug: "footprint-doe-study",
+    title: "Tire Footprint DOE Study",
     categories: ["Simulation", "Testing"],
     filters: ["simulation", "testing"],
-    tags: ["Abaqus FEA", "Meshing", "Siemens Test Lab", "Modal Correlation"],
-    thumbnail: "gm-wheel-thumb.jpg",
-    description: "",
-    what: "",
+    tags: ["Design of Experiments", "Excel"],
+    thumbnail: "footprint-doe-thumb.jpg",
+    description: "32-case design-of-experiments footprint study on an OE commercial EV van tire across load, pressure, and camber.",
+    what: "Footprint behavior needed to be characterized across the operating envelope of an OE commercial EV van tire, with a test matrix broad enough to cover it but small enough to run.",
     how: [
-      
+      "Built a 32-case design-of-experiments matrix spanning 4 loads, 4 pressures, and ±3° camber.",
+      "Executed the full case set and extracted footprint results for each condition.",
+      "Compared symmetric positive and negative camber cases to test for equivalence."
     ],
     results: [
-      
+      "Validated symmetric camber cases as interchangeable at 1.95% maximum difference.",
+      "Characterized footprint response across the tire's load and pressure envelope.",
+      "Showed camber cases can be mirrored rather than run twice, trimming future matrices."
     ],
-    links: {},
-    featured: true,
-    recent: false
-  },
-  {
-    slug: "quasi-static-cord-compound",
-    title: "Quasi-static Cord and Compound Project",
-    categories: ["Testing", "Simulation"],
-    filters: ["testing", "simulation"],
-    tags: ["Abaqus FEA", "Material Testing", "Python", "Excel"],
-    thumbnail: "hankook-thumb.jpg",
-    description: "",
-    what: "",
-    how: [
-     
-    ],
-    results: [
-     
-    ],
-    links: {},
+    links: { report: "hankook-intern-report.pdf" },
     featured: false,
     recent: true
   },
@@ -162,7 +212,7 @@ const PROJECTS = [
     title: "Reverse Engineering of Motor Mount",
     categories: ["Design", "Simulation"],
     filters: ["design", "simulation"],
-    tags: ["CATIA V5", "FEA Analysis", "Reverse Engineering"],
+    tags: ["CATIA", "FEA"],
     thumbnail: "motor-mount-thumb.jpg",
     description: "Reverse engineered and validated a Cadillac Lyriq motor mount to resolve engine ticking noise for EcoCAR.",
     what: "The EcoCAR team identified a ticking noise when the engine started and determined a failing motor mount was the cause. The goal was to reverse engineer the part, test its structural integrity, and reinstall it.",
@@ -186,7 +236,7 @@ const PROJECTS = [
     title: "Sustainable Rocket Redesign",
     categories: ["Simulation", "Design"],
     filters: ["design", "simulation"],
-    tags: ["Python", "AeroSandbox", "SOLIDWORKS"],
+    tags: ["Python", "SolidWorks"],
     thumbnail: "rocket-thumb.jpg",
     description: "Reduced order simulation and CAD redesign of a rocket system focusing on descent parameters.",
     what: "A Humanitarian Engineering Scholars (HES) project focused on analyzing and designing a sustainable rocket descent system.",
@@ -208,12 +258,12 @@ const PROJECTS = [
     title: "Slide Grip Development System",
     categories: ["Prototyping", "Design"],
     filters: ["design", "prototyping"],
-    tags: ["SOLIDWORKS", "Gantt Chart", "Pugh Matrix"],
+    tags: ["Onshape"],
     thumbnail: "slide-grip-thumb.jpg",
     description: "Low-cost, lightweight system designed to alleviate wrist pain for performing trombone players.",
     what: "Designed a low cost, lightweight system to alleviate wrist pain for musicians. Tested and approved by international performing trombone players.",
     how: [
-      "Used SOLIDWORKS to design the ergonomic system.",
+      "Used Onshape to design the ergonomic system.",
       "Utilized organizational tools including Pairwise Comparison Chart, Pugh Scoring Matrix, and Gantt Charts to guide the iterative design process."
     ],
     results: [
@@ -229,7 +279,7 @@ const PROJECTS = [
     title: "Human Machine Interface Mount",
     categories: ["Design"],
     filters: ["design"],
-    tags: ["SolidWorks", "Thermal Analysis"],
+    tags: ["SolidWorks"],
     thumbnail: "hmi-mount-thumb.jpg",
     description: "Redesigned HMI mount for EcoCAR to resolve collision and thermal buildup issues.",
     what: "Needed to improve upon a previous design for the human machine interface (HMI) mount in the EcoCAR vehicle, which had problems with heat buildup and collision with the vehicle's front structure.",
@@ -250,7 +300,7 @@ const PROJECTS = [
     title: "OSU Branded LED Panel",
     categories: ["Prototyping"],
     filters: ["prototyping"],
-    tags: ["3D Printing", "Electronics"],
+    tags: ["Onshape", "3D Printing"],
     thumbnail: "led-panel-thumb.jpg",
     description: "Resin 3D-printed translucent casing for an 8x8 LED charging indicator.",
     what: "Designed and fabricated a casing for the LED panel that indicates when the EcoCAR is charging.",
@@ -270,7 +320,7 @@ const PROJECTS = [
     title: "Arduino Sensor & Control System",
     categories: ["Prototyping", "Testing"],
     filters: ["prototyping", "testing"],
-    tags: ["Arduino IDE", "Soldering/Wiring", "C++"],
+    tags: ["Onshape", "Soldering/Wiring (Arduino)"],
     thumbnail: "arduino-thumb.jpg",
     description: "Designed, wired, and programmed a custom embedded system for data acquisition and motor control.",
     what: "Developed a standalone microcontroller system to read sensor data and actuate mechanical components effectively.",
@@ -292,7 +342,7 @@ const PROJECTS = [
     title: "Precision Machined Assembly",
     categories: ["Design", "Prototyping"],
     filters: ["design", "prototyping"],
-    tags: ["CNC Machining", "Lathe", "Vertical Mill", "GD&T"],
+    tags: ["CNC Machining", "Vertical Mill", "Lathe", "GD&T"],
     thumbnail: "machining-thumb.jpg",
     description: "Manufactured custom components using manual and CNC machining processes.",
     what: "Required high-tolerance custom parts for a mechanical drivetrain assembly that could not be purchased off-the-shelf.",
@@ -310,6 +360,16 @@ const PROJECTS = [
     recent: false
   }
 ];
+
+// Surface tags that fall outside PROJECT_SKILLS instead of letting them vanish silently
+if (import.meta.env && import.meta.env.DEV) {
+  PROJECTS.forEach(p => {
+    const stray = p.tags.filter(tag => !PROJECT_SKILLS.has(tag));
+    if (stray.length) {
+      console.warn(`[projects] "${p.slug}" has tags outside the skills list: ${stray.join(', ')}`);
+    }
+  });
+}
 
 const EmailButton = ({ email, className, children }) => {
   const [copied, setCopied] = useState(false);
@@ -641,7 +701,7 @@ const highlightText = (text, query) => {
 
 // Fields shown on the card get highlighted in place; these hidden detail fields
 // produce a labeled snippet preview when they're the only place the term appears.
-const CARD_FIELDS = (p) => [p.title, p.description, p.categories.join(' '), p.tags.join(' ')];
+const CARD_FIELDS = (p) => [p.title, p.description, p.categories.join(' '), projectTags(p).join(' ')];
 const DETAIL_FIELDS = (p) => [
   ['Overview', p.what],
   ['Approach', p.how.join(' ')],
@@ -696,7 +756,7 @@ const ProjectCard = ({ project, selectProject, darkMode, query = '', snippet = n
         {highlightText(project.description, query)}
       </p>
       <p className="text-xs text-slate-400 dark:text-neutral-500 mt-2">
-        {highlightText(project.tags.join(' · '), query)}
+        {highlightText(projectTags(project).join(' · '), query)}
       </p>
       {snippet && (
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 pl-3 border-l-2 border-sky-200 dark:border-[#BB0000]/40 leading-relaxed">
@@ -796,7 +856,7 @@ const ProjectDetailView = ({ project, onBack, darkMode }) => (
 
     <p className="text-xs text-slate-400 dark:text-neutral-500 mb-3">{project.categories.join(' / ')}</p>
     <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">{project.title}</h1>
-    <p className="text-sm text-slate-400 dark:text-neutral-500 mb-8">{project.tags.join(' · ')}</p>
+    <p className="text-sm text-slate-400 dark:text-neutral-500 mb-8">{projectTags(project).join(' · ')}</p>
 
     <div className="rounded-lg overflow-hidden border border-slate-200 dark:border-neutral-800 bg-slate-100 dark:bg-neutral-900 mb-12">
       <SmartProjectImage
@@ -945,18 +1005,64 @@ const ResumeView = () => (
   </motion.div>
 );
 
+/* Hash-based routing, so the browser back/forward buttons move between pages and
+   individual projects are linkable. A hash needs no server rewrite rules, so it
+   behaves identically on the dev server and on static hosting. */
+const TAB_IDS = ['home', 'about', 'experience', 'projects', 'resume', 'contact'];
+
+const readLocation = () => {
+  const [tab, slug] = window.location.hash.replace(/^#\/?/, '').split('/');
+  return {
+    tab: TAB_IDS.includes(tab) ? tab : 'home',
+    project: slug ? PROJECTS.find(p => p.slug === slug) || null : null
+  };
+};
+
 export default function App() {
-  const [activeTab, setActiveTab] = useState('home');
+  const [route, setRoute] = useState(readLocation);
   const [darkMode, setDarkMode] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState(null);
-  
   const [projectsFilter, setProjectsFilter] = useState('all');
+
+  const { tab: activeTab, project: selectedProject } = route;
+  const activeTabRef = useRef(activeTab);
+
+  useEffect(() => {
+    activeTabRef.current = activeTab;
+  }, [activeTab]);
 
   useEffect(() => {
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     setDarkMode(isDark);
   }, []);
+
+  // Sync app state to the URL — this is what makes Back and Forward work
+  useEffect(() => {
+    const onHashChange = () => {
+      const next = readLocation();
+      if (next.tab === 'projects' && activeTabRef.current !== 'projects') {
+        setProjectsFilter('all');
+      }
+      setRoute(next);
+      setMobileMenuOpen(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
+  // Writing the hash pushes a history entry; the listener above applies it
+  const navigate = (tab, slug = null) => {
+    const target = `#/${tab}${slug ? `/${slug}` : ''}`;
+    setMobileMenuOpen(false);
+    if (window.location.hash === target) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    window.location.hash = target;
+  };
+
+  const openProject = (project) => navigate('projects', project.slug);
 
   const TABS = [
     { id: 'home', label: 'Home' },
@@ -967,17 +1073,7 @@ export default function App() {
     { id: 'contact', label: 'Contact' }
   ];
 
-  const handleTabChange = (tabId) => {
-    setActiveTab(tabId);
-    setSelectedProject(null);
-    setMobileMenuOpen(false);
-    
-    if (tabId === 'projects' && activeTab !== 'projects') {
-      setProjectsFilter('all');
-    }
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const handleTabChange = (tabId) => navigate(tabId);
 
   return (
     <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'dark bg-neutral-950 text-white' : 'bg-slate-50 text-slate-900'}`}>
@@ -1065,7 +1161,7 @@ export default function App() {
             <ProjectDetailView 
               key="project-detail" 
               project={selectedProject} 
-              onBack={() => setSelectedProject(null)} 
+              onBack={() => navigate('projects')}
               darkMode={darkMode}
             />
           ) : (
@@ -1081,7 +1177,7 @@ export default function App() {
               {activeTab === 'experience' && <ExperienceView />}
               {activeTab === 'projects' && (
                 <ProjectsView
-                  selectProject={setSelectedProject}
+                  selectProject={openProject}
                   darkMode={darkMode}
                   filter={projectsFilter}
                   setFilter={setProjectsFilter}
