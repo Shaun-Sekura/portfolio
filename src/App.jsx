@@ -11,14 +11,16 @@ import {
 const PROFILE = {
   name: "Shaun Sekura",
   title: "Mechanical Engineering @ The Ohio State University",
-  tagline: "Driven by a passion for mechanical design, finite element analysis, and sustainable engineering solutions.",
+  tagline: "I'm passionate about finding sustainable engineering solutions to impactful problems. I specialize in CAD, FEA, and validation, applying these skills at my internship at a Tier 1 Global OEM Supplier this past summer.",
   school: "The Ohio State University",
   degree: "B.S. Mechanical Engineering, Robotics and Autonomous Systems Minor",
   graduation: "Expected December 2027",
   gpa: "3.4",
   email: "ssekura08@gmail.com",
   linkedin: "linkedin.com/in/shaun-sekura",
-  bio: "I am a Mechanical Engineering student at The Ohio State University. I spent Summer 2026 as an engineering intern at Hankook Tire, working on virtual validation — building material models, meshing and simulating parts in Abaqus, and correlating those results against physical test data. At Ohio State I am a teaching assistant for Intro to Mechanical Design and design components for the EcoCAR team at the Center for Automotive Research. My focus is CAD, FEA simulation, and physical testing.",
+  // Rendered as separate paragraphs by AboutView
+  bio: [
+    "I design components for the EcoCAR team at the Center for Automotive Research and TA an intro mechanical design course. Last summer I interned at Hankook Tire on their Virtual & Validation team, building material models in Abaqus and validating results against physical test data."],
   skills: {
     Software: ["SolidWorks", "Onshape", "CATIA", "Abaqus", "Ansys", "Hypermesh", "Siemens Test Lab", "Python", "MATLAB", "Excel"],
     "Analysis & Testing": ["FEA", "Modal Testing", "Design of Experiments", "Physical-to-Virtual Correlation", "GD&T"],
@@ -455,7 +457,7 @@ const SmartLogoImage = () => {
   if (imageError) {
     // Text fallback if the trainer gifs are missing from the public folder
     return (
-      <span className="font-semibold text-lg tracking-tight text-slate-900 dark:text-white">Shaun Sekura</span>
+      <span className="font-semibold text-lg tracking-tight text-slate-900 dark:text-neutral-200">Shaun Sekura</span>
     );
   }
 
@@ -498,7 +500,7 @@ const SmartAboutHeadshot = ({ darkMode }) => {
     <img
       src={`${baseName}${extensions[extIndex]}`}
       alt="Shaun Sekura"
-      className="w-full aspect-square rounded-lg object-cover border border-slate-200 dark:border-neutral-800"
+      className="w-full aspect-square rounded-lg object-cover border border-slate-200 dark:border-neutral-700"
       onError={() => setExtIndex(prev => prev + 1)}
     />
   );
@@ -506,14 +508,14 @@ const SmartAboutHeadshot = ({ darkMode }) => {
 
 const CustomThemedProfilePicture = ({ fallbackName, darkMode }) => {
   return (
-    <div className="relative w-full aspect-square bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 rounded-lg overflow-hidden flex items-center justify-center">
-      <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#0284c7_1px,transparent_1px),linear-gradient(to_bottom,#0284c7_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#bb0000_1px,transparent_1px),linear-gradient(to_bottom,#bb0000_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none"></div>
+    <div className="relative w-full aspect-square bg-slate-100 dark:bg-neutral-800 border border-slate-200 dark:border-neutral-700 rounded-lg overflow-hidden flex items-center justify-center">
+      <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#0284c7_1px,transparent_1px),linear-gradient(to_bottom,#0284c7_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#e33e3e_1px,transparent_1px),linear-gradient(to_bottom,#e33e3e_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none"></div>
       
       <svg className="w-4/5 h-4/5" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor={darkMode ? "#bb0000" : "#0284c7"} />
-            <stop offset="100%" stopColor={darkMode ? "#7f0000" : "#0369a1"} />
+            <stop offset="0%" stopColor={darkMode ? "#e33e3e" : "#0284c7"} />
+            <stop offset="100%" stopColor={darkMode ? "#bb0000" : "#0369a1"} />
           </linearGradient>
         </defs>
         
@@ -522,25 +524,25 @@ const CustomThemedProfilePicture = ({ fallbackName, darkMode }) => {
         <circle cx="100" cy="100" r="70" stroke="url(#avatarGrad)" strokeWidth="0.5" />
         
         {/* Mechanical engineer gear graphic overlay */}
-        <g stroke={darkMode ? "#bb0000" : "#0284c7"} strokeWidth="1.5" strokeLinecap="round" opacity="0.8">
+        <g stroke={darkMode ? "#e33e3e" : "#0284c7"} strokeWidth="1.5" strokeLinecap="round" opacity="0.8">
           <circle cx="100" cy="90" r="30" />
           <path d="M 100,50 L 100,60 M 100,120 L 100,130 M 60,90 L 70,90 M 130,90 L 140,90 M 72,62 L 79,69 M 121,111 L 128,118 M 72,118 L 79,111 M 121,69 L 128,62" />
         </g>
         
         {/* Human Head Profile Silhouette */}
-        <path d="M 60,170 C 60,130 80,130 100,130 C 120,130 140,130 140,170" stroke={darkMode ? "#bb0000" : "#0284c7"} strokeWidth="3" fill="none" />
-        <circle cx="100" cy="90" r="20" fill={darkMode ? "#171717" : "#f8fafc"} stroke={darkMode ? "#bb0000" : "#0284c7"} strokeWidth="3" />
+        <path d="M 60,170 C 60,130 80,130 100,130 C 120,130 140,130 140,170" stroke={darkMode ? "#e33e3e" : "#0284c7"} strokeWidth="3" fill="none" />
+        <circle cx="100" cy="90" r="20" fill={darkMode ? "#171717" : "#f8fafc"} stroke={darkMode ? "#e33e3e" : "#0284c7"} strokeWidth="3" />
         
         {/* OSU Branded safety glasses icon representation */}
         <path d="M 88,90 Q 100,98 112,90 Q 100,82 88,90 Z" fill="none" stroke={darkMode ? "#ef4444" : "#0284c7"} strokeWidth="1.5" />
         
         {/* Buckeye Leaf Icon or OSU emblem badge */}
-        <circle cx="100" cy="150" r="6" fill={darkMode ? "#bb0000" : "#ef4444"} />
+        <circle cx="100" cy="150" r="6" fill={darkMode ? "#e33e3e" : "#ef4444"} />
         <path d="M 98,146 L 102,154 M 102,146 L 98,154" stroke="#ffffff" strokeWidth="1.5" />
       </svg>
 
       <div className="absolute bottom-4 left-0 right-0 text-center px-4">
-        <code className="text-[10px] font-mono text-slate-500 dark:text-neutral-500 bg-slate-200/50 dark:bg-neutral-800/50 py-1 px-2 rounded">
+        <code className="text-[10px] font-mono text-slate-500 dark:text-neutral-500 bg-slate-200/50 dark:bg-neutral-700/50 py-1 px-2 rounded">
           Name headshot: {fallbackName}
         </code>
       </div>
@@ -550,21 +552,21 @@ const CustomThemedProfilePicture = ({ fallbackName, darkMode }) => {
 
 const PlaceholderImage = ({ title, filename, className = "", small = false, darkMode }) => {
   return (
-    <div className={`relative flex flex-col items-center justify-center overflow-hidden bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 rounded-lg ${small ? 'p-3' : 'p-6'} text-center group ${className}`}>
-      <div className="absolute inset-0 opacity-15 bg-[linear-gradient(to_right,#0284c7_1px,transparent_1px),linear-gradient(to_bottom,#0284c7_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#bb0000_1px,transparent_1px),linear-gradient(to_bottom,#bb0000_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none transition-colors duration-300"></div>
+    <div className={`relative flex flex-col items-center justify-center overflow-hidden bg-slate-100 dark:bg-neutral-800 border border-slate-200 dark:border-neutral-700 rounded-lg ${small ? 'p-3' : 'p-6'} text-center group ${className}`}>
+      <div className="absolute inset-0 opacity-15 bg-[linear-gradient(to_right,#0284c7_1px,transparent_1px),linear-gradient(to_bottom,#0284c7_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#e33e3e_1px,transparent_1px),linear-gradient(to_bottom,#e33e3e_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none transition-colors duration-300"></div>
       {!small && (
         <>
-          <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-sky-500/50 dark:border-[#BB0000]/50 transition-colors duration-300"></div>
-          <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-sky-500/50 dark:border-[#BB0000]/50 transition-colors duration-300"></div>
-          <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-sky-500/50 dark:border-[#BB0000]/50 transition-colors duration-300"></div>
-          <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-sky-500/50 dark:border-[#BB0000]/50 transition-colors duration-300"></div>
+          <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-sky-500/50 dark:border-[#E33E3E]/50 transition-colors duration-300"></div>
+          <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-sky-500/50 dark:border-[#E33E3E]/50 transition-colors duration-300"></div>
+          <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-sky-500/50 dark:border-[#E33E3E]/50 transition-colors duration-300"></div>
+          <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-sky-500/50 dark:border-[#E33E3E]/50 transition-colors duration-300"></div>
         </>
       )}
       <div className="z-10 flex flex-col items-center">
-        <Wrench className={`text-sky-600 dark:text-[#BB0000] ${small ? 'mb-1' : 'mb-2'} opacity-80 transition-colors duration-300`} size={small ? 16 : 24} />
+        <Wrench className={`text-sky-600 dark:text-[#E33E3E] ${small ? 'mb-1' : 'mb-2'} opacity-80 transition-colors duration-300`} size={small ? 16 : 24} />
         <span className={`text-slate-700 dark:text-slate-300 ${small ? 'text-xs' : 'text-sm'} font-semibold tracking-wider uppercase ${small ? '' : 'mb-1'} line-clamp-1 text-center px-2`}>{title}</span>
         {!small && (
-          <code className="text-xs text-sky-700 dark:text-red-400 bg-sky-100 dark:bg-[#BB0000]/10 border border-sky-200 dark:border-[#BB0000]/20 px-3 py-1.5 rounded mt-2 transition-colors duration-300">
+          <code className="text-xs text-sky-700 dark:text-red-400 bg-sky-100 dark:bg-[#E33E3E]/10 border border-sky-200 dark:border-[#E33E3E]/20 px-3 py-1.5 rounded mt-2 transition-colors duration-300">
             Name image: {filename || 'image.jpg'}
           </code>
         )}
@@ -591,30 +593,105 @@ const SmartProjectImage = ({ filename, title, className, darkMode, small = false
   );
 };
 
-const HomeView = ({ setTab, openResume }) => (
-  <div className="max-w-2xl min-h-[68vh] flex flex-col justify-center">
-    <p className="text-sm font-medium text-slate-400 dark:text-neutral-500 mb-5">
-      Mechanical Engineering · The Ohio State University
-    </p>
-    <h1 className="text-4xl sm:text-6xl font-bold mb-6 tracking-tight text-slate-900 dark:text-white">
-      Shaun Sekura
-    </h1>
-    <p className="text-lg text-slate-600 dark:text-slate-300 mb-10 leading-relaxed">
-      {PROFILE.tagline} I focus on CAD modeling, physical load testing, and finite element validation.
-    </p>
-    <div className="flex flex-col sm:flex-row gap-3">
-      <button
-        onClick={() => setTab('projects')}
-        className="px-6 py-3 bg-sky-600 hover:bg-sky-700 dark:bg-[#BB0000] dark:hover:bg-[#990000] text-white rounded-lg text-sm font-semibold transition-colors"
-      >
-        View Projects
-      </button>
-      <button
-        onClick={openResume}
-        className="px-6 py-3 bg-white dark:bg-neutral-900 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-neutral-700 hover:border-sky-500 dark:hover:border-[#BB0000] rounded-lg text-sm font-semibold transition-colors"
-      >
-        View Resume
-      </button>
+/* Home page featured work: a loose stack of cards, one per project flagged `featured`.
+   Offsets are percentages of the container so the whole arrangement scales down to
+   mobile without re-tuning. Hovering a card straightens it and lifts it above the rest.
+   Card is 62% of container width and the container is 5:6, so a card covers ~52% of
+   the container height — the tops below are spaced to overlap without overflowing. */
+const FEATURED_LAYOUT = [
+  { top: '0%',  left: '0%',  rotate: -11, z: 'z-10' },
+  { top: '24%', left: '36%', rotate: 9,   z: 'z-20' },
+  { top: '48%', left: '6%',  rotate: -5,  z: 'z-30' }
+];
+
+const FeaturedStack = ({ selectProject, darkMode }) => {
+  const featured = PROJECTS.filter(p => p.featured).slice(0, FEATURED_LAYOUT.length);
+
+  return (
+    <div className="w-full max-w-[26rem] mx-auto">
+      <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-neutral-500 mb-5">
+        Featured Projects
+      </p>
+
+      <div className="relative w-full aspect-[5/6]">
+        {featured.map((project, i) => {
+          const { top, left, rotate, z } = FEATURED_LAYOUT[i];
+          return (
+            <motion.button
+              key={project.slug}
+              type="button"
+              onClick={() => selectProject(project)}
+              aria-label={`View project: ${project.title}`}
+              style={{ top, left }}
+              initial={{ opacity: 0, y: 28, rotate }}
+              animate={{
+                opacity: 1, y: 0, rotate,
+                transition: { delay: 0.08 * i, duration: 0.5, ease: 'easeOut' }
+              }}
+              whileHover={{
+                rotate: 0, y: -12, scale: 1.05,
+                transition: { type: 'spring', stiffness: 260, damping: 20 }
+              }}
+              className={`group absolute ${z} hover:z-40 w-[62%] aspect-square rounded-2xl overflow-hidden bg-white dark:bg-neutral-800 border border-slate-200 dark:border-neutral-700 shadow-sm hover:shadow-2xl hover:border-sky-400 dark:hover:border-[#E33E3E] transition-[box-shadow,border-color] duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 dark:focus-visible:ring-[#E33E3E] focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:focus-visible:ring-offset-neutral-900`}
+            >
+              <SmartProjectImage
+                title={project.title}
+                filename={project.thumbnail}
+                className="w-full h-full object-cover grayscale-[70%] group-hover:grayscale-0 transition-[filter] duration-500"
+                darkMode={darkMode}
+                small
+              />
+
+              {/* Caption slides up from the bottom edge on hover. No backdrop-blur here:
+                  a backdrop-filter gets its own compositing layer, which escapes the
+                  card's rounded overflow clip and squares off the bottom corners mid-hover.
+                  Near-opaque background plus a matching bottom radius instead. */}
+              <div className="absolute inset-x-0 bottom-0 rounded-b-2xl translate-y-full group-hover:translate-y-0 group-focus-visible:translate-y-0 transition-transform duration-300 ease-out bg-white/95 dark:bg-neutral-900/95 border-t border-slate-200 dark:border-neutral-700 px-3 py-2.5 text-left">
+                <p className="text-xs font-semibold text-slate-900 dark:text-neutral-200 leading-snug line-clamp-2">
+                  {project.title}
+                </p>
+                <p className="text-[10px] text-slate-400 dark:text-neutral-500 mt-1">
+                  {project.categories.join(' / ')}
+                </p>
+              </div>
+            </motion.button>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+const HomeView = ({ setTab, openResume, selectProject, darkMode }) => (
+  <div className="min-h-[68vh] flex flex-col justify-center">
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_26rem] gap-16 items-center">
+      <div className="max-w-2xl">
+        <p className="text-sm font-medium text-slate-400 dark:text-neutral-500 mb-5">
+          Mechanical Engineering · The Ohio State University
+        </p>
+        <h1 className="text-4xl sm:text-6xl font-bold mb-6 tracking-tight text-slate-900 dark:text-neutral-200">
+          Shaun Sekura
+        </h1>
+        <p className="text-lg text-slate-600 dark:text-slate-300 mb-10 leading-relaxed">
+          {PROFILE.tagline}
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <button
+            onClick={() => setTab('projects')}
+            className="px-6 py-3 bg-sky-600 hover:bg-sky-700 dark:bg-[#BB0000] dark:hover:bg-[#990000] text-white rounded-lg text-sm font-semibold transition-colors"
+          >
+            View All Projects
+          </button>
+          <button
+            onClick={openResume}
+            className="px-6 py-3 bg-white dark:bg-neutral-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-neutral-700 hover:border-sky-500 dark:hover:border-[#E33E3E] rounded-lg text-sm font-semibold transition-colors"
+          >
+            View Resume
+          </button>
+        </div>
+      </div>
+
+      <FeaturedStack selectProject={selectProject} darkMode={darkMode} />
     </div>
   </div>
 );
@@ -626,11 +703,13 @@ const AboutView = ({ darkMode }) => (
         <SmartAboutHeadshot darkMode={darkMode} />
       </div>
       <div className="sm:col-span-2 space-y-5">
-        <h2 className="text-3xl font-bold text-slate-900 dark:text-white">About</h2>
-        <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-          {PROFILE.bio}
-        </p>
-        <div className="text-sm font-medium text-sky-600 dark:text-[#BB0000] space-y-1 pt-2">
+        <h2 className="text-3xl font-bold text-slate-900 dark:text-neutral-200">About</h2>
+        {PROFILE.bio.map((paragraph, i) => (
+          <p key={i} className="text-slate-600 dark:text-slate-300 leading-relaxed">
+            {paragraph}
+          </p>
+        ))}
+        <div className="text-sm font-medium text-sky-600 dark:text-[#E33E3E] space-y-1 pt-2">
           <p>{PROFILE.degree}</p>
           <p>{PROFILE.school} · {PROFILE.graduation}</p>
         </div>
@@ -638,11 +717,11 @@ const AboutView = ({ darkMode }) => (
     </div>
 
     <div>
-      <h3 className="text-xl font-bold mb-8 text-slate-900 dark:text-white">Skills &amp; Coursework</h3>
+      <h3 className="text-xl font-bold mb-8 text-slate-900 dark:text-neutral-200">Skills &amp; Coursework</h3>
       <div className="space-y-6">
         {Object.entries(PROFILE.skills).map(([category, skillsList]) => (
-          <div key={category} className="grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-1 sm:gap-6 py-4 border-t border-slate-200 dark:border-neutral-800">
-            <h4 className="text-sm font-semibold text-slate-900 dark:text-white">{category}</h4>
+          <div key={category} className="grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-1 sm:gap-6 py-4 border-t border-slate-200 dark:border-neutral-700">
+            <h4 className="text-sm font-semibold text-slate-900 dark:text-neutral-200">{category}</h4>
             <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
               {skillsList.join(', ')}
             </p>
@@ -655,17 +734,17 @@ const AboutView = ({ darkMode }) => (
 
 const ExperienceView = () => (
   <div className="mt-8 max-w-3xl mx-auto">
-    <h2 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white">Experience</h2>
+    <h2 className="text-3xl font-bold mb-2 text-slate-900 dark:text-neutral-200">Experience</h2>
     <p className="text-slate-500 dark:text-slate-400 mb-10">Work, research, and leadership roles.</p>
     <div>
       {PROFILE.experience.map((exp, index) => (
-        <div key={index} className="grid grid-cols-1 sm:grid-cols-[9rem_1fr] gap-1 sm:gap-8 py-8 border-t border-slate-200 dark:border-neutral-800">
+        <div key={index} className="grid grid-cols-1 sm:grid-cols-[9rem_1fr] gap-1 sm:gap-8 py-8 border-t border-slate-200 dark:border-neutral-700">
           <div className="text-sm sm:pt-0.5">
-            <div className="font-semibold text-sky-600 dark:text-[#BB0000]">{exp.date}</div>
-            <div className="mt-1 font-medium text-sky-600 dark:text-[#BB0000]">{exp.location}</div>
+            <div className="font-semibold text-sky-600 dark:text-[#E33E3E]">{exp.date}</div>
+            <div className="mt-1 font-medium text-sky-600 dark:text-[#E33E3E]">{exp.location}</div>
           </div>
           <div>
-            <h3 className="font-semibold text-lg text-slate-900 dark:text-white">{exp.role}</h3>
+            <h3 className="font-semibold text-lg text-slate-900 dark:text-neutral-200">{exp.role}</h3>
             <div className="text-slate-600 dark:text-slate-400 text-sm mb-4">{exp.company}</div>
             <ul className="space-y-2 text-slate-600 dark:text-slate-300 text-sm">
               {exp.bullets.map((bullet, idx) => (
@@ -690,7 +769,7 @@ const highlightText = (text, query) => {
   const parts = text.split(new RegExp(`(${escapeRegExp(query)})`, 'gi'));
   return parts.map((part, i) =>
     part.toLowerCase() === query.toLowerCase() ? (
-      <mark key={i} className="bg-sky-100 text-sky-900 dark:bg-[#BB0000]/40 dark:text-red-100 rounded-[2px]">
+      <mark key={i} className="bg-sky-100 text-sky-900 dark:bg-[#E33E3E]/40 dark:text-red-100 rounded-[2px]">
         {part}
       </mark>
     ) : (
@@ -731,10 +810,10 @@ const projectMatch = (p, query) => {
 
 const ProjectCard = ({ project, selectProject, darkMode, query = '', snippet = null }) => (
   <div
-    className="group grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-4 sm:gap-6 py-7 border-b border-slate-200 dark:border-neutral-800 cursor-pointer"
+    className="group grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-4 sm:gap-6 py-7 border-b border-slate-200 dark:border-neutral-700 cursor-pointer"
     onClick={() => selectProject(project)}
   >
-    <div className="h-40 sm:h-24 overflow-hidden rounded bg-slate-100 dark:bg-neutral-900">
+    <div className="h-40 sm:h-24 overflow-hidden rounded bg-slate-100 dark:bg-neutral-800">
       <SmartProjectImage
         title={project.title}
         filename={project.thumbnail}
@@ -745,7 +824,7 @@ const ProjectCard = ({ project, selectProject, darkMode, query = '', snippet = n
     </div>
     <div className="min-w-0">
       <div className="flex items-baseline justify-between gap-4">
-        <h3 className="text-lg font-semibold text-slate-900 dark:text-white group-hover:underline underline-offset-4">
+        <h3 className="text-lg font-semibold text-slate-900 dark:text-neutral-200 group-hover:underline underline-offset-4">
           {highlightText(project.title, query)}
         </h3>
         <span className="hidden sm:block text-xs text-slate-400 dark:text-neutral-500 whitespace-nowrap">
@@ -759,7 +838,7 @@ const ProjectCard = ({ project, selectProject, darkMode, query = '', snippet = n
         {highlightText(projectTags(project).join(' · '), query)}
       </p>
       {snippet && (
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 pl-3 border-l-2 border-sky-200 dark:border-[#BB0000]/40 leading-relaxed">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-3 pl-3 border-l-2 border-sky-200 dark:border-[#E33E3E]/40 leading-relaxed">
           <span className="font-semibold text-slate-400 dark:text-neutral-500">{snippet.label}: </span>
           {highlightText(snippet.text, query)}
         </p>
@@ -783,12 +862,12 @@ const ProjectsView = ({ selectProject, darkMode, filter, setFilter }) => {
 
   return (
     <div className="mt-8 max-w-3xl mx-auto">
-      <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Projects</h2>
+      <h2 className="text-3xl font-bold text-slate-900 dark:text-neutral-200">Projects</h2>
       <p className="text-slate-500 dark:text-slate-400 mt-2">
         Work from internships, competition teams, and coursework.
       </p>
 
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-8 pb-4 border-b border-slate-200 dark:border-neutral-800">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-8 pb-4 border-b border-slate-200 dark:border-neutral-700">
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
           {['all', 'design', 'simulation', 'prototyping', 'testing'].map(f => (
             <button
@@ -796,7 +875,7 @@ const ProjectsView = ({ selectProject, darkMode, filter, setFilter }) => {
               onClick={() => setFilter(f)}
               className={`capitalize transition-colors ${
                 filter === f
-                  ? 'text-sky-600 dark:text-[#BB0000] font-semibold'
+                  ? 'text-sky-600 dark:text-[#E33E3E] font-semibold'
                   : 'text-slate-400 dark:text-neutral-500 hover:text-slate-700 dark:hover:text-slate-300'
               }`}
             >
@@ -812,7 +891,7 @@ const ProjectsView = ({ selectProject, darkMode, filter, setFilter }) => {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search projects…"
-            className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-sky-500 dark:focus:border-[#BB0000] transition-colors"
+            className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-white dark:bg-neutral-800 border border-slate-200 dark:border-neutral-700 text-slate-900 dark:text-neutral-200 placeholder:text-slate-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-sky-500 dark:focus:border-[#E33E3E] transition-colors"
           />
         </div>
       </div>
@@ -855,10 +934,10 @@ const ProjectDetailView = ({ project, onBack, darkMode }) => (
     </button>
 
     <p className="text-xs text-slate-400 dark:text-neutral-500 mb-3">{project.categories.join(' / ')}</p>
-    <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">{project.title}</h1>
+    <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-neutral-200 mb-4">{project.title}</h1>
     <p className="text-sm text-slate-400 dark:text-neutral-500 mb-8">{projectTags(project).join(' · ')}</p>
 
-    <div className="rounded-lg overflow-hidden border border-slate-200 dark:border-neutral-800 bg-slate-100 dark:bg-neutral-900 mb-12">
+    <div className="rounded-lg overflow-hidden border border-slate-200 dark:border-neutral-700 bg-slate-100 dark:bg-neutral-800 mb-12">
       <SmartProjectImage
         title={project.title}
         filename={project.thumbnail}
@@ -904,7 +983,7 @@ const ProjectDetailView = ({ project, onBack, darkMode }) => (
               href={typeof project.links.report === 'string' ? project.links.report : '#'}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center font-medium text-slate-900 dark:text-white border-b border-slate-300 dark:border-neutral-600 hover:border-sky-500 dark:hover:border-[#BB0000] pb-0.5 transition-colors"
+              className="inline-flex items-center font-medium text-slate-900 dark:text-neutral-200 border-b border-slate-300 dark:border-neutral-600 hover:border-sky-500 dark:hover:border-[#E33E3E] pb-0.5 transition-colors"
             >
               <FileText size={15} className="mr-2" /> Technical report
             </a>
@@ -914,7 +993,7 @@ const ProjectDetailView = ({ project, onBack, darkMode }) => (
               href={typeof project.links.portfolio === 'string' ? project.links.portfolio : '#'}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center font-medium text-slate-900 dark:text-white border-b border-slate-300 dark:border-neutral-600 hover:border-sky-500 dark:hover:border-[#BB0000] pb-0.5 transition-colors"
+              className="inline-flex items-center font-medium text-slate-900 dark:text-neutral-200 border-b border-slate-300 dark:border-neutral-600 hover:border-sky-500 dark:hover:border-[#E33E3E] pb-0.5 transition-colors"
             >
               <ExternalLink size={15} className="mr-2" /> View in portfolio
             </a>
@@ -927,25 +1006,25 @@ const ProjectDetailView = ({ project, onBack, darkMode }) => (
 
 const ContactView = () => (
   <div className="max-w-2xl mx-auto mt-16">
-    <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-5">Get in touch</h2>
+    <h2 className="text-3xl font-bold text-slate-900 dark:text-neutral-200 mb-5">Get in touch</h2>
     <p className="text-slate-600 dark:text-slate-300 mb-10 leading-relaxed">
       I'm currently seeking internship opportunities for Spring 2027 and Summer 2027. If you're looking for a mechanical engineering student with hands-on CAD and FEA experience, I'd love to chat.
     </p>
 
-    <div className="border-t border-slate-200 dark:border-neutral-800">
-      <div className="grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-1 sm:gap-6 py-5 border-b border-slate-200 dark:border-neutral-800">
+    <div className="border-t border-slate-200 dark:border-neutral-700">
+      <div className="grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-1 sm:gap-6 py-5 border-b border-slate-200 dark:border-neutral-700">
         <span className="text-sm text-slate-400 dark:text-neutral-500">Email</span>
-        <EmailButton email={PROFILE.email} className="text-sm font-medium text-slate-900 dark:text-white hover:text-sky-600 dark:hover:text-[#BB0000] transition-colors justify-start">
+        <EmailButton email={PROFILE.email} className="text-sm font-medium text-slate-900 dark:text-neutral-200 hover:text-sky-600 dark:hover:text-[#E33E3E] transition-colors justify-start">
           {PROFILE.email}
         </EmailButton>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-1 sm:gap-6 py-5 border-b border-slate-200 dark:border-neutral-800">
+      <div className="grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-1 sm:gap-6 py-5 border-b border-slate-200 dark:border-neutral-700">
         <span className="text-sm text-slate-400 dark:text-neutral-500">LinkedIn</span>
         <a
           href={`https://${PROFILE.linkedin}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center text-sm font-medium text-slate-900 dark:text-white hover:text-sky-600 dark:hover:text-[#BB0000] transition-colors"
+          className="inline-flex items-center text-sm font-medium text-slate-900 dark:text-neutral-200 hover:text-sky-600 dark:hover:text-[#E33E3E] transition-colors"
         >
           {PROFILE.linkedin} <ExternalLink size={14} className="ml-2 opacity-50" />
         </a>
@@ -957,12 +1036,12 @@ const ContactView = () => (
 const ResumeView = () => (
   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }} className="max-w-5xl mx-auto mt-8">
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-      <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Resume</h2>
+      <h2 className="text-3xl font-bold text-slate-900 dark:text-neutral-200">Resume</h2>
 
       <div className="flex items-center gap-3">
         <button
           onClick={() => window.open('resume.pdf', '_blank')}
-          className="px-4 py-2 bg-white dark:bg-neutral-900 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-neutral-700 hover:border-sky-500 dark:hover:border-[#BB0000] rounded-lg text-sm font-semibold transition-colors cursor-pointer"
+          className="px-4 py-2 bg-white dark:bg-neutral-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-neutral-700 hover:border-sky-500 dark:hover:border-[#E33E3E] rounded-lg text-sm font-semibold transition-colors cursor-pointer"
         >
           Open in New Tab
         </button>
@@ -977,7 +1056,7 @@ const ResumeView = () => (
       </div>
     </div>
 
-    <div className="w-full h-[800px] border border-slate-200 dark:border-neutral-800 rounded-lg overflow-hidden bg-slate-100 dark:bg-neutral-900 relative">
+    <div className="w-full h-[800px] border border-slate-200 dark:border-neutral-700 rounded-lg overflow-hidden bg-slate-100 dark:bg-neutral-800 relative">
       <iframe 
         src="resume.pdf" 
         className="w-full h-full" 
@@ -987,7 +1066,7 @@ const ResumeView = () => (
           document.getElementById('pdf-fallback').style.display = 'flex';
         }}
       />
-      <div id="pdf-fallback" className="hidden absolute inset-0 flex-col items-center justify-center p-8 text-center bg-slate-50 dark:bg-neutral-900">
+      <div id="pdf-fallback" className="hidden absolute inset-0 flex-col items-center justify-center p-8 text-center bg-slate-50 dark:bg-neutral-800">
         <FileText size={48} className="text-slate-400 dark:text-slate-600 mb-4" />
         <h3 className="text-xl font-bold text-slate-700 dark:text-slate-300 mb-2">Resume PDF Preview Unavailable</h3>
         <p className="text-slate-500 dark:text-slate-400 mb-6">
@@ -1076,8 +1155,8 @@ export default function App() {
   const handleTabChange = (tabId) => navigate(tabId);
 
   return (
-    <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'dark bg-neutral-950 text-white' : 'bg-slate-50 text-slate-900'}`}>
-      <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-neutral-950/80 border-b border-slate-200 dark:border-neutral-900 transition-colors duration-300">
+    <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'dark bg-neutral-900 text-neutral-300' : 'bg-slate-50 text-slate-900'}`}>
+      <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-neutral-900/80 border-b border-slate-200 dark:border-neutral-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center cursor-pointer" onClick={() => handleTabChange('home')}>
@@ -1091,7 +1170,7 @@ export default function App() {
                   onClick={() => handleTabChange(tab.id)}
                   className={`px-3 py-2 text-sm transition-colors ${
                     (activeTab === tab.id && !selectedProject)
-                      ? 'text-sky-600 dark:text-[#BB0000] font-semibold'
+                      ? 'text-sky-600 dark:text-[#E33E3E] font-semibold'
                       : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
                   }`}
                 >
@@ -1099,11 +1178,11 @@ export default function App() {
                 </button>
               ))}
               
-              <div className="w-px h-6 bg-slate-300 dark:bg-neutral-800 mx-2"></div>
+              <div className="w-px h-6 bg-slate-300 dark:bg-neutral-700 mx-2"></div>
               
               <button
                 onClick={() => setDarkMode(!darkMode)}
-                className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-neutral-900 transition-colors"
+                className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-neutral-800 transition-colors"
                 aria-label="Toggle Dark Mode"
               >
                 {darkMode ? <Sun size={20} /> : <Moon size={20} />}
@@ -1113,13 +1192,13 @@ export default function App() {
             <div className="flex items-center md:hidden gap-2">
               <button
                 onClick={() => setDarkMode(!darkMode)}
-                className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-neutral-900 transition-colors"
+                className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-neutral-800 transition-colors"
               >
                 {darkMode ? <Sun size={20} /> : <Moon size={20} />}
               </button>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-lg text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-neutral-900 transition-colors"
+                className="p-2 rounded-lg text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-neutral-800 transition-colors"
               >
                 {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -1133,7 +1212,7 @@ export default function App() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="md:hidden border-t border-slate-200 dark:border-neutral-900 overflow-hidden bg-white dark:bg-neutral-950"
+              className="md:hidden border-t border-slate-200 dark:border-neutral-800 overflow-hidden bg-white dark:bg-neutral-900"
             >
               <div className="px-4 pt-2 pb-6 space-y-1">
                 {TABS.map((tab) => (
@@ -1142,8 +1221,8 @@ export default function App() {
                     onClick={() => handleTabChange(tab.id)}
                     className={`block w-full text-left px-4 py-3 rounded-lg text-base transition-colors ${
                       (activeTab === tab.id && !selectedProject)
-                        ? 'text-sky-600 dark:text-[#BB0000] font-semibold bg-slate-100 dark:bg-neutral-900'
-                        : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-neutral-900'
+                        ? 'text-sky-600 dark:text-[#E33E3E] font-semibold bg-slate-100 dark:bg-neutral-800'
+                        : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-neutral-800'
                     }`}
                   >
                     {tab.label}
@@ -1172,7 +1251,14 @@ export default function App() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
             >
-              {activeTab === 'home' && <HomeView setTab={handleTabChange} openResume={() => handleTabChange('resume')} />}
+              {activeTab === 'home' && (
+                <HomeView
+                  setTab={handleTabChange}
+                  openResume={() => handleTabChange('resume')}
+                  selectProject={openProject}
+                  darkMode={darkMode}
+                />
+              )}
               {activeTab === 'about' && <AboutView darkMode={darkMode} />}
               {activeTab === 'experience' && <ExperienceView />}
               {activeTab === 'projects' && (
@@ -1190,7 +1276,7 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      <footer className="border-t border-slate-200 dark:border-neutral-900 py-8 text-center text-slate-500 dark:text-slate-500 text-sm mt-auto bg-white dark:bg-neutral-950 transition-colors duration-300">
+      <footer className="border-t border-slate-200 dark:border-neutral-800 py-8 text-center text-slate-500 dark:text-slate-500 text-sm mt-auto bg-white dark:bg-neutral-900 transition-colors duration-300">
         <p>© {new Date().getFullYear()} Shaun Sekura. All rights reserved.</p>
       </footer>
     </div>
