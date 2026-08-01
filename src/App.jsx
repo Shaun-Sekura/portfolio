@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu, X, Sun, Moon,
-  ExternalLink, FileText, Wrench, ArrowLeft, Search
+  ExternalLink, FileText, Wrench, ArrowLeft, Search,
+  // lucide v1 dropped brand icons, so no Github glyph — the row label carries it.
+  Copy, Check, Code, Download
 } from 'lucide-react';
 
 /* ==============================================================================
@@ -11,13 +13,18 @@ import {
 const PROFILE = {
   name: "Shaun Sekura",
   title: "Mechanical Engineering @ The Ohio State University",
-  tagline: "I'm passionate about finding sustainable engineering solutions to impactful problems. I specialize in CAD, FEA, and validation, applying these skills at my internship at a Tier 1 Global OEM Supplier this past summer.",
+  tagline: "I'm passionate about finding sustainable engineering solutions to impactful problems. I specialize in CAD, FEA, and validation, applying these skills at my internship at a Tier 1 Global OEM Tire Supplier this past summer.",
   school: "The Ohio State University",
   degree: "B.S. Mechanical Engineering, Robotics and Autonomous Systems Minor",
   graduation: "Expected December 2027",
   gpa: "3.4",
   email: "ssekura08@gmail.com",
   linkedin: "linkedin.com/in/shaun-sekura",
+  // Rendered on Contact only when non-empty. Fill in as "github.com/<username>".
+  github: "",
+  // Stored as the bare term so each spot supplies its own lead-in: the home badge
+  // prefixes "Open to", the Contact blurb prefixes "I'm open to".
+  availabilityTerm: "Spring and Summer 2027 internships",
   // Rendered as separate paragraphs by AboutView
   bio: [
     "I design components for the EcoCAR team at the Center for Automotive Research and TA an intro mechanical design course. Last summer I interned at Hankook Tire on their Virtual & Validation team, building material models in Abaqus and validating results against physical test data."],
@@ -122,6 +129,7 @@ const PROJECTS = [
     filters: ["simulation", "testing"],
     tags: ["Abaqus", "Python", "Excel", "FEA", "Physical-to-Virtual Correlation"],
     thumbnail: "cord-material-thumb.jpg",
+    metric: "Deviation -50.4%, crown to 0.86 mm",
     description: "Rebuilt the cord material model from quasi-static test data and validated it in Abaqus against physically scanned tire profiles.",
     what: "The legacy cord material model assumed linear behavior, which carried error into every tire simulation that used it. The work was to characterize cord stiffness properly from quasi-static test data, then prove the revised model against physical tire scans.",
     how: [
@@ -136,8 +144,7 @@ const PROJECTS = [
       "Brought crown deviation down to 0.86 mm."
     ],
     links: { report: "hankook-intern-report.pdf" },
-    featured: true,
-    recent: true
+    featured: true
   },
   {
     slug: "tire-profile-processor",
@@ -146,6 +153,7 @@ const PROJECTS = [
     filters: ["simulation"],
     tags: ["Python", "Excel", "Physical-to-Virtual Correlation"],
     thumbnail: "tire-profile-thumb.jpg",
+    metric: "4,096-row profiles in 71 seconds",
     description: "Python GUI that turns 4,096-row tire scanner profiles into usable data in 71 seconds, replacing a manual Excel workflow.",
     what: "Tire scanner output arrived as 4,096-row profile datasets that were cleaned and queried by hand in Excel. The tool automates that workflow so scan data can be turned around quickly and consistently.",
     how: [
@@ -159,8 +167,7 @@ const PROJECTS = [
       "Produced the cleaned scan profiles used for virtual-to-physical comparison."
     ],
     links: { report: "hankook-intern-report.pdf" },
-    featured: false,
-    recent: true
+    featured: false
   },
   {
     slug: "oe-wheel-modal-analysis",
@@ -169,6 +176,7 @@ const PROJECTS = [
     filters: ["simulation"],
     tags: ["Hypermesh", "Abaqus", "FEA", "Modal Testing"],
     thumbnail: "wheel-modal-thumb.jpg",
+    metric: "Multiple OE wheels, CAD through modal",
     description: "Took multiple OE wheels from CAD through Hypermesh meshing to Abaqus frequency extraction, characterizing mode shapes under bolt-hole constraints.",
     what: "OE wheel designs needed their dynamic behavior characterized before physical validation. Each wheel had to be carried from supplied CAD geometry to a clean finite element mesh, then run through frequency extraction to identify its mode shapes.",
     how: [
@@ -183,8 +191,7 @@ const PROJECTS = [
       "Established a repeatable CAD-to-mesh-to-modal workflow across wheel programs."
     ],
     links: { report: "hankook-intern-report.pdf" },
-    featured: true,
-    recent: true
+    featured: true
   },
   {
     slug: "footprint-doe-study",
@@ -193,6 +200,7 @@ const PROJECTS = [
     filters: ["simulation", "testing"],
     tags: ["Design of Experiments", "Excel"],
     thumbnail: "footprint-doe-thumb.jpg",
+    metric: "32-case DOE, camber within 1.95%",
     description: "32-case design-of-experiments footprint study on an OE commercial EV van tire across load, pressure, and camber.",
     what: "Footprint behavior needed to be characterized across the operating envelope of an OE commercial EV van tire, with a test matrix broad enough to cover it but small enough to run.",
     how: [
@@ -206,8 +214,7 @@ const PROJECTS = [
       "Showed camber cases can be mirrored rather than run twice, trimming future matrices."
     ],
     links: { report: "hankook-intern-report.pdf" },
-    featured: false,
-    recent: true
+    featured: false
   },
   {
     slug: "reverse-engineering-motor-mount",
@@ -216,6 +223,7 @@ const PROJECTS = [
     filters: ["design", "simulation"],
     tags: ["CATIA", "FEA"],
     thumbnail: "motor-mount-thumb.jpg",
+    metric: "Tolerances held within 0.25 mm",
     description: "Reverse engineered and validated a Cadillac Lyriq motor mount to resolve engine ticking noise for EcoCAR.",
     what: "The EcoCAR team identified a ticking noise when the engine started and determined a failing motor mount was the cause. The goal was to reverse engineer the part, test its structural integrity, and reinstall it.",
     how: [
@@ -230,8 +238,7 @@ const PROJECTS = [
       "Established professional relations with the manufacturer."
     ],
     links: {},
-    featured: false,
-    recent: true
+    featured: false
   },
   {
     slug: "sustainable-rocket-redesign",
@@ -240,6 +247,7 @@ const PROJECTS = [
     filters: ["design", "simulation"],
     tags: ["Python", "SolidWorks"],
     thumbnail: "rocket-thumb.jpg",
+    metric: "Reduced-order descent simulation",
     description: "Reduced order simulation and CAD redesign of a rocket system focusing on descent parameters.",
     what: "A Humanitarian Engineering Scholars (HES) project focused on analyzing and designing a sustainable rocket descent system.",
     how: [
@@ -252,8 +260,7 @@ const PROJECTS = [
       "Generated detailed performance graphs to validate the theoretical redesign."
     ],
     links: { report: "rocket-redesign-report.pdf" },
-    featured: true,
-    recent: true
+    featured: true
   },
   {
     slug: "slide-grip-development",
@@ -262,6 +269,7 @@ const PROJECTS = [
     filters: ["design", "prototyping"],
     tags: ["Onshape"],
     thumbnail: "slide-grip-thumb.jpg",
+    metric: "Weight -20%, playability +35%",
     description: "Low-cost, lightweight system designed to alleviate wrist pain for performing trombone players.",
     what: "Designed a low cost, lightweight system to alleviate wrist pain for musicians. Tested and approved by international performing trombone players.",
     how: [
@@ -273,8 +281,7 @@ const PROJECTS = [
       "Increased playability by 35%, successfully helping alleviate wrist pain during performances."
     ],
     links: { report: "slide-grip-report.pdf" },
-    featured: false,
-    recent: false
+    featured: false
   },
   {
     slug: "hmi-mount",
@@ -283,6 +290,7 @@ const PROJECTS = [
     filters: ["design"],
     tags: ["SolidWorks"],
     thumbnail: "hmi-mount-thumb.jpg",
+    metric: "Predicted heat buildup -15%",
     description: "Redesigned HMI mount for EcoCAR to resolve collision and thermal buildup issues.",
     what: "Needed to improve upon a previous design for the human machine interface (HMI) mount in the EcoCAR vehicle, which had problems with heat buildup and collision with the vehicle's front structure.",
     how: [
@@ -294,8 +302,7 @@ const PROJECTS = [
       "Adjusted geometry to improve thermal airflow, reducing predicted heat buildup by 15%."
     ],
     links: {},
-    featured: false,
-    recent: false
+    featured: false
   },
   {
     slug: "osu-led-panel",
@@ -304,6 +311,7 @@ const PROJECTS = [
     filters: ["prototyping"],
     tags: ["Onshape", "3D Printing"],
     thumbnail: "led-panel-thumb.jpg",
+    metric: "Resin-printed 8x8 LED enclosure",
     description: "Resin 3D-printed translucent casing for an 8x8 LED charging indicator.",
     what: "Designed and fabricated a casing for the LED panel that indicates when the EcoCAR is charging.",
     how: [
@@ -314,8 +322,7 @@ const PROJECTS = [
       "Successfully integrated a branded, highly visible charging indicator into the vehicle's electrical system."
     ],
     links: {},
-    featured: false,
-    recent: false
+    featured: false
   },
   {
     slug: "arduino-sensor-system",
@@ -324,6 +331,7 @@ const PROJECTS = [
     filters: ["prototyping", "testing"],
     tags: ["Onshape", "Soldering/Wiring (Arduino)"],
     thumbnail: "arduino-thumb.jpg",
+    metric: "Sensor DAQ and motor control",
     description: "Designed, wired, and programmed a custom embedded system for data acquisition and motor control.",
     what: "Developed a standalone microcontroller system to read sensor data and actuate mechanical components effectively.",
     how: [
@@ -336,8 +344,7 @@ const PROJECTS = [
       "Maintained robust electrical connections under vibration."
     ],
     links: { report: "arduino-sensor-report.pdf" },
-    featured: false,
-    recent: false
+    featured: false
   },
   {
     slug: "precision-machined-assembly",
@@ -346,6 +353,7 @@ const PROJECTS = [
     filters: ["design", "prototyping"],
     tags: ["CNC Machining", "Vertical Mill", "Lathe", "GD&T"],
     thumbnail: "machining-thumb.jpg",
+    metric: "Mill, lathe, and CNC to drawing spec",
     description: "Manufactured custom components using manual and CNC machining processes.",
     what: "Required high-tolerance custom parts for a mechanical drivetrain assembly that could not be purchased off-the-shelf.",
     how: [
@@ -358,8 +366,7 @@ const PROJECTS = [
       "Delivered structural components that performed flawlessly under applied load."
     ],
     links: {},
-    featured: false,
-    recent: false
+    featured: false
   }
 ];
 
@@ -373,44 +380,48 @@ if (import.meta.env && import.meta.env.DEV) {
   });
 }
 
-const EmailButton = ({ email, className, children }) => {
+/* The address is a plain mailto link, so clicking it does what a mailto link looks
+   like it does. Copying is a separate labelled control rather than a hijacked click —
+   previously the anchor called preventDefault() and copied instead, which reads as a
+   broken link to anyone expecting their mail client to open. */
+const EmailButton = ({ email, className }) => {
   const [copied, setCopied] = useState(false);
 
-  const handleEmailClick = (e) => {
-    e.preventDefault();
-    const textArea = document.createElement("textarea");
-    textArea.value = email;
-    document.body.appendChild(textArea);
-    textArea.select();
+  const copy = async () => {
     try {
-      document.execCommand('copy');
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(email);
+      } else {
+        // navigator.clipboard needs a secure context; fall back on plain http.
+        const ta = document.createElement('textarea');
+        ta.value = email;
+        ta.setAttribute('readonly', '');
+        ta.style.cssText = 'position:fixed;opacity:0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Fallback: Unable to copy', err);
+      console.error('Unable to copy email', err);
     }
-    document.body.removeChild(textArea);
   };
 
   return (
-    <a href={`mailto:${email}`} onClick={handleEmailClick} className={`relative inline-flex items-center cursor-pointer ${className}`}>
-      <AnimatePresence>
-        {copied && (
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className="inline-flex items-center text-emerald-600 dark:text-emerald-400 font-medium"
-          >
-            Copied to clipboard
-          </motion.span>
-        )}
-      </AnimatePresence>
-      <span className={copied ? 'hidden' : 'inline-flex items-center'}>
-        {children}
-      </span>
-    </a>
+    <span className="inline-flex flex-wrap items-center gap-x-3 gap-y-1">
+      <a href={`mailto:${email}`} className={className}>{email}</a>
+      <button
+        type="button"
+        onClick={copy}
+        aria-label={copied ? 'Email address copied' : 'Copy email address'}
+        className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-slate-700 dark:text-neutral-500 dark:hover:text-neutral-300 transition-colors"
+      >
+        {copied ? <Check size={13} /> : <Copy size={13} />}
+        {copied ? 'Copied' : 'Copy'}
+      </button>
+    </span>
   );
 };
 
@@ -604,6 +615,37 @@ const FEATURED_LAYOUT = [
   { top: '48%', left: '6%',  rotate: -5,  z: 'z-30' }
 ];
 
+/* Per-slug image overrides for the stack only — the projects list and the detail page
+   still render these thumbnails normally.
+   rocket-thumb.jpg is 840x236: a rocket render on the left half, result plots on the
+   right. Square-cropping it either centers on the plots or slices the rocket, so this
+   one is laid out at 200% width anchored left, which frames the whole rocket and pushes
+   the plots past the card edge.
+   At that width the source only covers ~22%-78% of the card height. `edgeFill` fills the
+   rest by clamping the image's own edge rows: each band paints the same file at the same
+   200%/left anchor, so the backdrop's horizontal variation lines up column for column,
+   and a 10000% background height means the band shows only the top (or bottom) ~1% of the
+   source stretched over it. The seam is the image's own edge pixels, so it matches exactly
+   rather than approximately.
+   `src` points at a cropped copy because rocket-thumb.jpg's last two rows are a near-white
+   JPEG edge artifact (#F0EEF1, #FFFDFF) sitting under a clean #E5E3E6 backdrop. Clamping
+   that edge stretched pure white across the whole lower band. */
+const FEATURED_IMAGE_FIT = {
+  'sustainable-rocket-redesign': {
+    src: 'rocket-thumb-featured.jpg',
+    // 186% shows source x 0-452: the render panel ends at x=453 and the rocket itself
+    // spans x 23-448, so this frames the whole rocket, nose included, without pulling in
+    // any of the plots. (200% only reached x=420 and clipped the nose cone.)
+    img: 'relative z-10 w-[186%] max-w-none h-full object-contain object-left',
+    // Must match the img width so the backdrop's horizontal gradient lines up
+    // column for column across the seam.
+    edgeFillSize: '186% 10000%',
+    // At 186% the 3.6:1 source covers ~51.6% of the card height, leaving ~24.2% bands.
+    edgeFillHeight: 'h-[25%]'
+  }
+};
+const DEFAULT_FEATURED_FIT = 'w-full h-full object-cover';
+
 const FeaturedStack = ({ selectProject, darkMode }) => {
   const featured = PROJECTS.filter(p => p.featured).slice(0, FEATURED_LAYOUT.length);
 
@@ -616,28 +658,41 @@ const FeaturedStack = ({ selectProject, darkMode }) => {
       <div className="relative w-full aspect-[5/6]">
         {featured.map((project, i) => {
           const { top, left, rotate, z } = FEATURED_LAYOUT[i];
+          const fit = FEATURED_IMAGE_FIT[project.slug];
           return (
+            // initial={false} renders straight to the animate state, so the cards are
+            // already in place on load instead of fading and staggering in.
             <motion.button
               key={project.slug}
               type="button"
               onClick={() => selectProject(project)}
               aria-label={`View project: ${project.title}`}
               style={{ top, left }}
-              initial={{ opacity: 0, y: 28, rotate }}
-              animate={{
-                opacity: 1, y: 0, rotate,
-                transition: { delay: 0.08 * i, duration: 0.5, ease: 'easeOut' }
-              }}
+              initial={false}
+              animate={{ rotate }}
               whileHover={{
                 rotate: 0, y: -12, scale: 1.05,
                 transition: { type: 'spring', stiffness: 260, damping: 20 }
               }}
               className={`group absolute ${z} hover:z-40 w-[62%] aspect-square rounded-2xl overflow-hidden bg-white dark:bg-neutral-800 border border-slate-200 dark:border-neutral-700 shadow-sm hover:shadow-2xl hover:border-sky-400 dark:hover:border-[#E33E3E] transition-[box-shadow,border-color] duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 dark:focus-visible:ring-[#E33E3E] focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:focus-visible:ring-offset-neutral-900`}
             >
+              {/* Behind the image (which carries z-10), overlapping it by ~1% so no
+                  hairline shows at the seam after subpixel rounding. */}
+              {fit?.edgeFillSize && [
+                { edge: 'top', cls: 'top-0' },
+                { edge: 'bottom', cls: 'bottom-0' }
+              ].map(({ edge, cls }) => (
+                <div
+                  key={edge}
+                  className={`absolute inset-x-0 ${cls} ${fit.edgeFillHeight} grayscale-[70%] group-hover:grayscale-0 transition-[filter] duration-500`}
+                  style={{ background: `url(${fit.src}) left ${edge} / ${fit.edgeFillSize} no-repeat` }}
+                />
+              ))}
+
               <SmartProjectImage
                 title={project.title}
-                filename={project.thumbnail}
-                className="w-full h-full object-cover grayscale-[70%] group-hover:grayscale-0 transition-[filter] duration-500"
+                filename={fit?.src ?? project.thumbnail}
+                className={`${fit?.img ?? DEFAULT_FEATURED_FIT} grayscale-[70%] group-hover:grayscale-0 transition-[filter] duration-500`}
                 darkMode={darkMode}
                 small
               />
@@ -646,7 +701,7 @@ const FeaturedStack = ({ selectProject, darkMode }) => {
                   a backdrop-filter gets its own compositing layer, which escapes the
                   card's rounded overflow clip and squares off the bottom corners mid-hover.
                   Near-opaque background plus a matching bottom radius instead. */}
-              <div className="absolute inset-x-0 bottom-0 rounded-b-2xl translate-y-full group-hover:translate-y-0 group-focus-visible:translate-y-0 transition-transform duration-300 ease-out bg-white/95 dark:bg-neutral-900/95 border-t border-slate-200 dark:border-neutral-700 px-3 py-2.5 text-left">
+              <div className="absolute inset-x-0 bottom-0 z-20 rounded-b-2xl translate-y-full group-hover:translate-y-0 group-focus-visible:translate-y-0 transition-transform duration-300 ease-out bg-white/95 dark:bg-neutral-900/95 border-t border-slate-200 dark:border-neutral-700 px-3 py-2.5 text-left">
                 <p className="text-xs font-semibold text-slate-900 dark:text-neutral-200 leading-snug line-clamp-2">
                   {project.title}
                 </p>
@@ -672,8 +727,17 @@ const HomeView = ({ setTab, openResume, selectProject, darkMode }) => (
         <h1 className="text-4xl sm:text-6xl font-bold mb-6 tracking-tight text-slate-900 dark:text-neutral-200">
           Shaun Sekura
         </h1>
-        <p className="text-lg text-slate-600 dark:text-slate-300 mb-10 leading-relaxed">
+        <p className="text-lg text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">
           {PROFILE.tagline}
+        </p>
+        {/* Availability up front rather than only on Contact, the last tab — it's the
+            first thing a recruiter checks and the least likely place they'd look. */}
+        <p className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300 mb-10">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-500" />
+          </span>
+          Open to {PROFILE.availabilityTerm}
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
           <button
@@ -720,11 +784,20 @@ const AboutView = ({ darkMode }) => (
       <h3 className="text-xl font-bold mb-8 text-slate-900 dark:text-neutral-200">Skills &amp; Coursework</h3>
       <div className="space-y-6">
         {Object.entries(PROFILE.skills).map(([category, skillsList]) => (
-          <div key={category} className="grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-1 sm:gap-6 py-4 border-t border-slate-200 dark:border-neutral-700">
+          <div key={category} className="grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-2 sm:gap-6 py-4 border-t border-slate-200 dark:border-neutral-700">
             <h4 className="text-sm font-semibold text-slate-900 dark:text-neutral-200">{category}</h4>
-            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-              {skillsList.join(', ')}
-            </p>
+            {/* Individual chips rather than one comma-joined run — ten tool names as
+                prose is a wall of text, and recruiters scan this section. */}
+            <ul className="flex flex-wrap gap-1.5">
+              {skillsList.map(skill => (
+                <li
+                  key={skill}
+                  className="text-xs text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-neutral-800 border border-slate-200 dark:border-neutral-700 rounded px-2 py-1"
+                >
+                  {skill}
+                </li>
+              ))}
+            </ul>
           </div>
         ))}
       </div>
@@ -761,6 +834,14 @@ const ExperienceView = () => (
   </div>
 );
 
+/* One combined internship report backs all four Hankook projects. Labelling each link
+   "Technical report" implied four separate documents, so the shared file says what it
+   actually is. Anything not listed here keeps the generic label. */
+const REPORT_LABELS = {
+  'hankook-intern-report.pdf': 'Internship report (covers all Hankook work)'
+};
+const reportLabel = (file) => REPORT_LABELS[file] ?? 'Technical report';
+
 const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 // Wraps every occurrence of `query` in the text with a highlight mark
@@ -780,7 +861,7 @@ const highlightText = (text, query) => {
 
 // Fields shown on the card get highlighted in place; these hidden detail fields
 // produce a labeled snippet preview when they're the only place the term appears.
-const CARD_FIELDS = (p) => [p.title, p.description, p.categories.join(' '), projectTags(p).join(' ')];
+const CARD_FIELDS = (p) => [p.title, p.description, p.metric ?? '', p.categories.join(' '), projectTags(p).join(' ')];
 const DETAIL_FIELDS = (p) => [
   ['Overview', p.what],
   ['Approach', p.how.join(' ')],
@@ -834,6 +915,13 @@ const ProjectCard = ({ project, selectProject, darkMode, query = '', snippet = n
       <p className="text-sm text-slate-600 dark:text-slate-400 mt-1.5 leading-relaxed">
         {highlightText(project.description, query)}
       </p>
+      {/* Headline outcome on the card itself — the numbers used to live only in the
+          detail view, which most people skimming the list never open. */}
+      {project.metric && (
+        <p className="text-xs font-medium text-sky-700 dark:text-[#E33E3E] mt-2 font-mono">
+          {highlightText(project.metric, query)}
+        </p>
+      )}
       <p className="text-xs text-slate-400 dark:text-neutral-500 mt-2">
         {highlightText(projectTags(project).join(' · '), query)}
       </p>
@@ -937,7 +1025,7 @@ const ProjectDetailView = ({ project, onBack, darkMode }) => (
     <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-neutral-200 mb-4">{project.title}</h1>
     <p className="text-sm text-slate-400 dark:text-neutral-500 mb-8">{projectTags(project).join(' · ')}</p>
 
-    <div className="rounded-lg overflow-hidden border border-slate-200 dark:border-neutral-700 bg-slate-100 dark:bg-neutral-800 mb-12">
+    <div className={`rounded-lg overflow-hidden border border-slate-200 dark:border-neutral-700 bg-slate-100 dark:bg-neutral-800 ${project.gallery?.length ? 'mb-4' : 'mb-12'}`}>
       <SmartProjectImage
         title={project.title}
         filename={project.thumbnail}
@@ -945,6 +1033,32 @@ const ProjectDetailView = ({ project, onBack, darkMode }) => (
         darkMode={darkMode}
       />
     </div>
+
+    {/* Supporting imagery — mesh, contour plots, drawings, the finished part. Add files
+        to public/ and list them in the project's `gallery` array as { src, caption };
+        projects without one just show the single image above, as before. */}
+    {project.gallery?.length > 0 && (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+        {project.gallery.map(({ src, caption }) => (
+          <figure key={src}>
+            <div className="rounded-lg overflow-hidden border border-slate-200 dark:border-neutral-700 bg-slate-100 dark:bg-neutral-800">
+              <SmartProjectImage
+                title={caption || project.title}
+                filename={src}
+                className="w-full h-auto object-cover"
+                darkMode={darkMode}
+                small
+              />
+            </div>
+            {caption && (
+              <figcaption className="text-xs text-slate-500 dark:text-neutral-500 mt-2 leading-relaxed">
+                {caption}
+              </figcaption>
+            )}
+          </figure>
+        ))}
+      </div>
+    )}
 
     <div className="space-y-12">
       <section>
@@ -983,9 +1097,10 @@ const ProjectDetailView = ({ project, onBack, darkMode }) => (
               href={typeof project.links.report === 'string' ? project.links.report : '#'}
               target="_blank"
               rel="noopener noreferrer"
+              title={reportLabel(project.links.report)}
               className="inline-flex items-center font-medium text-slate-900 dark:text-neutral-200 border-b border-slate-300 dark:border-neutral-600 hover:border-sky-500 dark:hover:border-[#E33E3E] pb-0.5 transition-colors"
             >
-              <FileText size={15} className="mr-2" /> Technical report
+              <FileText size={15} className="mr-2" /> {reportLabel(project.links.report)}
             </a>
           )}
           {project.links.portfolio && (
@@ -1004,36 +1119,70 @@ const ProjectDetailView = ({ project, onBack, darkMode }) => (
   </motion.div>
 );
 
+const ContactRow = ({ label, children }) => (
+  <div className="grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-1 sm:gap-6 py-5 border-b border-slate-200 dark:border-neutral-700">
+    <span className="text-sm text-slate-400 dark:text-neutral-500">{label}</span>
+    {children}
+  </div>
+);
+
+const contactLinkClass =
+  "inline-flex items-center text-sm font-medium text-slate-900 dark:text-neutral-200 hover:text-sky-600 dark:hover:text-[#E33E3E] transition-colors";
+
 const ContactView = () => (
   <div className="max-w-2xl mx-auto mt-16">
     <h2 className="text-3xl font-bold text-slate-900 dark:text-neutral-200 mb-5">Get in touch</h2>
     <p className="text-slate-600 dark:text-slate-300 mb-10 leading-relaxed">
-      I'm currently seeking internship opportunities for Spring 2027 and Summer 2027. If you're looking for a mechanical engineering student with hands-on CAD and FEA experience, I'd love to chat.
+      I'm open to {PROFILE.availabilityTerm}. If you're looking for a mechanical engineering
+      student with hands-on CAD and FEA experience, I'd love to chat.
     </p>
 
     <div className="border-t border-slate-200 dark:border-neutral-700">
-      <div className="grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-1 sm:gap-6 py-5 border-b border-slate-200 dark:border-neutral-700">
-        <span className="text-sm text-slate-400 dark:text-neutral-500">Email</span>
-        <EmailButton email={PROFILE.email} className="text-sm font-medium text-slate-900 dark:text-neutral-200 hover:text-sky-600 dark:hover:text-[#E33E3E] transition-colors justify-start">
-          {PROFILE.email}
-        </EmailButton>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-1 sm:gap-6 py-5 border-b border-slate-200 dark:border-neutral-700">
-        <span className="text-sm text-slate-400 dark:text-neutral-500">LinkedIn</span>
-        <a
-          href={`https://${PROFILE.linkedin}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center text-sm font-medium text-slate-900 dark:text-neutral-200 hover:text-sky-600 dark:hover:text-[#E33E3E] transition-colors"
-        >
+      <ContactRow label="Email">
+        <EmailButton email={PROFILE.email} className={contactLinkClass} />
+      </ContactRow>
+
+      <ContactRow label="LinkedIn">
+        <a href={`https://${PROFILE.linkedin}`} target="_blank" rel="noopener noreferrer" className={contactLinkClass}>
           {PROFILE.linkedin} <ExternalLink size={14} className="ml-2 opacity-50" />
         </a>
-      </div>
+      </ContactRow>
+
+      {/* Hidden until PROFILE.github is filled in */}
+      {PROFILE.github && (
+        <ContactRow label="GitHub">
+          <a href={`https://${PROFILE.github}`} target="_blank" rel="noopener noreferrer" className={contactLinkClass}>
+            <Code size={14} className="mr-2 opacity-60" />
+            {PROFILE.github} <ExternalLink size={14} className="ml-2 opacity-50" />
+          </a>
+        </ContactRow>
+      )}
+
+      <ContactRow label="Resume">
+        <a href="resume.pdf" download="Shaun_Sekura_Resume.pdf" className={contactLinkClass}>
+          <Download size={14} className="mr-2 opacity-60" />
+          Download PDF
+        </a>
+      </ContactRow>
     </div>
   </div>
 );
 
-const ResumeView = () => (
+/* Most mobile browsers refuse to render a PDF inside an iframe and show an empty box
+   instead of firing onError, so the old error-driven fallback never triggered and the
+   Resume tab just looked broken on a phone. `navigator.pdfViewerEnabled` reports inline
+   PDF support directly; the coarse-pointer check covers older browsers that predate it. */
+const canEmbedPdf = () => {
+  if (typeof navigator === 'undefined') return true;
+  return typeof navigator.pdfViewerEnabled === 'boolean'
+    ? navigator.pdfViewerEnabled
+    : !window.matchMedia('(pointer: coarse)').matches;
+};
+
+const ResumeView = () => {
+  const canEmbed = canEmbedPdf();
+
+  return (
   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }} className="max-w-5xl mx-auto mt-8">
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
       <h2 className="text-3xl font-bold text-slate-900 dark:text-neutral-200">Resume</h2>
@@ -1056,33 +1205,30 @@ const ResumeView = () => (
       </div>
     </div>
 
-    <div className="w-full h-[800px] border border-slate-200 dark:border-neutral-700 rounded-lg overflow-hidden bg-slate-100 dark:bg-neutral-800 relative">
-      <iframe 
-        src="resume.pdf" 
-        className="w-full h-full" 
-        title="Shaun Sekura Resume"
-        onError={(e) => {
-          e.target.style.display = 'none';
-          document.getElementById('pdf-fallback').style.display = 'flex';
-        }}
-      />
-      <div id="pdf-fallback" className="hidden absolute inset-0 flex-col items-center justify-center p-8 text-center bg-slate-50 dark:bg-neutral-800">
-        <FileText size={48} className="text-slate-400 dark:text-slate-600 mb-4" />
-        <h3 className="text-xl font-bold text-slate-700 dark:text-slate-300 mb-2">Resume PDF Preview Unavailable</h3>
-        <p className="text-slate-500 dark:text-slate-400 mb-6">
-          The file `resume.pdf` could not be loaded in this preview. Please ensure the file is placed in your public directory.
+    {canEmbed ? (
+      <div className="w-full h-[800px] border border-slate-200 dark:border-neutral-700 rounded-lg overflow-hidden bg-slate-100 dark:bg-neutral-800">
+        <iframe src="resume.pdf" className="w-full h-full" title="Shaun Sekura Resume" />
+      </div>
+    ) : (
+      <div className="w-full border border-slate-200 dark:border-neutral-700 rounded-lg bg-slate-100 dark:bg-neutral-800 flex flex-col items-center justify-center p-10 text-center">
+        <FileText size={40} className="text-slate-400 dark:text-neutral-600 mb-4" />
+        <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 mb-2">Open the resume as a PDF</h3>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 max-w-sm leading-relaxed">
+          Your browser doesn't display PDFs inline. Download it or open it in a new tab and
+          it'll load in your usual PDF viewer.
         </p>
         <a
           href="resume.pdf"
           download="Shaun_Sekura_Resume.pdf"
           className="px-6 py-2.5 bg-sky-600 hover:bg-sky-700 dark:bg-[#BB0000] dark:hover:bg-[#990000] text-white rounded-lg text-sm font-semibold transition-colors"
         >
-          Download File Directly
+          Download PDF
         </a>
       </div>
-    </div>
+    )}
   </motion.div>
-);
+  );
+};
 
 /* Hash-based routing, so the browser back/forward buttons move between pages and
    individual projects are linkable. A hash needs no server rewrite rules, so it
@@ -1276,7 +1422,9 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      <footer className="border-t border-slate-200 dark:border-neutral-800 py-8 text-center text-slate-500 dark:text-slate-500 text-sm mt-auto bg-white dark:bg-neutral-900 transition-colors duration-300">
+      {/* No top border or panel background — the copyright sits directly on the page
+          instead of in its own strip. */}
+      <footer className="py-8 text-center text-slate-500 dark:text-slate-500 text-sm mt-auto">
         <p>© {new Date().getFullYear()} Shaun Sekura. All rights reserved.</p>
       </footer>
     </div>
