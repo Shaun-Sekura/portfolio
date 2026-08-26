@@ -935,8 +935,10 @@ const ProjectCard = ({ project, selectProject, darkMode, query = '', snippet = n
   </div>
 );
 
-const ProjectsView = ({ selectProject, darkMode, filter, setFilter }) => {
-  const [query, setQuery] = useState('');
+/* query/setQuery are lifted to App (like filter/setFilter already were) so a search
+   term survives opening a project and hitting Back — this view used to own that state
+   locally, which meant it reset to empty every time the view unmounted. */
+const ProjectsView = ({ selectProject, darkMode, filter, setFilter, query, setQuery }) => {
   const q = query.trim();
 
   const visibleProjects = PROJECTS
@@ -1007,13 +1009,7 @@ const ProjectsView = ({ selectProject, darkMode, filter, setFilter }) => {
 };
 
 const ProjectDetailView = ({ project, onBack, darkMode }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.2 }}
-    className="max-w-2xl mx-auto mt-8"
-  >
+  <div className="max-w-2xl mx-auto mt-8">
     <button
       onClick={onBack}
       className="flex items-center text-sm text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white mb-10 transition-colors"
@@ -1116,7 +1112,7 @@ const ProjectDetailView = ({ project, onBack, darkMode }) => (
         </section>
       )}
     </div>
-  </motion.div>
+  </div>
 );
 
 const ContactRow = ({ label, children }) => (
@@ -1183,26 +1179,21 @@ const ResumeView = () => {
   const canEmbed = canEmbedPdf();
 
   return (
-  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }} className="max-w-5xl mx-auto mt-8">
+  <div className="max-w-5xl mx-auto mt-8">
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
       <h2 className="text-3xl font-bold text-slate-900 dark:text-neutral-200">Resume</h2>
 
-      <div className="flex items-center gap-3">
-        <button
-          onClick={() => window.open('resume.pdf', '_blank')}
-          className="px-4 py-2 bg-white dark:bg-neutral-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-neutral-700 hover:border-sky-500 dark:hover:border-[#E33E3E] rounded-lg text-sm font-semibold transition-colors cursor-pointer"
-        >
-          Open in New Tab
-        </button>
-
-        <a
-          href="resume.pdf"
-          download="Shaun_Sekura_Resume.pdf"
-          className="px-4 py-2 bg-sky-600 hover:bg-sky-700 dark:bg-[#BB0000] dark:hover:bg-[#990000] text-white rounded-lg text-sm font-semibold transition-colors cursor-pointer"
-        >
-          Download PDF
-        </a>
-      </div>
+      {/* Just Download — modern browsers render the PDF inline in the iframe below,
+          and "Open in New Tab" duplicated that with no real difference. Contact also
+          links this same file, so this is the second of two ways to get it, not the
+          only one. */}
+      <a
+        href="resume.pdf"
+        download="Shaun_Sekura_Resume.pdf"
+        className="px-4 py-2 bg-sky-600 hover:bg-sky-700 dark:bg-[#BB0000] dark:hover:bg-[#990000] text-white rounded-lg text-sm font-semibold transition-colors cursor-pointer"
+      >
+        Download PDF
+      </a>
     </div>
 
     {canEmbed ? (
@@ -1226,7 +1217,7 @@ const ResumeView = () => {
         </a>
       </div>
     )}
-  </motion.div>
+  </div>
   );
 };
 
@@ -1248,6 +1239,7 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [projectsFilter, setProjectsFilter] = useState('all');
+  const [projectsQuery, setProjectsQuery] = useState('');
 
   const { tab: activeTab, project: selectedProject } = route;
   const activeTabRef = useRef(activeTab);
@@ -1267,6 +1259,7 @@ export default function App() {
       const next = readLocation();
       if (next.tab === 'projects' && activeTabRef.current !== 'projects') {
         setProjectsFilter('all');
+        setProjectsQuery('');
       }
       setRoute(next);
       setMobileMenuOpen(false);
@@ -1381,45 +1374,38 @@ export default function App() {
       </nav>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 min-h-[calc(100vh-160px)]">
-        <AnimatePresence mode="wait">
-          {selectedProject ? (
-            <ProjectDetailView 
-              key="project-detail" 
-              project={selectedProject} 
-              onBack={() => navigate('projects')}
-              darkMode={darkMode}
-            />
-          ) : (
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              {activeTab === 'home' && (
-                <HomeView
-                  setTab={handleTabChange}
-                  openResume={() => handleTabChange('resume')}
-                  selectProject={openProject}
-                  darkMode={darkMode}
-                />
-              )}
-              {activeTab === 'about' && <AboutView darkMode={darkMode} />}
-              {activeTab === 'experience' && <ExperienceView />}
-              {activeTab === 'projects' && (
-                <ProjectsView
-                  selectProject={openProject}
-                  darkMode={darkMode}
-                  filter={projectsFilter}
-                  setFilter={setProjectsFilter}
-                />
-              )}
-              {activeTab === 'resume' && <ResumeView />}
-              {activeTab === 'contact' && <ContactView />}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {selectedProject ? (
+          <ProjectDetailView
+            project={selectedProject}
+            onBack={() => navigate('projects')}
+            darkMode={darkMode}
+          />
+        ) : (
+          <>
+            {activeTab === 'home' && (
+              <HomeView
+                setTab={handleTabChange}
+                openResume={() => handleTabChange('resume')}
+                selectProject={openProject}
+                darkMode={darkMode}
+              />
+            )}
+            {activeTab === 'about' && <AboutView darkMode={darkMode} />}
+            {activeTab === 'experience' && <ExperienceView />}
+            {activeTab === 'projects' && (
+              <ProjectsView
+                selectProject={openProject}
+                darkMode={darkMode}
+                filter={projectsFilter}
+                setFilter={setProjectsFilter}
+                query={projectsQuery}
+                setQuery={setProjectsQuery}
+              />
+            )}
+            {activeTab === 'resume' && <ResumeView />}
+            {activeTab === 'contact' && <ContactView />}
+          </>
+        )}
       </main>
 
       {/* No top border or panel background — the copyright sits directly on the page

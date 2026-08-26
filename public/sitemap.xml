@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Routing is hash-based (#/projects/slug etc.), and hash fragments aren't crawled
+     as separate pages by search engines, so this lists the one real URL rather than
+     fake per-tab entries that would never get indexed individually. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://shaunsekura.com/</loc>
+    <lastmod>2026-08-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
